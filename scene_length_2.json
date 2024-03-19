@@ -1,0 +1,367 @@
+{
+    "__class__": "Scene",
+    "obstacles": [
+       
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+        [
+            -1,
+            0
+        ],
+        [
+            180,
+            0
+        ],
+        [
+            180,
+            -1
+        ],
+        [
+            -1,
+            -1
+        ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+        [
+            180,
+            0
+        ],
+        [
+            180,
+            40
+        ],
+        [
+            0,
+            40
+        ],
+        [
+            0,
+            0
+        ],
+        [
+            -1,
+            0
+        ],
+        [
+            -1,
+            41
+        ],
+        [
+            180,
+            41
+        ],
+        [
+            182,
+            41
+        ],        [
+            182,
+            -1
+        ],
+        [
+            180,
+            -1
+        ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+        [
+            32,
+            40
+        ],
+        [
+            35,
+            22
+        ],
+        [
+            38,
+            40
+        ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+
+        
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+        [
+            15,
+            0
+        ],
+        [
+            18,
+            17
+        ],
+        [
+            21,
+            0
+        ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+
+        
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+        [
+            45,
+            0
+        ],
+        [
+            48,
+            17
+        ],
+        [
+            51,
+            0
+        ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+        
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+                [
+                    62,
+                    40
+                ],
+                [
+                    65,
+                    22
+                ],
+                [
+                    68,
+                    40
+                ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+                [
+                    105,
+                    0
+                ],
+                [
+                    108,
+                    17
+                ],
+                [
+                    111,
+                    0
+                ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+                [
+                    122,
+                    40
+                ],
+                [
+                    125,
+                    22
+                ],
+                [
+                    128,
+                    40
+                ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+                [
+                    145,
+                    0
+                ],
+                [
+                    148,
+                    17
+                ],
+                [
+                    151,
+                    0
+                ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        },
+        {
+            "__class__": "ObstaclePolygon",
+            "poly": [
+                [
+                    162,
+                    40
+                ],
+                [
+                    165,
+                    22
+                ],
+                [
+                    168,
+                    40
+                ]
+
+                ],
+            "data": {
+                "color": "",
+                "name": "",
+                "value": "",
+                "details": ""
+            }
+        }
+    
+    
+        
+    ],
+    "robots": [
+        {
+            "__class__": "RobotPolygon",
+            "poly": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    0
+                ], [
+                    0,
+                    0
+                ]
+
+
+            ],
+            "start": [
+              4.0,
+              20.0
+            ],
+            "end": [
+              175.0,
+              20.0
+            ],
+            "data": {
+              "color": "",
+              "name": "",
+              "value": "",
+              "details": ""
+            }
+        },
+
+                {
+            "__class__":"RobotPolygon",
+            "poly": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    0
+                ], [
+                    0,
+                    0
+                ]
+
+
+            ],
+            "start": [
+              4.0,
+              21.0
+            ],
+            "end": [
+              175.0,
+              21.0
+            ],
+            "data": {
+              "color": "",
+              "name": "",
+              "value": "",
+              "details": ""
+            }
+        }
+    ],
+    "metadata": {
+        "version": "1.0.6",
+        "solvers": "",
+        "details": ""
+    }
+}
