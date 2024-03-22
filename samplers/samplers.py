@@ -2,28 +2,32 @@ import random
 from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.metrics import Metric_Euclidean
 from discopygal.solvers.samplers import Sampler_Uniform
-
+from discopygal.bindings import *
 from utils.utils import *
 from utils.gap_position_finder import GapPositionFinder
 
 
 class BasicSquaresSampler:
     def __init__(self, scene, bounding_box):
+        # Init
         self.robot_lengths = [0, 0]
         self.robots = []
         self.obstacles = scene.obstacles
         self.sampler = Sampler_Uniform()
+        print(bounding_box)
         self.sampler.set_scene(scene, bounding_box)
         self.collision_detection = {}
 
         # Build collision detection for each robot
-        for i, robot in enumerate(scene.robots):
+        i = 0
+        for robot in scene.robots:
             self.robots.append(robot)
             self.collision_detection[robot] = collision_detection.ObjectCollisionDetection(scene.obstacles, robot)
 
             # Get squares robots edges length
             for e in robot.poly.edges():
                 self.robot_lengths[i] = Metric_Euclidean.dist(e.source(), e.target()).to_double()
+                i += 1
                 break
 
         # Length of the square we try to fit
@@ -132,6 +136,7 @@ class CombinedSquaresSampler(BasicSquaresSampler):
         free_positions = []
         while len(free_positions) < 2:
             sample = self.sampler.sample()
+            sample = Point_2(FT(0.0), FT(-1.0))
             # free_positions = self.find_trivial_positions(sample, 0)
 
             if len(free_positions) < 2:

@@ -3,7 +3,6 @@ import json
 from samplers.samplers import CombinedSquaresSampler
 from discopygal.solvers import Scene
 from discopygal.solvers import PathPoint, Path, PathCollection
-from discopygal.solvers.samplers import Sampler_Uniform
 from discopygal.solvers.metrics import Metric_Euclidean
 from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.bindings import *
@@ -94,9 +93,7 @@ class SquareMotionPlanner(Solver):
             'num_landmarks': ('Number of Landmarks:', 1000, int),
             'k': ('K for nearest neighbors:', 15, int),
             'combined': ('Combined sampling or Separate sampling:', 1, int),
-            'bounding_margin_width_factor': (
-                'Margin width factor (for bounding box):', Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, FT)
-
+            'bounding_margin_width_factor': ('Margin width factor (for bounding box):', 0, FT),
         }
 
     @staticmethod
@@ -108,7 +105,7 @@ class SquareMotionPlanner(Solver):
         :param d: arguments dict
         :type d: :class:`dict`
         """
-        return SquareMotionPlanner(d['num_landmarks'], d['k'], FT(d['bounding_margin_width_factor']))
+        return SquareMotionPlanner(d['num_landmarks'], d['k'], d['combined'], FT(d['bounding_margin_width_factor']))
 
     def load_scene(self, scene: Scene):
         """
@@ -199,7 +196,7 @@ class SquareMotionPlanner(Solver):
 
 
 if __name__ == '__main__':
-    with open('scene_length_2.json', 'r') as fp:
+    with open('test.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
     solver = SquareMotionPlanner(num_landmarks=100, k=1, combined=1)
     solver.load_scene(scene)
