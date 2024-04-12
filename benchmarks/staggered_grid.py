@@ -4,11 +4,11 @@ import gc
 from math import sqrt, ceil
 import networkx as nx
 
-from discopygal.geometry_utils import collision_detection, bounding_boxes, conversions
+from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.bindings import *
 from discopygal.solvers.Solver import Solver
 from discopygal.solvers import Scene, PathCollection, Path, PathPoint
-from discopygal.solvers.nearest_neighbors import NearestNeighbors, NearestNeighbors_sklearn
+from discopygal.solvers.nearest_neighbors import NearestNeighbors
 from discopygal.solvers.metrics import Metric, Metric_Euclidean
 
 
@@ -39,7 +39,7 @@ class PrmEdge:
     def __init__(self, src, dest, eid):
         self.src = src
         self.dest = dest
-        self.name = "e"+str(eid)
+        self.name = "e" + str(eid)
         self.segment = Ker.Segment_2(src.point_2, dest.point_2)
         self.cost = sqrt(Ker.squared_distance(src.point_2, dest.point_2).to_double())
 
@@ -75,7 +75,7 @@ class PrmGraph:
             return res
 
         def get_neighbors(points):
-            connections_list = [list(p.out_connections.keys())+list(p.in_connections.keys()) for p in points]
+            connections_list = [list(p.out_connections.keys()) + list(p.in_connections.keys()) for p in points]
             res = []
             for i, _ in enumerate(points):
                 is_good = True
@@ -83,21 +83,24 @@ class PrmGraph:
                     for j, _ in enumerate(points):
                         if i == j:
                             continue
-                        if Ker.squared_distance(next_point.point_2, points[j].point_2) < Ker.FT(4)*robot_radius*robot_radius:
+                        if Ker.squared_distance(next_point.point_2, points[j].point_2) < Ker.FT(
+                                4) * robot_radius * robot_radius:
                             is_good = False
                             break
                     if not is_good:
                         continue
-                    seg = points[i].in_connections[next_point] if next_point in points[i].in_connections else points[i].out_connections[next_point]
+                    seg = points[i].in_connections[next_point] if next_point in points[i].in_connections else \
+                        points[i].out_connections[next_point]
                     for j, _ in enumerate(points):
                         if i == j:
                             continue
-                        if Ker.squared_distance(seg.segment, points[j].point_2) < Ker.FT(4)*robot_radius*robot_radius:
+                        if Ker.squared_distance(seg.segment, points[j].point_2) < Ker.FT(
+                                4) * robot_radius * robot_radius:
                             is_good = False
                             break
                     if not is_good:
                         continue
-                    res.append((tuple([points[k] if k!=i else next_point for k in range(len(points))]), seg))
+                    res.append((tuple([points[k] if k != i else next_point for k in range(len(points))]), seg))
             return res
 
         temp_i = 0
@@ -119,7 +122,7 @@ class PrmGraph:
         # temp_j = 0
         while len(q) > 0:
             curr_f_score, _, curr = heapq.heappop(q)
-            if curr_f_score > (g_score[curr]+h(curr)):
+            if curr_f_score > (g_score[curr] + h(curr)):
                 # temp_j += 1
                 # if temp_j % 100000 == 0:
                 #     print("temp_j", temp_j, file=writer)
@@ -149,15 +152,15 @@ def cords_to_points_2(cords_x, cords_y):
     return res
 
 
-
 class StaggeredGrid(Solver):
-    def __init__(self, eps, delta, bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors=None, metric=None, sampler=None):
+    def __init__(self, eps, delta, bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR,
+                 nearest_neighbors=None, metric=None, sampler=None):
         super().__init__(bounding_margin_width_factor)
-        self.nearest_neighbors : NearestNeighbors = nearest_neighbors
+        self.nearest_neighbors: NearestNeighbors = nearest_neighbors
         if self.nearest_neighbors is None:
             self.nearest_neighbors = NeighborsFinder()
 
-        self.metric : Metric = metric
+        self.metric: Metric = metric
         if self.metric is None:
             self.metric = Metric_Euclidean
 
@@ -171,28 +174,28 @@ class StaggeredGrid(Solver):
 
     def reset(self):
         alpha = self.eps / sqrt(1 + self.eps ** 2)
-        y = self.eps/(2*(2+self.eps))
+        y = self.eps / (2 * (2 + self.eps))
         self.edge_len = 1 - 2 * self.delta
         if self.is_multi_robot:
             # These may change as we modify bounds in the paper
             self.ball_radius = y * self.delta
             # self.connection_radius = Ker.FT(self.delta)*(Ker.FT(1+self.eps)/Ker.FT(2+self.eps))
-            self.connection_radius = Ker.FT(self.delta)*(Ker.FT(1+self.eps)/Ker.FT(2+self.eps))*Ker.FT(1.0001)
+            self.connection_radius = Ker.FT(self.delta) * (Ker.FT(1 + self.eps) / Ker.FT(2 + self.eps)) * Ker.FT(1.0001)
             # self.connection_radius = Ker.FT(self.delta*1.001)
         else:
             self.ball_radius = alpha * self.delta
-            self.connection_radius = Ker.FT(2*(alpha+sqrt(1-alpha**2))*self.delta)*Ker.FT(1.0001)
+            self.connection_radius = Ker.FT(2 * (alpha + sqrt(1 - alpha ** 2)) * self.delta) * Ker.FT(1.0001)
         unrounded_balls_per_dim = self.edge_len / (2 * self.ball_radius)
         print("unrounded number of balls:", unrounded_balls_per_dim ** 2 + (unrounded_balls_per_dim + 1) ** 2)
         self.balls_per_dim = ceil(unrounded_balls_per_dim)
         self.num_of_sample_points = self.balls_per_dim ** 2 + (self.balls_per_dim + 1) ** 2
         print("real number of balls:", self.num_of_sample_points)
         self.grid_points_per_dim = ceil(sqrt(self.num_of_sample_points))
-        print("real number of grid points:", self.grid_points_per_dim**2)
+        print("real number of grid points:", self.grid_points_per_dim ** 2)
 
     def generate_milestones(self):
         def conv(num):
-            return (self.max-self.min)*num+self.min
+            return (self.max - self.min) * num + self.min
 
         res = []
         if self.sample_method == "staggered_grid":
@@ -202,44 +205,45 @@ class StaggeredGrid(Solver):
             l2_cords = [conv(self.delta + (2 * i) * half_points_diff) for i in range(self.balls_per_dim + 1)]
             l1 = cords_to_points_2(l1_cords, l1_cords)
             l2 = cords_to_points_2(l2_cords, l2_cords)
-            all_points = l1+l2
+            all_points = l1 + l2
             for point in all_points:
                 if self.collision_detection.is_point_valid(point) and \
-                   self._bounding_box.min_x <= point.x() <= self._bounding_box.max_x and \
-                   self._bounding_box.min_y <= point.y() <= self._bounding_box.max_y:
-                    res.append(PrmNode(point, "v"+str(i)))
+                        self._bounding_box.min_x <= point.x() <= self._bounding_box.max_x and \
+                        self._bounding_box.min_y <= point.y() <= self._bounding_box.max_y:
+                    res.append(PrmNode(point, "v" + str(i)))
                     i += 1
             return res
 
         if self.sample_method == "grid":
             i = 0
-            points_diff = (self.edge_len / (self.grid_points_per_dim-1))
+            points_diff = (self.edge_len / (self.grid_points_per_dim - 1))
             cords = [conv(self.delta + i * points_diff) for i in range(self.grid_points_per_dim)]
             points = cords_to_points_2(cords, cords)
             for point in points:
                 if self.collision_detection.is_point_valid(point):
-                    res.append(PrmNode(point, "v"+str(i)))
+                    res.append(PrmNode(point, "v" + str(i)))
                     i += 1
             return res
 
         if self.sample_method == "random":
             i = 0
-            points = [Ss.Point_d(2, [Ker.FT(random.uniform(self.min+self.delta, self.max-self.delta)),
-                                     Ker.FT(random.uniform(self.min+self.delta, self.max-self.delta))]) for _ in range(self.num_of_sample_points)]
+            points = [Ss.Point_d(2, [Ker.FT(random.uniform(self.min + self.delta, self.max - self.delta)),
+                                     Ker.FT(random.uniform(self.min + self.delta, self.max - self.delta))]) for _ in
+                      range(self.num_of_sample_points)]
             for point in points:
                 if self.collision_detection.is_point_valid(point):
-                    res.append(PrmNode(point, "v"+str(i)))
+                    res.append(PrmNode(point, "v" + str(i)))
                     i += 1
             return res
 
         raise ValueError("Invalid configuration")
 
-
     def make_graph(self, milestones):
         g = PrmGraph(milestones, self.writer)
         for milestone in milestones:
             p = milestone.point
-            nearest = self.nearest_neighbors.neighbors_in_radius(p, self.connection_radius*Ker.FT(self.max-self.min))
+            nearest = self.nearest_neighbors.neighbors_in_radius(p,
+                                                                 self.connection_radius * Ker.FT(self.max - self.min))
             for neighbor in nearest:
                 if neighbor == p:
                     continue
@@ -262,9 +266,9 @@ class StaggeredGrid(Solver):
         return {
             'eps': ('Epsilon:', 9999, int),
             'delta': ('Delta:', 0.04, float),
-            'bounding_margin_width_factor': ('Margin width factor (for bounding box):', Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, FT),
+            'bounding_margin_width_factor': (
+                'Margin width factor (for bounding box):', Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, FT),
         }
-
 
     def get_graph(self):
         """
@@ -305,7 +309,6 @@ class StaggeredGrid(Solver):
 
         return True
 
-
     def load_scene(self, scene: Scene):
         """
         Load a scene into the solver.
@@ -327,7 +330,6 @@ class StaggeredGrid(Solver):
         elif len(radii) > 1:
             self.log("Error: this only works when all robots are of the same radii")
 
-
         self.collision_detection = collision_detection.ObjectCollisionDetection(scene.obstacles, scene.robots[0])
 
         if self._bounding_box.min_x != self._bounding_box.min_y or self._bounding_box.max_x != self._bounding_box.max_y:
@@ -338,9 +340,9 @@ class StaggeredGrid(Solver):
 
         milestones = []
         for (i, start_p) in enumerate(self.sources):
-            milestones.append(PrmNode(start_p, "start"+str(i)))
+            milestones.append(PrmNode(start_p, "start" + str(i)))
         for (i, destination_p) in enumerate(self.destinations):
-            milestones.append(PrmNode(destination_p, "goal"+str(i)))
+            milestones.append(PrmNode(destination_p, "goal" + str(i)))
         milestones += self.generate_milestones()
 
         self.nearest_neighbors.fit([milestone.point for milestone in milestones])
@@ -359,10 +361,11 @@ class StaggeredGrid(Solver):
         radius = Ker.FT(self.scene.robots[0].radius)
         path_collection = PathCollection()
         a_star_res, d_path = self.g.a_star(
-                        radius,
-                        [Ss.Point_d(2, [start_p.x().to_double(), start_p.y().to_double()]) for start_p in self.sources],
-                        [Ss.Point_d(2, [destination_p.x().to_double(), destination_p.y().to_double()]) for destination_p in self.destinations],
-                        self.writer)
+            radius,
+            [Ss.Point_d(2, [start_p.x().to_double(), start_p.y().to_double()]) for start_p in self.sources],
+            [Ss.Point_d(2, [destination_p.x().to_double(), destination_p.y().to_double()]) for destination_p in
+             self.destinations],
+            self.writer)
 
         self.log(f"A_star_res: {a_star_res}")
         if a_star_res is None:
@@ -378,3 +381,12 @@ class StaggeredGrid(Solver):
 
         # return path, G
         return path_collection
+
+
+class BasicsStaggeredGridForExperiments(StaggeredGrid):
+    def load_scene(self, scene: Scene):
+        super().load_scene(scene)
+
+    def solve(self):
+        path = super().solve()
+        return path
