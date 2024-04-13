@@ -1,38 +1,15 @@
 import argparse
 import json
+
 from discopygal.solvers import Scene
 from discopygal.bindings import *
-from collections import defaultdict
+from discopygal.solvers.samplers import Sampler_Uniform, Sampler
 
-from discopygal.solvers.samplers import Sampler_Uniform
 from samplers.combined_sampler import CombinedSquaresSampler
-from squares_planner import SquareMotionPlanner
 from utils.experiment_wrapper import ExperimentsWrapper
 
 
-def run_single_length_exp(scene_name, iterations, num_landmarks, k, margin):
-    with open(scene_name, 'r') as fp:
-        scene = Scene.from_dict(json.load(fp))
-    method_times = defaultdict(list)
-    method_lengths = defaultdict(list)
-    curr_iteration = 0
-    while curr_iteration < iterations:
-        solver = SquareMotionPlanner(num_landmarks=num_landmarks, k=k, bounding_margin_width_factor=margin)
-        solver.load_scene(scene)
-        paths_len, times, names = solver.solve()  # Returns a PathCollection object
-        if paths_len is None:
-            continue
-        for length, time_elapsed, method_name in zip(paths_len, times, names):
-            method_times[method_name].append(time_elapsed)
-            method_lengths[method_name].append(length)
-        curr_iteration += 1
-    result = []
-    for name in method_lengths:
-        result.append([scene_name, name, avg(method_times[name]), avg(method_lengths[name]), k, margin, num_landmarks])
-    return result
-
-
-def run_length_exp_algos():
+def run_length_exp_algos(solver: str, sampler: Sampler = None):
     scenes = {
         'scene_length_1.json': (5, 1000, 0),
         'scene_length_2.json': (5, 1000, 0),
@@ -41,42 +18,66 @@ def run_length_exp_algos():
         'scene_length_5.json': (5, 1000, 2),
     }
     result = []  # list of lists: scene name, method name, avg time, avg path length
-    iterations = 5
+    num_experiments = 5
+
     for scene_name in scenes:
-        k, num_landmarks, margin = scenes[scene_name]
+
+        # Get the parameters for the scene
+        k, num_landmarks, bound = scenes[scene_name]
         print(f'--------- Start Scene {scene_name}--------')
-        scene_results = run_single_length_exp(scene_name, iterations, num_landmarks, k, margin)
-        for scene_result in scene_results:
-            result.append(scene_result)
-    return result
+        with open(scene_name, 'r') as fp:
+            curr_scene = Scene.from_dict(json.load(fp))
+
+        experiment_wrapper = ExperimentsWrapper(curr_scene, solver, num_experiments=num_experiments,
+                                                num_landmarks=num_landmarks, k=k,
+                                                bounding_margin_width_factor=bound, sampler=sampler)
+        time, path_len = experiment_wrapper.run()
+        print(
+            f'Results for {num_experiments} experiments, for solver {solver} we have got {time:.3f} seconds and {path_len} path length')
+    return
 
 
-def length_k():
+def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None):
     k_values = [5, 20, 50]
     num_landmarks = 1000
-    margin = FT(0)
-    scene_name = 'scene_length_1.json'
-    result = []  # list of lists: scene name, method name, avg time, avg path length
-    iterations = 5
-    for k in k_values:
-        scene_results = run_single_length_exp(scene_name, iterations, num_landmarks, k, margin)
-        for scene_result in scene_results:
-            result.append(scene_result)
-    return result
+    bound = FT(0)
+    num_experiments = 5
+
+    # Run experiments for each scene
+    for scene_path in scenes_path:
+        with open(scene_path, 'r') as fp:
+            curr_scene = Scene.from_dict(json.load(fp))
+
+        for k in k_values:
+            experiment_wrapper = ExperimentsWrapper(curr_scene, solver, num_experiments=num_experiments,
+                                                    num_landmarks=num_landmarks, k=k,
+                                                    bounding_margin_width_factor=bound, sampler=sampler)
+
+            time, path_len = experiment_wrapper.run()
+            print(
+                f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time:.3f} seconds and {path_len} path length')
+    return
 
 
-def length_num_landmarks():
+def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler = None):
     k = 5
     num_landmarks_values = [500, 1000, 5000]
-    margin = FT(0)
-    scene_name = 'scene_length_1.json'
-    result = []  # list of lists: scene name, method name, avg time, avg path length
-    iterations = 5
-    for num_landmarks in num_landmarks_values:
-        scene_results = run_single_length_exp(scene_name, iterations, num_landmarks, k, margin)
-        for scene_result in scene_results:
-            result.append(scene_result)
-    return result
+    bound = FT(0)
+    num_experiments = 5
+
+    for scene_path in scenes_path:
+        with open(scene_path, 'r') as fp:
+            scene = Scene.from_dict(json.load(fp))
+
+        for num_landmarks in num_landmarks_values:
+            experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
+                                                    num_landmarks=num_landmarks, k=k,
+                                                    bounding_margin_width_factor=bound, sampler=sampler)
+
+            time, path_len = experiment_wrapper.run()
+            print(
+                f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time:.3f} seconds and {path_len} path length')
+    return
 
 
 def parse_arguments():
@@ -131,17 +132,6 @@ if __name__ == '__main__':
                                                 num_landmarks=args.num_landmarks, k=args.k,
                                                 bounding_margin_width_factor=args.bound, sampler=sampler)
 
-    time, path_len = experiment_wrapper.run()
+    time_result, path_len_result = experiment_wrapper.run()
     print(
-        f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time:.3f} seconds and {path_len} path length')
-
-# if __name__ == '__main__':
-# print("\n\n\nrun_length_exp_algos\n")
-# for stat in run_length_exp_algos():
-#     print(stat)
-# print("\n\n\nlength_k\n")
-# for stat in length_k():
-#     print(stat)
-# print("\n\n\nlength_num_landmarks\n")
-# for stat in length_num_landmarks():
-#     print(stat)
+        f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time_result:.3f} seconds and {path_len_result} path length')

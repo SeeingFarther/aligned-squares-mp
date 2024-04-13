@@ -1,4 +1,3 @@
-import copy
 
 import networkx as nx
 import json
@@ -15,6 +14,7 @@ from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.Solver import Solver
 
 from utils.utils import get_point_d, find_max_value_coordinates, get_robot_point_by_idx
+from utils.ctd_metric import Metric_CTD
 
 
 class SquareMotionPlanner(Solver):
