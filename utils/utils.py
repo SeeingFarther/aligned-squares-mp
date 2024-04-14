@@ -1,3 +1,4 @@
+import numpy as np
 from discopygal.bindings import *
 
 
@@ -121,6 +122,7 @@ def compute_x_intersections(p_y: float, min_x: float, max_x: float, obstacles) -
     return x_intersections
 
 
+<<<<<<< HEAD
 def euclidean_distance_1d(point1, point2):
     # Compute absolute difference between coordinates
     distance = abs(point2 - point1)
@@ -134,3 +136,29 @@ def inside_limits(x, value1, value2):
 
 def inside_limits_fast(x, min_value, max_value):
     return min_value <= x <= max_value
+=======
+def find_max_value_coordinates(arr):
+    # return the index of the max cell in the array
+    arr = np.array(arr)
+    max_index = np.unravel_index(np.argmax(arr, axis=None), arr.shape)
+    return max_index
+
+
+def get_point_d(robot_idx_to_shorten: int, prev_next_idx_to_shorten: int, prev_joint_point: Point_d,
+                orig_curr_joint_point: Point_d, next_joint_point: Point_d) -> Point_d:
+    result = [0, 0, 0, 0]
+    new_point = prev_joint_point if prev_next_idx_to_shorten == 0 else next_joint_point
+    result[robot_idx_to_shorten * 2] = new_point[robot_idx_to_shorten * 2]
+    result[robot_idx_to_shorten * 2 + 1] = new_point[robot_idx_to_shorten * 2 + 1]
+    other_robot_idx = 1 - robot_idx_to_shorten
+    result[other_robot_idx * 2] = orig_curr_joint_point[other_robot_idx * 2]
+    result[other_robot_idx * 2 + 1] = orig_curr_joint_point[other_robot_idx * 2 + 1]
+    return Point_d(4, result)
+
+
+def get_robot_point_by_idx(point_d: Point_d, robot_idx: int):
+    # utility function to get point in array
+    return Point_2(point_d[robot_idx * 2], point_d[robot_idx * 2 + 1])
+
+
+>>>>>>> da220bef12a4ff2ef058a2a7fac0d192edd2662e

@@ -1,40 +1,30 @@
-import random
-from discopygal.geometry_utils import collision_detection, conversions
-from discopygal.solvers.metrics import Metric_Euclidean
+import networkx
+from discopygal.geometry_utils import collision_detection
+from discopygal.solvers import Scene
+from discopygal.solvers.metrics import Metric_Euclidean, Metric
 from discopygal.solvers.samplers import Sampler_Uniform
-from discopygal.bindings import *
+
 from utils.utils import *
 from utils.gap_position_finder import GapPositionFinder
 
 
-class BasicSquaresSampler:
-    def __init__(self, scene, bounding_box):
+class BasicSquaresSampler(Sampler_Uniform):
+    def __init__(self, scene: Scene, metric: Metric = None, graph: networkx.Graph = None):
         # Init
+        super().__init__(scene)
+        self.gap_finder = None
+        self.square_length = None
         self.robot_lengths = [0, 0]
         self.robots = []
-        self.obstacles = scene.obstacles
-        self.sampler = Sampler_Uniform()
-        print(bounding_box)
-        self.sampler.set_scene(scene, bounding_box)
-        self.collision_detection = {}
+        self.metric = metric
+        self.roadmap = graph
 
-        # Build collision detection for each robot
-        i = 0
-        for robot in scene.robots:
-            self.robots.append(robot)
-            self.collision_detection[robot] = collision_detection.ObjectCollisionDetection(scene.obstacles, robot)
+        if scene is None:
+            return
 
-            # Get squares robots edges length
-            for e in robot.poly.edges():
-                self.robot_lengths[i] = Metric_Euclidean.dist(e.source(), e.target()).to_double()
-                i += 1
-                break
+        self.set_scene(scene)
 
-        # Length of the square we try to fit
-        self.square_length = sum(self.robot_lengths)
-        self.gap_finder = GapPositionFinder(scene)
-
-    def find_trivial_positions(self, square_center, robot_index):
+    def find_trivial_positions(self, square_center, robot_index: int) -> list:
         """
         Find the free positions the robot can be placed inside the square
         :return list of free trivial positions for robot inside the square:
@@ -60,7 +50,7 @@ class BasicSquaresSampler:
 
         return free_positions
 
-    def find_non_trivial_y_positions(self, square_center, robot_index):
+    def find_non_trivial_y_positions(self, square_center: Point_2, robot_index: int) -> list:
         """
         Find the free positions the robot can be placed inside the square
         :return list of free trivial positions for robot inside the square:
@@ -95,7 +85,7 @@ class BasicSquaresSampler:
 
         return free_positions
 
-    def find_non_trivial_x_positions(self, square_center, robot_index):
+    def find_non_trivial_x_positions(self, square_center: Point_2, robot_index: int):
         # Find corners
         center_x = square_center.x().to_double()
         center_y = square_center.y().to_double()
@@ -125,16 +115,19 @@ class BasicSquaresSampler:
 
         return free_positions
 
-
-class CombinedSquaresSampler(BasicSquaresSampler):
-    def __init__(self, scene, bounding_box):
-        super().__init__(scene, bounding_box)
-
-    def sample_free(self):
+    def set_scene(self, scene, bounding_box = None):
         """
-        Sample a free random sample for both robot 1 and robot 2 combined for robots with equal size
-        """
+        Set the scene the sampler should use.
+        Can be overridded to add additional processing.
 
+        :param scene: a scene to sample in
+        :type scene: :class:`~discopygal.solvers.Scene`
+        """
+        super().set_scene(scene, bounding_box)
+        self.obstacles = scene.obstacles
+        self.collision_detection = {}
+
+<<<<<<< HEAD:samplers/samplers.py
         # Sampling Combined
         p_rand = []
         free_positions = []
@@ -161,3 +154,21 @@ class CombinedSquaresSampler(BasicSquaresSampler):
         p_rand = conversions.Point_2_list_to_Point_d(p_rand)
         print(p_rand)
         return p_rand
+=======
+        # Build collision detection for each robot
+        i = 0
+        for robot in scene.robots:
+            self.robots.append(robot)
+            self.collision_detection[robot] = collision_detection.ObjectCollisionDetection(scene.obstacles, robot)
+
+            # Get squares robots edges length
+            for e in robot.poly.edges():
+                self.robot_lengths[i] = Metric_Euclidean.dist(e.source(), e.target()).to_double()
+                i += 1
+                break
+
+        # Length of the square we try to fit
+        self.square_length = sum(self.robot_lengths)
+        self.gap_finder = GapPositionFinder(scene)
+
+>>>>>>> da220bef12a4ff2ef058a2a7fac0d192edd2662e:samplers/basic_sampler.py
