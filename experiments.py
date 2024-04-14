@@ -102,7 +102,7 @@ def length_num_landmarks():
     return result
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # print("\n\n\nrun_length_exp_algos\n")
     # for stat in run_length_exp_algos():
     #     print(stat)

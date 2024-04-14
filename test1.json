@@ -113,18 +113,14 @@
       "__class__": "ObstaclePolygon",
       "poly": [
         [
-          0.0,
+          -0.5,
           5.0
         ],
         [
-          0.0,
-          0.0
-        ],
-
-        [
-          5.0,
-          5.0
+          -0.5,
+          1.0
         ]
+
       ],
       "data": {
         "color": "",
@@ -137,16 +133,52 @@
       "__class__": "ObstaclePolygon",
       "poly": [
         [
-          0.0,
+          -0.5,
           -2.0
         ],
         [
-          5.0,
-          -2.0
+          -0.5,
+          0.0
+        ]
+      ],
+      "data": {
+        "color": "",
+        "name": "",
+        "value": "",
+        "details": ""
+      }
+
+    },
+        {
+      "__class__": "ObstaclePolygon",
+      "poly": [
+        [
+           0.5,
+          -2.5
         ],
         [
-          5.0,
-          3
+          0.5,
+          0.5
+        ]
+      ],
+      "data": {
+        "color": "",
+        "name": "",
+        "value": "",
+        "details": ""
+      }
+
+    },
+            {
+      "__class__": "ObstaclePolygon",
+      "poly": [
+        [
+           0.5,
+          5
+        ],
+        [
+          0.5,
+          1.5
         ]
       ],
       "data": {

@@ -196,8 +196,8 @@ class SquareMotionPlanner(Solver):
 
 
 if __name__ == '__main__':
-    with open('test.json', 'r') as fp:
+    with open('test3.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquareMotionPlanner(num_landmarks=100, k=1, combined=1)
+    solver = SquareMotionPlanner(num_landmarks=1, k=1, combined=1)
     solver.load_scene(scene)
     solver.solve()

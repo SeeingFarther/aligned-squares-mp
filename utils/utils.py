@@ -18,17 +18,25 @@ def find_x_coordinate(p1: Point_2, p2: Point_2, y: float, min_x: float, max_x: f
     x1, y1 = p1.x().to_double(), p1.y().to_double()
     x2, y2 = p2.x().to_double(), p2.y().to_double()
 
-    if not min_x <= x2 <= max_x and not min_x <= x1 <= max_x:
+    x1_inside = inside_limits_fast(x1, min_x, max_x)
+    x2_inside = inside_limits_fast(x2, min_x, max_x)
+    if not x1_inside and not x2_inside:
         return []
 
     # Calculate the slope (m)
     if x2 != x1:  # Horizontal
         m = (y2 - y1) / (x2 - x1)
     else:
-        if x2 < x1:
-            return [x2] if not min_x <= x1 <= max_x else [x2, x1]
-        else:
-            return [x1] if not min_x <= x1 <= max_x else [x1, x2]
+        return [x1]
+
+    # Vertical line?
+    if m == 0:
+        result = []
+        if x1_inside:
+            result.append(x1)
+        if x2_inside:
+            result.append(x2)
+        return result
 
     # Calculate the y-intercept (b)
     b = y1 - m * x1
@@ -36,7 +44,9 @@ def find_x_coordinate(p1: Point_2, p2: Point_2, y: float, min_x: float, max_x: f
     # Calculate y-coordinate for the given x-coordinate
     x_edge = (y - b) / m
 
-    return [x_edge]
+    if min_x <= x_edge <= max_x:
+        return [x_edge]
+    return []
 
 
 def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: float) -> list[
@@ -45,17 +55,24 @@ def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: f
     x1, y1 = p1.x().to_double(), p1.y().to_double()
     x2, y2 = p2.x().to_double(), p2.y().to_double()
 
-    if not min_y <= y2 <= max_y and not min_y <= y1 <= max_y:
+    y1_inside = inside_limits_fast(y1, min_y, max_y)
+    y2_inside = inside_limits_fast(y2, min_y, max_y)
+    if not y1_inside and not y2_inside:
         return []
 
     # Calculate the slope (m)
     if x2 != x1:  # Vertical
         m = (y2 - y1) / (x2 - x1)
     else:
-        if y2 < y1:
-            return [y2] if not min_y <= y1 <= max_y else [y2, y1]
-        else:
-            return [y1] if not min_y <= y1 <= max_y else [y1, y2]
+        if y1 == y2:
+            return [y1]
+
+        result = []
+        if y2_inside:
+           result.append(y2)
+        if y1_inside:
+            result.append(y1)
+        return result
 
     # Calculate the y-intercept (b)
     b = y1 - m * x1
@@ -63,7 +80,9 @@ def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: f
     # Calculate y-coordinate for the given x-coordinate
     y_edge = m * x + b
 
-    return [y_edge]
+    if inside_limits_fast(y_edge, min_y, max_y):
+        return [y_edge]
+    return []
 
 
 def compute_y_intersections(p_x: float, min_y: float, max_y: float, obstacles) -> list:
@@ -100,3 +119,18 @@ def compute_x_intersections(p_y: float, min_x: float, max_x: float, obstacles) -
                 x_intersections += find_x_coordinate(start, target, p_y, min_x, max_x)
 
     return x_intersections
+
+
+def euclidean_distance_1d(point1, point2):
+    # Compute absolute difference between coordinates
+    distance = abs(point2 - point1)
+    return distance
+
+
+def inside_limits(x, value1, value2):
+    min_value = min(value1, value2)
+    max_value = max(value1, value2)
+    return min_value <= x <= max_value
+
+def inside_limits_fast(x, min_value, max_value):
+    return min_value <= x <= max_value

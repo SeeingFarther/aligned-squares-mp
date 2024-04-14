@@ -48,7 +48,7 @@ class BasicSquaresSampler:
 
         # Find positions inside the square that are collision free
         free_positions = []
-        diff = self.robot_lengths[robot_index] / 2
+        diff = self.robot_lengths[robot_index] * 0.5
         for corner in corners:
             position_x = corner[0] + diff if corner[0] < center_x else corner[0] - diff
             position_y = corner[1] + diff if corner[1] < center_y else corner[1] - diff
@@ -84,11 +84,13 @@ class BasicSquaresSampler:
         x = min_x + diff
         y_intersections = compute_y_intersections(x, min_y, max_y, self.obstacles)
         y_intersections += [min_y, max_y]
+        y_intersections = list(set(y_intersections))
         free_positions += self.gap_finder.find_gap_positions_y(x, y_intersections, robot_index)
 
         x = max_x - diff
         y_intersections = compute_y_intersections(x, min_y, max_y, self.obstacles)
         y_intersections += [min_y, max_y]
+        y_intersections = list(set(y_intersections))
         free_positions += self.gap_finder.find_gap_positions_y(x, y_intersections, robot_index)
 
         return free_positions
@@ -111,12 +113,14 @@ class BasicSquaresSampler:
         y = min_y + diff
         x_intersections = compute_x_intersections(y, min_x, max_x, self.obstacles)
         x_intersections += [min_x, max_x]
+        x_intersections = list(set(x_intersections))
         free_positions += self.gap_finder.find_gap_positions_x(y, x_intersections, robot_index)
 
         # Find positions inside the square that are collision free
         y = max_y - diff
         x_intersections = compute_x_intersections(y, min_x, max_x, self.obstacles)
         x_intersections += [min_x, max_x]
+        x_intersections = list(set(x_intersections))
         free_positions += self.gap_finder.find_gap_positions_x(y, x_intersections, robot_index)
 
         return free_positions
@@ -136,14 +140,16 @@ class CombinedSquaresSampler(BasicSquaresSampler):
         free_positions = []
         while len(free_positions) < 2:
             sample = self.sampler.sample()
-            sample = Point_2(FT(0.0), FT(-1.0))
-            # free_positions = self.find_trivial_positions(sample, 0)
-
+            sample = Point_2(FT(0.4), FT(1.0))
+            #sample = Point_2(FT(0.0), FT(0.75))
+            #free_positions = self.find_trivial_positions(sample, 0)
+            #
+            print('hi')
             if len(free_positions) < 2:
                 free_positions = self.find_non_trivial_x_positions(sample, 0)
 
-            if len(free_positions) < 2:
-                free_positions = self.find_non_trivial_y_positions(sample, 0)
+            # if len(free_positions) < 2:
+            #     free_positions = self.find_non_trivial_y_positions(sample, 0)
 
         # Choose free positions randomly
         i = random.randint(0, len(free_positions) - 1)
@@ -153,4 +159,5 @@ class CombinedSquaresSampler(BasicSquaresSampler):
         p_rand.append(free_positions[i])
         p_rand.append(free_positions[j])
         p_rand = conversions.Point_2_list_to_Point_d(p_rand)
+        print(p_rand)
         return p_rand

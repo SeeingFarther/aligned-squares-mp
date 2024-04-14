@@ -1,6 +1,7 @@
 from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection
 from discopygal.solvers.metrics import Metric_Euclidean
+from .utils import euclidean_distance_1d
 
 
 class GapPositionFinder:
@@ -28,11 +29,24 @@ class GapPositionFinder:
         length = len(y_intersections)
         robot_length = self.robot_lengths[robot_index]
         for i in range(length - 1):
-            diff = y_intersections[i + 1] - y_intersections[i]
+            # Length between two intersections
+            distance_between_points = euclidean_distance_1d(y_intersections[i], y_intersections[i + 1])
+
+            # Distance is smaller than the robot length? Continue
+            if distance_between_points < robot_length:
+                continue
+
+            # Find middle point between two intersections
+            middle_point = y_intersections[i] + distance_between_points * 0.5
+
+            # Offset points as our reference is the left bottom point of the robot
             offset = robot_length * 0.5
-            add = y_intersections[i] + (abs(y_intersections[i + 1]) - abs(y_intersections[i])) * 0.5
-            position = Point_2(FT(x - offset), FT(add - offset))
-            if diff >= robot_length and self.collision_detection[self.robots[robot_index]].is_point_valid(position):
+            x_position = x - offset
+            y_position = middle_point - offset
+
+            # Check if position is valid
+            position = Point_2(FT(x_position), FT(y_position))
+            if self.collision_detection[self.robots[robot_index]].is_point_valid(position):
                 free_positions.append(position)
 
         return free_positions
@@ -43,11 +57,25 @@ class GapPositionFinder:
         length = len(x_intersections)
         robot_length = self.robot_lengths[robot_index]
         for i in range(length - 1):
-            diff = x_intersections[i + 1] - x_intersections[i]
+
+            # Length between two intersections
+            distance_between_points = euclidean_distance_1d(x_intersections[i], x_intersections[i + 1])
+
+            # Distance is smaller than the robot length? Continue
+            if distance_between_points < robot_length:
+                continue
+
+            # Find middle point between two intersections
+            middle_point = x_intersections[i] + distance_between_points * 0.5
+
+            # Offset points as our reference is the left bottom point of the robot
             offset = robot_length * 0.5
-            add = x_intersections[i] + (abs(x_intersections[i + 1]) - abs(x_intersections[i])) * 0.5
-            position = Point_2(FT(add - offset), FT(y - offset))
-            if diff >= robot_length and self.collision_detection[self.robots[robot_index]].is_point_valid(position):
+            x_position = middle_point - offset
+            y_position = y - offset
+
+            # Check if position is valid
+            position = Point_2(FT(x_position), FT(y_position))
+            if self.collision_detection[self.robots[robot_index]].is_point_valid(position):
                 free_positions.append(position)
 
         return free_positions
