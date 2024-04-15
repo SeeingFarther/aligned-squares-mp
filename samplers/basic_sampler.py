@@ -127,34 +127,6 @@ class BasicSquaresSampler(Sampler_Uniform):
         self.obstacles = scene.obstacles
         self.collision_detection = {}
 
-<<<<<<< HEAD:samplers/samplers.py
-        # Sampling Combined
-        p_rand = []
-        free_positions = []
-        while len(free_positions) < 2:
-            sample = self.sampler.sample()
-            sample = Point_2(FT(0.4), FT(1.0))
-            #sample = Point_2(FT(0.0), FT(0.75))
-            #free_positions = self.find_trivial_positions(sample, 0)
-            #
-            print('hi')
-            if len(free_positions) < 2:
-                free_positions = self.find_non_trivial_x_positions(sample, 0)
-
-            # if len(free_positions) < 2:
-            #     free_positions = self.find_non_trivial_y_positions(sample, 0)
-
-        # Choose free positions randomly
-        i = random.randint(0, len(free_positions) - 1)
-        j = i
-        while j == i:
-            j = random.randint(0, len(free_positions) - 1)
-        p_rand.append(free_positions[i])
-        p_rand.append(free_positions[j])
-        p_rand = conversions.Point_2_list_to_Point_d(p_rand)
-        print(p_rand)
-        return p_rand
-=======
         # Build collision detection for each robot
         i = 0
         for robot in scene.robots:
@@ -170,5 +142,3 @@ class BasicSquaresSampler(Sampler_Uniform):
         # Length of the square we try to fit
         self.square_length = sum(self.robot_lengths)
         self.gap_finder = GapPositionFinder(scene)
-
->>>>>>> da220bef12a4ff2ef058a2a7fac0d192edd2662e:samplers/basic_sampler.py

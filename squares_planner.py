@@ -14,7 +14,9 @@ from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.Solver import Solver
 
 from utils.utils import get_point_d, find_max_value_coordinates, get_robot_point_by_idx
-from utils.ctd_metric import Metric_CTD
+from metrics.ctd_metric import Metric_CTD
+from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
+from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
 
 
 class SquareMotionPlanner(Solver):
@@ -29,7 +31,15 @@ class SquareMotionPlanner(Solver):
         self.k = k
         if sampler is None:
             self.sampler = CombinedSquaresSampler()
-        self.nearest_neighbors = NearestNeighbors_sklearn()
+
+        metric = 'CTD'
+        if metric is None or metric == 'Euclidean':
+            self.metric = Metric_Euclidean
+            self.nearest_neighbors = NearestNeighbors_sklearn()
+        elif metric == 'CTD':
+            self.metric = Metric_CTD
+            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+
         self.metric = Metric_Euclidean
         self.roadmap = None
         self.collision_detection = {}
@@ -304,7 +314,7 @@ class SquareMotionPlanner(Solver):
             if cnt % 100 == 0 and self.verbose:
                 print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
 
-        self.roadmap = G
+        self.roadmap = nx.Graph(G)
 
     def solve(self):
         """
@@ -337,14 +347,8 @@ class SquareMotionPlanner(Solver):
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    with open('test3.json', 'r') as fp:
+    with open('scene_length_2.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquareMotionPlanner(num_landmarks=1, k=1, combined=1)
-=======
-    with open('test2.json', 'r') as fp:
-        scene = Scene.from_dict(json.load(fp))
-    solver = SquareMotionPlanner(num_landmarks=1000, k=1)
->>>>>>> da220bef12a4ff2ef058a2a7fac0d192edd2662e
+    solver = SquareMotionPlanner(num_landmarks=1000, k=2)
     solver.load_scene(scene)
     solver.solve()

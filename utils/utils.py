@@ -70,7 +70,7 @@ def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: f
 
         result = []
         if y2_inside:
-           result.append(y2)
+            result.append(y2)
         if y1_inside:
             result.append(y1)
         return result
@@ -122,7 +122,6 @@ def compute_x_intersections(p_y: float, min_x: float, max_x: float, obstacles) -
     return x_intersections
 
 
-<<<<<<< HEAD
 def euclidean_distance_1d(point1, point2):
     # Compute absolute difference between coordinates
     distance = abs(point2 - point1)
@@ -134,9 +133,11 @@ def inside_limits(x, value1, value2):
     max_value = max(value1, value2)
     return min_value <= x <= max_value
 
+
 def inside_limits_fast(x, min_value, max_value):
     return min_value <= x <= max_value
-=======
+
+
 def find_max_value_coordinates(arr):
     # return the index of the max cell in the array
     arr = np.array(arr)
@@ -159,6 +160,3 @@ def get_point_d(robot_idx_to_shorten: int, prev_next_idx_to_shorten: int, prev_j
 def get_robot_point_by_idx(point_d: Point_d, robot_idx: int):
     # utility function to get point in array
     return Point_2(point_d[robot_idx * 2], point_d[robot_idx * 2 + 1])
-
-
->>>>>>> da220bef12a4ff2ef058a2a7fac0d192edd2662e

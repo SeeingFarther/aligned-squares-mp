@@ -93,7 +93,7 @@ def parse_arguments():
     parser.add_argument('--delta', type=float, default=2, help='Bounding width factor')
     parser.add_argument('--solver', type=str, default="squares", choices=['prm', 'drrt', 'staggered', 'squares'],
                         help='Type of solver')
-    parser.add_argument('--path', type=str, default='scene_length_1.json', help='Path to scene file')
+    parser.add_argument('--path', type=str, default='scene_length_2.json', help='Path to scene file')
     parser.add_argument('--sampler', type=str, default='none', choices=['none', 'uniform', 'combined'],
                         help='Type of sampler')
 
@@ -101,19 +101,6 @@ def parse_arguments():
     args = parser.parse_args()
     return args
 
-
-<<<<<<< HEAD
-# if __name__ == '__main__':
-    # print("\n\n\nrun_length_exp_algos\n")
-    # for stat in run_length_exp_algos():
-    #     print(stat)
-    # print("\n\n\nlength_k\n")
-    # for stat in length_k():
-    #     print(stat)
-    # print("\n\n\nlength_num_landmarks\n")
-    # for stat in length_num_landmarks():
-        #print(stat)
-=======
 if __name__ == '__main__':
     args = parse_arguments()
     with open(args.path, 'r') as fp:
@@ -147,4 +134,3 @@ if __name__ == '__main__':
     time_result, path_len_result = experiment_wrapper.run()
     print(
         f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time_result:.3f} seconds and {path_len_result} path length')
->>>>>>> da220bef12a4ff2ef058a2a7fac0d192edd2662e
