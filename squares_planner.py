@@ -1,10 +1,8 @@
-
-import networkx as nx
+import sys
 import json
+import networkx as nx
 
 from discopygal.solvers.samplers import Sampler
-
-from samplers.combined_sampler import CombinedSquaresSampler
 from discopygal.solvers import Scene
 from discopygal.solvers import PathPoint, Path, PathCollection
 from discopygal.solvers.metrics import Metric_Euclidean
@@ -13,14 +11,17 @@ from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.Solver import Solver
 
+from samplers.space_sampler import SpaceSampler
 from utils.utils import get_point_d, find_max_value_coordinates, get_robot_point_by_idx
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
+from samplers.pair_sampler import CombinedSquaresSampler
 
 
 class SquareMotionPlanner(Solver):
-    def __init__(self, num_landmarks: int, k: int, bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, sampler: Sampler =None):
+    def __init__(self, num_landmarks: int, k: int,
+                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, sampler: Sampler = None):
         super().__init__(FT(bounding_margin_width_factor))
         self.num_landmarks = num_landmarks
 
@@ -29,16 +30,22 @@ class SquareMotionPlanner(Solver):
             exit(-1)
 
         self.k = k
-        if sampler is None:
-            self.sampler = CombinedSquaresSampler()
+        self.sampler = sampler
+        if self.sampler is None:
+            self.sampler = SpaceSampler()
 
         metric = 'CTD'
         if metric is None or metric == 'Euclidean':
-            self.metric = Metric_Euclidean
             self.nearest_neighbors = NearestNeighbors_sklearn()
         elif metric == 'CTD':
-            self.metric = Metric_CTD
+            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+        elif metric == 'Epsilon_2':
             self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+        elif metric == 'Epsilon_Inf':
+            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        else:
+            print('Unknown metric')
+            exit(-1)
 
         self.metric = Metric_Euclidean
         self.roadmap = None
@@ -61,7 +68,7 @@ class SquareMotionPlanner(Solver):
         p_rand = conversions.Point_2_list_to_Point_d(p_rand)
         return p_rand
 
-    def collision_free(self, p: Point_d, q : Point_d) -> bool:
+    def collision_free(self, p: Point_d, q: Point_d) -> bool:
         """
         Get two points in the configuration space and decide if they can be connected
         """
@@ -90,7 +97,7 @@ class SquareMotionPlanner(Solver):
         edge = Segment_2(point, neighbor)
         return self.collision_detection[robot].is_edge_valid(edge)
 
-    def add_edge_func(self, point, neighbor, graph):
+    def add_edge_func(self, point: Point_2, neighbor: Point_2, graph: nx.Graph):
         """
         Add an edge between two points in the roadmap
         """
@@ -108,7 +115,7 @@ class SquareMotionPlanner(Solver):
         graph.add_edge(point, neighbor, weight=dist_1 + dist_2)
         return
 
-    def merge_path_points(self, orig_tensor_path):
+    def merge_path_points(self, orig_tensor_path: list):
         new_tensor_path: list[Point_d] = [orig_tensor_path[0]]
         for idx, curr_joint_point in enumerate(orig_tensor_path[1: len(orig_tensor_path) - 1], 1):
             robots_shorten_size = [[-1, -1], [-1, -1]]
@@ -180,7 +187,7 @@ class SquareMotionPlanner(Solver):
         new_tensor_path.append(orig_tensor_path[-1])
         return new_tensor_path
 
-    def remove_path_points(self, orig_tensor_path):
+    def remove_path_points(self, orig_tensor_path: list):
 
         # Pass the path and try to get rid of unnecessary joint robots points to shorten path
         new_tensor_path: list[Point_d] = [orig_tensor_path[0]]
@@ -206,7 +213,7 @@ class SquareMotionPlanner(Solver):
             robots_collision_free = not collision_detection.collide_two_robots(robot_0, robot_0_edge, robot_1,
                                                                                robot_1_edge)
 
-            # All of the requirements fulfilled? Skip both robot points
+            # All the requirements fulfilled? Skip both robot points
             if robot_0_collision_free and robot_1_collision_free and robots_collision_free:
                 continue
 
@@ -261,6 +268,7 @@ class SquareMotionPlanner(Solver):
         :type scene: :class:`~discopygal.solvers.Scene`
         """
         super().load_scene(scene)
+        self.sampler.set_num_samples(self.num_landmarks)
         self.sampler.set_scene(scene)
 
         # Build collision detection for each robot
@@ -273,6 +281,8 @@ class SquareMotionPlanner(Solver):
         self.roadmap = nx.Graph()
 
         self.sampler.set_scene(scene, self._bounding_box)
+        self.sampler.set_num_samples(self.num_landmarks)
+        self.sampler.ready_sampler()
 
         # Add start & end points
         self.start = conversions.Point_2_list_to_Point_d([robot.start for robot in scene.robots])
@@ -347,8 +357,8 @@ class SquareMotionPlanner(Solver):
 
 
 if __name__ == '__main__':
-    with open('scene_length_2.json', 'r') as fp:
+    with open('scene_length_1.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquareMotionPlanner(num_landmarks=1000, k=2)
+    solver = SquareMotionPlanner(num_landmarks=1000, k=2,sampler=SpaceSampler())
     solver.load_scene(scene)
     solver.solve()

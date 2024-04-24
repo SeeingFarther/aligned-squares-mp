@@ -1,14 +1,17 @@
 import networkx
+import random
+
+from discopygal.geometry_utils.bounding_boxes import calc_scene_bounding_box
 from discopygal.geometry_utils import collision_detection
 from discopygal.solvers import Scene
 from discopygal.solvers.metrics import Metric_Euclidean, Metric
-from discopygal.solvers.samplers import Sampler_Uniform
+from discopygal.solvers.samplers import Sampler
 
 from utils.utils import *
 from utils.gap_position_finder import GapPositionFinder
 
 
-class BasicSquaresSampler(Sampler_Uniform):
+class BasicSquaresSampler(Sampler):
     def __init__(self, scene: Scene, metric: Metric = None, graph: networkx.Graph = None):
         # Init
         super().__init__(scene)
@@ -115,15 +118,19 @@ class BasicSquaresSampler(Sampler_Uniform):
 
         return free_positions
 
-    def set_scene(self, scene, bounding_box = None):
+    def set_scene(self, scene,  bounding_box = None):
         """
         Set the scene the sampler should use.
         Can be overridded to add additional processing.
 
+        :param bounding_box:
+        :param num_samples:
         :param scene: a scene to sample in
         :type scene: :class:`~discopygal.solvers.Scene`
         """
-        super().set_scene(scene, bounding_box)
+        super().set_scene(scene)
+        self.min_x, self.max_x, self.min_y, self.max_y = bounding_box or calc_scene_bounding_box(self.scene)
+
         self.obstacles = scene.obstacles
         self.collision_detection = {}
 
@@ -142,3 +149,27 @@ class BasicSquaresSampler(Sampler_Uniform):
         # Length of the square we try to fit
         self.square_length = sum(self.robot_lengths)
         self.gap_finder = GapPositionFinder(scene)
+
+    def set_bounds_manually(self, min_x, max_x, min_y, max_y):
+        """
+        Set the sampling bounds manually (instead of supplying a scene)
+        Bounds are given in CGAL :class:`~discopygal.bindings.FT`
+        """
+        self.min_x, self.max_x, self.min_y, self.max_y = min_x, max_x, min_y, max_y
+
+    def set_num_samples(self, num_samples: int):
+        pass
+
+    def ready_sampler(self):
+        pass
+
+    def sample(self):
+        """
+        Return a sample in the space (might be invalid)
+
+        :return: sampled point
+        :rtype: :class:`~discopygal.bindings.Point_2`
+        """
+        x = random.uniform(self.min_x.to_double(), self.max_x.to_double())
+        y = random.uniform(self.min_y.to_double(), self.max_y.to_double())
+        return Point_2(FT(x), FT(y))

@@ -5,7 +5,7 @@ from discopygal.solvers import Scene
 from discopygal.bindings import *
 from discopygal.solvers.samplers import Sampler_Uniform, Sampler
 
-from samplers.combined_sampler import CombinedSquaresSampler
+from samplers.pair_sampler import CombinedSquaresSampler
 from utils.experiment_wrapper import ExperimentsWrapper
 
 

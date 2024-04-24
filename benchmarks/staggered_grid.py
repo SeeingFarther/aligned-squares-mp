@@ -324,11 +324,19 @@ class StaggeredGrid(Solver):
 
         self.sources = [robot.start for robot in scene.robots]
         self.destinations = [robot.end for robot in scene.robots]
-        radii = set([robot.radius.to_double() for robot in scene.robots])
+
+        # Get squares robots edges length
+        radii = set()
+        for robot in scene.robots:
+            for e in robot.poly.edges():
+                radii.add( Metric_Euclidean.dist(e.source(), e.target()).to_double())
+                break
+
         if len(radii) == 0:
             self.log("Error: must have at least one robot")
         elif len(radii) > 1:
             self.log("Error: this only works when all robots are of the same radii")
+        self.robot_length = radii[0]
 
         self.collision_detection = collision_detection.ObjectCollisionDetection(scene.obstacles, scene.robots[0])
 
@@ -358,7 +366,7 @@ class StaggeredGrid(Solver):
         :return: path collection of motion planning
         :rtype: :class:`~discopygal.solvers.PathCollection`
         """
-        radius = Ker.FT(self.scene.robots[0].radius)
+        radius = Ker.FT(self.robot_length)
         path_collection = PathCollection()
         a_star_res, d_path = self.g.a_star(
             radius,
