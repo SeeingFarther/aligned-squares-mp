@@ -2,11 +2,10 @@ import random
 import networkx as nx
 import numpy as np
 
-from discopygal.bindings import Point_d
 from discopygal.geometry_utils import conversions
 from discopygal.solvers import Scene
 from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
-from discopygal.solvers.metrics import Metric_Euclidean
+from discopygal.bindings import FT, Point_2, Point_d
 
 from samplers.basic_sampler import BasicSquaresSampler
 
@@ -33,68 +32,46 @@ class SpaceSampler(BasicSquaresSampler):
         # Set space distance
         x_dist = self.max_x - self.min_x
         y_dist = self.max_y - self.min_y
-        self.gap_x = x_dist.to_double() - 1
-        self.gap_y = y_dist.to_double() - 1
-
-        # Compute resolution
-        self.compute_resolution()
+        self.gap_x = x_dist.to_double()
+        self.gap_y = y_dist.to_double()
 
     def set_num_samples(self, num_samples: int):
         self.num_of_samples = num_samples
-        self.num_of_landmarks = int(np.ceil(np.sqrt(num_samples)) + 1)
+        power_x = self.gap_x / (self.gap_x + self.gap_y)
+        power_y = self.gap_y / (self.gap_x + self.gap_y)
+        self.num_of_landmarks_x = int(np.floor(np.power(num_samples, power_x)))
+        self.num_of_landmarks_y = int(np.floor(np.power(num_samples, power_y)))
 
     def compute_resolution(self):
-        self.resolution_x = self.gap_x / self.num_of_samples
-        self.resolution_y = self.gap_y / self.num_of_samples
+        self.resolution_x = int(np.ceil(self.gap_x / self.num_of_landmarks_x))
+        self.resolution_y = int(np.ceil(self.gap_y / self.num_of_landmarks_y))
 
     def ready_sampler(self):
-        self.roadmap.clear()
         self.num_sample = 0
-        for i in range(self.num_of_landmarks):
-            # Sampling
-            nodes = list(self.roadmap.nodes)
-            self.nearest.fit(nodes)
-
-            p_rand = None
-            while p_rand is None:
-
-                # Sample point
-                sample = self.sample()
-                if not self.collision_detection[self.robots[0]].is_point_valid(sample):
-                    continue
-
-                # Find nearest neighbor
-                neighbor = self.nearest.k_nearest(sample, 1)
-
-                # Already sampled?
-                if neighbor and neighbor[0] == sample:
-                    continue
-
-                # Too close?
-                if neighbor and ((sample.x() - neighbor[0].x()).to_double() < self.gap_x):
-                    self.gap_x -= self.resolution_x
-                    continue
-
-                # Too close?
-                if neighbor and ((sample.y() - neighbor[0].y()).to_double() < self.gap_y):
-                    self.gap_y -= self.resolution_y
-                    continue
-
-                # Find free positions
-                p_rand = sample
-            # Add to roadmap
-            self.roadmap.add_node(p_rand)
-
+        self.compute_resolution()
+        list_of_samples_robot_0 = []
+        list_of_samples_robot_1 = []
         self.list_of_samples = []
-        nodes = list(self.roadmap.nodes)
-        for i in range(self.num_of_landmarks):
-            for j in range(self.num_of_landmarks):
-                if i == j:
+
+        min_x = int(self.min_x.to_double())
+        max_x = int(self.max_x.to_double())
+        min_y = int(self.min_y.to_double())
+        max_y = int(self.max_y.to_double())
+        for i in range(min_y, max_y + 1, self.resolution_y):
+            for j in range(min_x, max_x + 1, self.resolution_x):
+                sample = Point_2(FT(j), FT(i))
+                if self.collision_detection[self.robots[0]].is_point_valid(sample):
+                    list_of_samples_robot_0.append(sample)
+
+                if self.collision_detection[self.robots[1]].is_point_valid(sample):
+                    list_of_samples_robot_1.append(sample)
+
+        for i, sample_i in enumerate(list_of_samples_robot_0):
+            for j, sample_j in enumerate(list_of_samples_robot_1):
+                if sample_i == sample_j:
                     continue
 
-                p1 = nodes[i]
-                p2 = nodes[j]
-                sample = conversions.Point_2_list_to_Point_d([p1, p2])
+                sample = conversions.Point_2_list_to_Point_d([sample_i, sample_j])
                 self.list_of_samples.append(sample)
 
     def uniform_sample(self) -> Point_d:

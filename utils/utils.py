@@ -160,3 +160,36 @@ def get_point_d(robot_idx_to_shorten: int, prev_next_idx_to_shorten: int, prev_j
 def get_robot_point_by_idx(point_d: Point_d, robot_idx: int):
     # utility function to get point in array
     return Point_2(point_d[robot_idx * 2], point_d[robot_idx * 2 + 1])
+
+
+def get_square_coordinates(square):
+    x_values = [point[0] for point in square]
+    y_values = [point[1] for point in square]
+    x1 = min(x_values)
+    x2 = max(x_values)
+    y1 = min(y_values)
+    y2 = max(y_values)
+    return x1, y1, x2, y2
+
+
+def point_inside_square(point, square):
+    x, y = point
+    x1, y1, x2, y2 = get_square_coordinates(square)
+    return x1 < x < x2 and y1 < y < y2
+
+
+def squares_overlap(square1, square2):
+    for point in square1:
+        if point_inside_square(point, square2):
+            return True
+    for point in square2:
+        if point_inside_square(point, square1):
+            return True
+    return False
+
+
+def out_of_bounds(x_min, x_max, y_min, y_max, square):
+    x1, y1, x2, y2 = get_square_coordinates(square)
+    if x1 < x_min or x2 > x_max or y1 < y_min or y2 > y_max:
+        return True
+    return False

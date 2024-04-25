@@ -11,12 +11,14 @@ from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.Solver import Solver
 
+from samplers.bridge_sampler import BridgeSampler
+from samplers.combined_sampler import CombinedSampler
 from samplers.space_sampler import SpaceSampler
 from utils.utils import get_point_d, find_max_value_coordinates, get_robot_point_by_idx
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
-from samplers.pair_sampler import CombinedSquaresSampler
+from samplers.pair_sampler import PairSampler
 
 
 class SquareMotionPlanner(Solver):
@@ -32,9 +34,9 @@ class SquareMotionPlanner(Solver):
         self.k = k
         self.sampler = sampler
         if self.sampler is None:
-            self.sampler = SpaceSampler()
+            self.sampler = BridgeSampler()
 
-        metric = 'CTD'
+        metric = 'Euclidean'
         if metric is None or metric == 'Euclidean':
             self.nearest_neighbors = NearestNeighbors_sklearn()
         elif metric == 'CTD':
@@ -268,8 +270,9 @@ class SquareMotionPlanner(Solver):
         :type scene: :class:`~discopygal.solvers.Scene`
         """
         super().load_scene(scene)
+        self.sampler.set_scene(scene, self._bounding_box)
         self.sampler.set_num_samples(self.num_landmarks)
-        self.sampler.set_scene(scene)
+        self.sampler.ready_sampler()
 
         # Build collision detection for each robot
         for i, robot in enumerate(scene.robots):
@@ -280,10 +283,6 @@ class SquareMotionPlanner(Solver):
         ################
         self.roadmap = nx.Graph()
 
-        self.sampler.set_scene(scene, self._bounding_box)
-        self.sampler.set_num_samples(self.num_landmarks)
-        self.sampler.ready_sampler()
-
         # Add start & end points
         self.start = conversions.Point_2_list_to_Point_d([robot.start for robot in scene.robots])
         self.end = conversions.Point_2_list_to_Point_d([robot.end for robot in scene.robots])
@@ -293,7 +292,11 @@ class SquareMotionPlanner(Solver):
         # Add valid points
         for i in range(self.num_landmarks):
             p_rand = self.sampler.sample_free()
-            self.roadmap.add_node(p_rand)
+            if isinstance(p_rand,list):
+                for p in p_rand:
+                    self.roadmap.add_node(p)
+            else:
+                self.roadmap.add_node(p_rand)
             if i % 100 == 0 and self.verbose:
                 print('added', i, 'landmarks in PRM', file=self.writer)
 
@@ -357,8 +360,8 @@ class SquareMotionPlanner(Solver):
 
 
 if __name__ == '__main__':
-    with open('scene_length_1.json', 'r') as fp:
+    with open('scene_length_3.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquareMotionPlanner(num_landmarks=1000, k=2,sampler=SpaceSampler())
+    solver = SquareMotionPlanner(num_landmarks=1000, k=2,sampler=BridgeSampler())
     solver.load_scene(scene)
     solver.solve()
