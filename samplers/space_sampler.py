@@ -49,8 +49,8 @@ class SpaceSampler(BasicSquaresSampler):
     def ready_sampler(self):
         self.num_sample = 0
         self.compute_resolution()
-        self.list_of_samples_robots = [[], []]
-        self.samples_visited = [{}, {}]
+        self.list_of_samples_robots = [[]] * len(self.robots)
+        self.samples_visited = [{}] * len(self.robots)
 
         min_x = int(self.min_x.to_double())
         max_x = int(self.max_x.to_double())
@@ -58,12 +58,11 @@ class SpaceSampler(BasicSquaresSampler):
         max_y = int(self.max_y.to_double())
         for i in range(min_y, max_y + 1, self.resolution_y):
             for j in range(min_x, max_x + 1, self.resolution_x):
-                sample = Point_2(FT(j), FT(i))
-                if self.collision_detection[self.robots[0]].is_point_valid(sample):
-                    self.list_of_samples_robots[0].append(sample)
 
-                if self.collision_detection[self.robots[1]].is_point_valid(sample):
-                    self.list_of_samples_robots[1].append(sample)
+                sample = Point_2(FT(j), FT(i))
+                for k, robot in enumerate(self.robots):
+                    if self.collision_detection[self.robots[k]].is_point_valid(sample):
+                        self.list_of_samples_robots[k].append(sample)
 
     def uniform_sample(self) -> Point_d:
         p_rand = []

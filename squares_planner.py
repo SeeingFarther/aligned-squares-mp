@@ -15,6 +15,7 @@ from discopygal.solvers.Solver import Solver
 from samplers.basic_sampler import BasicSquaresSampler
 from samplers.bridge_sampler import BridgeSampler
 from samplers.combined_sampler import CombinedSampler
+from samplers.middle_sampler import MiddleSampler
 from samplers.space_sampler import SpaceSampler
 from utils.path_shortener import PathShortener
 from metrics.ctd_metric import Metric_CTD
@@ -35,12 +36,9 @@ class SquaresPrm(Solver):
 
         self.k = k
         num_samples = []
-        num_precentage = [0.7, 0.3]
-        for i in range(len(num_precentage)):
-            amount = np.ceil(num_landmarks * num_precentage[i])
-            num_samples.append(amount)
-        samplers = [SpaceSampler(), BridgeSampler()]
-        self.sampler = CombinedSampler(num_samples, samplers)
+        num_precentage = [0.5, 0.1, 0.4]
+        samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
+        self.sampler = CombinedSampler(num_precentage, samplers)
         if self.sampler is None:
             self.sampler = BasicSquaresSampler()
 
@@ -172,11 +170,15 @@ class SquaresPrm(Solver):
         self.roadmap.add_node(self.end)
 
         # Add valid points
-        for i in range(self.num_landmarks):
-            p_rand = self.sampler.sample_free()
+        #for i, robot in enumerate(scene.robots):
+        for j in range(self.num_landmarks):
+            p = self.sampler.sample_free(0)
+            p2 = self.sampler.sample_free(1)
+            p_rand = conversions.Point_2_list_to_Point_d([p, p2])
+
             self.roadmap.add_node(p_rand)
-            if i % 100 == 0 and self.verbose:
-                print('added', i, 'landmarks in PRM', file=self.writer)
+            if j % 100 == 0 and self.verbose:
+                print('added', j, 'landmarks in PRM', file=self.writer)
 
         self.nearest_neighbors.fit(list(self.roadmap.nodes))
 
@@ -248,6 +250,6 @@ class SquaresPrm(Solver):
 if __name__ == '__main__':
     with open('scene_length_3.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquaresPrm(num_landmarks=1000, k=2, sampler=BridgeSampler())
+    solver = SquaresPrm(num_landmarks=1000, k=15, sampler=BridgeSampler())
     solver.load_scene(scene)
     solver.solve()
