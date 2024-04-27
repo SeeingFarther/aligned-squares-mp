@@ -39,8 +39,8 @@ class SpaceSampler(BasicSquaresSampler):
         self.num_of_samples = num_samples
         power_x = self.gap_x / (self.gap_x + self.gap_y)
         power_y = self.gap_y / (self.gap_x + self.gap_y)
-        self.num_of_landmarks_x = int(np.floor(np.power(num_samples, power_x)))
-        self.num_of_landmarks_y = int(np.floor(np.power(num_samples, power_y)))
+        self.num_of_landmarks_x = int(np.ceil(np.power(num_samples, power_x)))
+        self.num_of_landmarks_y = int(np.ceil(np.power(num_samples, power_y)))
 
     def compute_resolution(self):
         self.resolution_x = int(np.ceil(self.gap_x / self.num_of_landmarks_x))
@@ -49,9 +49,8 @@ class SpaceSampler(BasicSquaresSampler):
     def ready_sampler(self):
         self.num_sample = 0
         self.compute_resolution()
-        list_of_samples_robot_0 = []
-        list_of_samples_robot_1 = []
-        self.list_of_samples = []
+        self.list_of_samples_robots = [[], []]
+        self.samples_visited = [{}, {}]
 
         min_x = int(self.min_x.to_double())
         max_x = int(self.max_x.to_double())
@@ -61,18 +60,10 @@ class SpaceSampler(BasicSquaresSampler):
             for j in range(min_x, max_x + 1, self.resolution_x):
                 sample = Point_2(FT(j), FT(i))
                 if self.collision_detection[self.robots[0]].is_point_valid(sample):
-                    list_of_samples_robot_0.append(sample)
+                    self.list_of_samples_robots[0].append(sample)
 
                 if self.collision_detection[self.robots[1]].is_point_valid(sample):
-                    list_of_samples_robot_1.append(sample)
-
-        for i, sample_i in enumerate(list_of_samples_robot_0):
-            for j, sample_j in enumerate(list_of_samples_robot_1):
-                if sample_i == sample_j:
-                    continue
-
-                sample = conversions.Point_2_list_to_Point_d([sample_i, sample_j])
-                self.list_of_samples.append(sample)
+                    self.list_of_samples_robots[1].append(sample)
 
     def uniform_sample(self) -> Point_d:
         p_rand = []
@@ -84,15 +75,14 @@ class SpaceSampler(BasicSquaresSampler):
         p_rand = conversions.Point_2_list_to_Point_d(p_rand)
         return p_rand
 
-    def sample_free(self) -> Point_d:
+    def sample_free(self, robot_index) -> Point_d:
         """
         Sample a free random sample for both robot 1 and robot 2 combined for robots with equal size
         """
-        if self.num_sample < len(self.list_of_samples):
-            p_rand = self.list_of_samples[self.num_sample]
-            self.num_sample += 1
-        else:
-            p_rand = self.uniform_sample()
+        random_index = random.randint(0, len(self.list_of_samples_robots[robot_index]) - 1)
+        while self.samples_visited[robot_index].get(random_index, False):
+            random_index = random.randint(0, len(self.list_of_samples_robots[robot_index]) - 1)
+        p_rand = self.list_of_samples_robots[robot_index][random_index]
 
         # Return point
         return p_rand
