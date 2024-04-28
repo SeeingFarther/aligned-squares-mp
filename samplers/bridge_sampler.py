@@ -1,13 +1,11 @@
-import random
-import math
+
 import numpy as np
 
 from discopygal.bindings import Point_2, FT
-from discopygal.geometry_utils import conversions
 from discopygal.solvers import Scene
 
 from samplers.basic_sampler import BasicSquaresSampler
-from utils.utils import squares_overlap, out_of_bounds
+from utils.utils import out_of_bounds, point2_to_floats
 
 
 class BridgeSampler(BasicSquaresSampler):
@@ -24,8 +22,7 @@ class BridgeSampler(BasicSquaresSampler):
 
     def sample_gauss(self, sample):
         # Sample a point from the gaussian distribution.
-        x = sample.x().to_double()
-        y = sample.y().to_double()
+        x, y = point2_to_floats(sample)
         cov_matrix = [[self.std_dev_x ** 2, 0], [0, self.std_dev_y ** 2]]
         mean = [x, y]
         s = np.random.multivariate_normal(mean, cov_matrix, size=1)[0]
@@ -55,7 +52,7 @@ class BridgeSampler(BasicSquaresSampler):
                 if not self.collision_detection[robot].is_point_valid(sample_tag):
                     x = (sample.x() + sample_tag.x()).to_double() / 2
                     y = (sample.y() + sample_tag.y()).to_double() / 2
-                    points = [(x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length), (x, y), (x + robot_length, y), (x, y + robot_length), (x + robot_length, y + robot_length)]
+                    points = [(x, y), (x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length)]
                     for x_p, y_p in points:
                         p = Point_2(FT(x_p), FT(y_p))
                         square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length), (x_p + robot_length, y_p + robot_length)]

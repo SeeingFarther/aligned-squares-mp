@@ -1,7 +1,5 @@
-import sys
 import json
 import networkx as nx
-import numpy as np
 
 from discopygal.solvers.samplers import Sampler
 from discopygal.solvers import Scene
@@ -21,7 +19,6 @@ from utils.path_shortener import PathShortener
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
-from samplers.pair_sampler import PairSampler
 
 
 class SquaresPrm(Solver):
@@ -35,10 +32,9 @@ class SquaresPrm(Solver):
             exit(-1)
 
         self.k = k
-        num_samples = []
-        num_precentage = [0.5, 0.1, 0.4]
+        num_prob = [0.5, 0.1, 0.4]
         samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
-        self.sampler = CombinedSampler(num_precentage, samplers)
+        self.sampler = CombinedSampler(num_prob, samplers)
         if self.sampler is None:
             self.sampler = BasicSquaresSampler()
 
@@ -248,7 +244,7 @@ class SquaresPrm(Solver):
 
 
 if __name__ == '__main__':
-    with open('scene_length_3.json', 'r') as fp:
+    with open('./scenes/cubic3.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
     solver = SquaresPrm(num_landmarks=1000, k=15, sampler=BridgeSampler())
     solver.load_scene(scene)

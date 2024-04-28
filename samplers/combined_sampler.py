@@ -1,5 +1,7 @@
 import random
 
+import numpy as np
+
 from samplers.basic_sampler import BasicSquaresSampler
 from samplers.pair_sampler import PairSampler
 from samplers.space_sampler import SpaceSampler
@@ -26,7 +28,6 @@ class CombinedSampler(BasicSquaresSampler):
         self.sampler_index = random.choices(indexes, self.probs, k=1)[0]
         return self.samplers[self.sampler_index].sample_free(robot_index)
 
-
     def set_probs(self, probs):
         self.probs = probs
 
@@ -40,3 +41,8 @@ class CombinedSampler(BasicSquaresSampler):
         for sampler in self.samplers:
             sampler.set_num_samples(num_samples)
         return
+
+    def update_probs(self, sampler_index, reward, learning_rate=0.1):
+        # Update probabilities using reward-based learning
+        self.probs[sampler_index] += learning_rate * reward
+        self.probs /= np.sum(self.probs)  # Normalize probabilities to sum to 1

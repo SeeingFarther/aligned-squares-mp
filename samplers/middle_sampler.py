@@ -1,13 +1,8 @@
-import random
-import math
-import numpy as np
-
-from discopygal.bindings import Point_2, FT, Polygon_2, Point_d
-from discopygal.geometry_utils import conversions
+from discopygal.bindings import Point_2, FT, Polygon_2
 from discopygal.solvers import Scene
 
 from samplers.basic_sampler import BasicSquaresSampler
-from utils.utils import squares_overlap, out_of_bounds, find_y_coordinate
+from utils.utils import out_of_bounds, find_y_coordinate, point2_to_floats, point_inside_polygon
 
 
 class MiddleSampler(BasicSquaresSampler):
@@ -21,15 +16,16 @@ class MiddleSampler(BasicSquaresSampler):
         self.set_scene(scene)
 
     def compute_middle_point(self, point: Point_2, min_y: float, max_y: float, obstacles) -> float:
-        p_x: float = point.x().to_double()
-        p_y: float = point.y().to_double()
-
-        min_y: float = min_y
-        max_y: float = max_y
+        p_x, p_y = point2_to_floats(point)
         y_top = max_y
 
         for obstacle in obstacles:
             obstacle: Polygon_2 = obstacle.poly
+
+            # Inside the obstacle?
+            if point_inside_polygon(p_x, p_y, obstacle):
+                continue
+
             edges = obstacle.edges()  # each edge is a Segment_2 object.
 
             # Print the coordinates of each edge
@@ -52,30 +48,35 @@ class MiddleSampler(BasicSquaresSampler):
         sample_tag = Point_2(FT(x), FT(y))
         return sample_tag
 
-    def sample_bridge(self, index):
+    def sample_middle(self, index):
         """
         Sample in a middle axis strategy.
         """
         # The same as the pseudocode in the paper
         while True:
             sample = self.sample()
+            #sample = Point_2(FT(-48.0), FT(-50.5))
             robot = self.scene.robots[index]
             robot_length = self.robot_lengths[index]
-            if not self.collision_detection[robot].is_point_valid(sample):
-                sample_tag = self.find_middle(sample)
-                if self.collision_detection[robot].is_point_valid(sample_tag):
-                    x = sample_tag.x().to_double()
-                    y = sample_tag.y().to_double()
-                    points = [(x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length), (x, y), (x + robot_length, y), (x, y + robot_length), (x + robot_length, y + robot_length)]
-                    for x_p, y_p in points:
-                        p = Point_2(FT(x_p), FT(y_p))
-                        square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length), (x_p + robot_length, y_p + robot_length)]
-                        if out_of_bounds(self.min_x,self.max_x, self.min_y, self.max_y, square):
-                            continue
 
-                        if self.collision_detection[robot].is_point_valid(p):
-                            return p
+            if self.collision_detection[robot].is_point_valid(sample):
+                continue
+
+            sample_tag = self.find_middle(sample)
+            if self.collision_detection[robot].is_point_valid(sample_tag):
+                x, y = point2_to_floats(sample_tag)
+
+                points = [(x, y), (x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length)]
+                for x_p, y_p in points:
+                    p = Point_2(FT(x_p), FT(y_p))
+                    square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length),
+                              (x_p + robot_length, y_p + robot_length)]
+                    if out_of_bounds(self.min_x, self.max_x, self.min_y, self.max_y, square):
+                        continue
+
+                    if self.collision_detection[robot].is_point_valid(p):
+                        return p
 
     def sample_free(self, robot_index):
-        p_rand = self.sample_bridge(robot_index)
+        p_rand = self.sample_middle(robot_index)
         return p_rand

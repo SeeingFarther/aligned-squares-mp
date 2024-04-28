@@ -336,7 +336,7 @@ class StaggeredGrid(Solver):
             self.log("Error: must have at least one robot")
         elif len(radii) > 1:
             self.log("Error: this only works when all robots are of the same radii")
-        self.robot_length = radii[0]
+        self.robot_length = list(radii)[0]
 
         self.collision_detection = collision_detection.ObjectCollisionDetection(scene.obstacles, scene.robots[0])
 
