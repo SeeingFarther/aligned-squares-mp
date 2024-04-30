@@ -1,7 +1,7 @@
 import numpy as np
 from discopygal.bindings import *
 from discopygal.geometry_utils.conversions import Point_2_to_xy, Polygon_2_to_array_of_points
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Point, Polygon, LineString
 
 
 def find_square_corners(square_length, center_x, center_y):
@@ -204,8 +204,14 @@ def point_inside_polygon(x, y, poly):
     return polygon.contains(point)
 
 
+def line_inside_polygon(x1, y1, x2, y2, poly):
+    line = LineString([[x1, y1], [x2, y2]])
+    vertices = Polygon_2_to_array_of_points(poly)
+    polygon = Polygon(vertices)
+    if not polygon.contains(line):
+        return False
+    return True
+
+
 def point2_to_point_d(point2: Point_2):
     return Point_d(2, [point2.x().to_double(), point2.y().to_double()])
-
-
-

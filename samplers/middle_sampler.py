@@ -1,9 +1,11 @@
+import random
+
 from discopygal.bindings import Point_2, FT, Polygon_2
 from discopygal.geometry_utils.conversions import Point_2_to_xy
 from discopygal.solvers import Scene
 
 from samplers.basic_sampler import BasicSquaresSampler
-from utils.utils import out_of_bounds, find_y_coordinate, point_inside_polygon
+from utils.utils import out_of_bounds, find_y_coordinate, point_inside_polygon, line_inside_polygon
 
 
 class MiddleSampler(BasicSquaresSampler):
@@ -22,13 +24,7 @@ class MiddleSampler(BasicSquaresSampler):
 
         for obstacle in obstacles:
             obstacle: Polygon_2 = obstacle.poly
-
-            # Inside the obstacle?
-            if point_inside_polygon(p_x, p_y, obstacle):
-                continue
-
             edges = obstacle.edges()  # each edge is a Segment_2 object.
-
             # Print the coordinates of each edge
             for edge in edges:
                 start: Point_2 = edge.source()
@@ -37,7 +33,7 @@ class MiddleSampler(BasicSquaresSampler):
                 if start.x() <= p_x <= target.x() or target.x() <= p_x <= start.x():
                     y_edge = find_y_coordinate(start, target, p_x, min_y, max_y)
 
-                    if y_edge and p_y <= y_edge[0] <= y_top:  # if y == 0 then conditioning on y returns False.
+                    if y_edge and p_y <= y_edge[0] <= y_top and not line_inside_polygon(p_x, p_y, p_x, y_edge[0], obstacle):  # if y == 0 then conditioning on y returns False.
                         y_top = y_edge[0]
 
         return (y_top + p_y) / 2
@@ -68,6 +64,7 @@ class MiddleSampler(BasicSquaresSampler):
                 x, y = Point_2_to_xy(sample_tag)
 
                 points = [(x, y), (x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length)]
+                random.shuffle(points)
                 for x_p, y_p in points:
                     p = Point_2(FT(x_p), FT(y_p))
                     square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length),

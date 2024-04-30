@@ -37,6 +37,7 @@ class SquaresPrm(Solver):
 
         self.k = k
         samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
+        #samplers = [MiddleSampler()]
         num_prob = [1 / len(samplers)] * len(samplers)
         self.samplers = [CombinedSampler(num_prob, samplers), CombinedSampler(num_prob, samplers)]
         if self.samplers is None:

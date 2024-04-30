@@ -1,3 +1,4 @@
+import random
 
 import numpy as np
 
@@ -54,6 +55,7 @@ class BridgeSampler(BasicSquaresSampler):
                     x = (sample.x() + sample_tag.x()).to_double() / 2
                     y = (sample.y() + sample_tag.y()).to_double() / 2
                     points = [(x, y), (x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length)]
+                    random.shuffle(points)
                     for x_p, y_p in points:
                         p = Point_2(FT(x_p), FT(y_p))
                         square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length), (x_p + robot_length, y_p + robot_length)]

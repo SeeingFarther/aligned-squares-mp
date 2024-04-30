@@ -33,7 +33,7 @@ def run_length_exp_algos(solver: str, sampler: Sampler = None):
                                                 bounding_margin_width_factor=bound, sampler=sampler)
         time, path_len = experiment_wrapper.run()
         print(
-            f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} with {num_landmarks} samples, we have got {time:.3f} seconds and {path_len} path length')
+            f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} with {num_landmarks} samples, we have got {time:.5f} seconds and {path_len} path length')
     return
 
 
@@ -41,7 +41,6 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
              k_values: list[int] = [5, 15, 50],
              num_landmark: int = 1000, bound: FT = 0, delta: int = 0.1, eps: int = 9999,
              prm_num_landmarks: int = 2000):
-
     # Run experiments for each scene
     for scene_path in scenes_path:
         scene_name = scene_path.split('/')[-1].split('.')[0]
@@ -65,13 +64,13 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
 
             time, path_len = experiment_wrapper.run()
             print(
-                f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} we have got {time:.3f} seconds and {path_len} path length')
+                f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} we have got {time:.5f} seconds and {path_len} path length')
     return
 
 
 def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
                          k: int = 15, num_landmarks_values: list[int] = [500, 1000, 5000], bound: FT = 0,
-                         delta: int = 0.1, eps: int = 9999, prm_num_landmarks: int = 2000):
+                         delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000):
     for scene_path in scenes_path:
         scene_name = scene_path.split('/')[-1].split('.')[0]
         with open(scene_path, 'r') as fp:
@@ -94,7 +93,60 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
 
             time, path_len = experiment_wrapper.run()
             print(
-                f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} we have got {time:.3f} seconds and {path_len} path length')
+                f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} we have got {time:.5f} seconds and {path_len} path length')
+    return
+
+
+def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = None, num_experiments: int = 5,
+                 k: int = 15, num_landmark: int = 5000, bound: FT = 0,
+                 delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000):
+
+    # Run experiments for each scene
+    for scene_path in scenes_path:
+        solvers_time_results = {}
+        solvers_length_results = {}
+
+        scene_name = scene_path.split('/')[-1].split('.')[0]
+        with open(scene_path, 'r') as fp:
+            scene = Scene.from_dict(json.load(fp))
+
+        for solver in solvers:
+            if solver == 'PRM' or solver == 'Squares':
+                experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        bounding_margin_width_factor=bound, sampler=sampler)
+            elif solver == 'DRRT':
+                experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        bounding_margin_width_factor=bound, sampler=sampler,
+                                                        prm_num_landmarks=prm_num_landmarks)
+            elif solver == 'StaggeredGrid':
+                experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
+                                                        eps=eps, delta=delta,
+                                                        bounding_margin_width_factor=bound, sampler=sampler)
+
+            time, path_len = experiment_wrapper.run()
+            solvers_length_results[solver] = path_len
+            solvers_time_results[solver] = time
+
+        min_time = 999999
+        for solver, time in solvers_time_results.items():
+            if time != 0 and time < min_time:
+                min_time = time
+
+
+        min_path_len = 999999
+        for solver, path_len in solvers_length_results.items():
+            if path_len != 0 and path_len < min_path_len:
+                min_path_len = path_len
+
+        print("_________________________")
+        print("Results for scene: ", scene_name)
+        print("Times: ", solvers_time_results)
+        print("Path Lengths: ", solvers_length_results)
+        print(
+            f'For {num_experiments} experiments, best time won solver {solver} with {min_time:.5f} seconds, best length won solver {solver} with {min_path_len}  path length')
+        print("_________________________")
     return
 
 
@@ -135,7 +187,8 @@ for root, dirs, files in os.walk("./scenes", topdown=False):
         if file.endswith('.json'):
             scenes.append(os.path.join(root, file))
 
-length_num_landmarks(scenes, 'Squares', None)
+#length_num_landmarks(scenes, 'Squares', None)
+compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
 
 if __name__ == '__main__':
     args = parse_arguments()
