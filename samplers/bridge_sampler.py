@@ -2,10 +2,11 @@
 import numpy as np
 
 from discopygal.bindings import Point_2, FT
+from discopygal.geometry_utils.conversions import Point_2_to_xy
 from discopygal.solvers import Scene
 
 from samplers.basic_sampler import BasicSquaresSampler
-from utils.utils import out_of_bounds, point2_to_floats
+from utils.utils import out_of_bounds
 
 
 class BridgeSampler(BasicSquaresSampler):
@@ -22,7 +23,7 @@ class BridgeSampler(BasicSquaresSampler):
 
     def sample_gauss(self, sample):
         # Sample a point from the gaussian distribution.
-        x, y = point2_to_floats(sample)
+        x, y = Point_2_to_xy(sample)
         cov_matrix = [[self.std_dev_x ** 2, 0], [0, self.std_dev_y ** 2]]
         mean = [x, y]
         s = np.random.multivariate_normal(mean, cov_matrix, size=1)[0]

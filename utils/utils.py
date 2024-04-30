@@ -1,5 +1,6 @@
 import numpy as np
 from discopygal.bindings import *
+from discopygal.geometry_utils.conversions import Point_2_to_xy, Polygon_2_to_array_of_points
 from shapely.geometry import Point, Polygon
 
 
@@ -17,8 +18,8 @@ def find_square_corners(square_length, center_x, center_y):
 def find_x_coordinate(p1: Point_2, p2: Point_2, y: float, min_x: float, max_x: float) -> list[
     float]:
     # Extracting coordinates
-    x1, y1 = point2_to_floats(p1)
-    x2, y2 = point2_to_floats(p2)
+    x1, y1 = Point_2_to_xy(p1)
+    x2, y2 = Point_2_to_xy(p2)
 
     x1_inside = inside_limits_fast(x1, min_x, max_x)
     x2_inside = inside_limits_fast(x2, min_x, max_x)
@@ -54,8 +55,8 @@ def find_x_coordinate(p1: Point_2, p2: Point_2, y: float, min_x: float, max_x: f
 def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: float) -> list[
     float]:
     # Extracting coordinates
-    x1, y1 = point2_to_floats(p1)
-    x2, y2 = point2_to_floats(p2)
+    x1, y1 = Point_2_to_xy(p1)
+    x2, y2 = Point_2_to_xy(p2)
 
     y1_inside = inside_limits_fast(y1, min_y, max_y)
     y2_inside = inside_limits_fast(y2, min_y, max_y)
@@ -198,11 +199,13 @@ def out_of_bounds(x_min, x_max, y_min, y_max, square):
 
 def point_inside_polygon(x, y, poly):
     point = Point(x, y)
-    vertices = []
-    for vertex in poly.vertices():
-        vertices.append((point2_to_floats(vertex)))
+    vertices = Polygon_2_to_array_of_points(poly)
     polygon = Polygon(vertices)
     return polygon.contains(point)
 
-def point2_to_floats(point):
-    return point.x().to_double(), point.y().to_double()
+
+def point2_to_point_d(point2: Point_2):
+    return Point_d(2, [point2.x().to_double(), point2.y().to_double()])
+
+
+

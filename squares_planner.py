@@ -1,5 +1,8 @@
 import json
 import networkx as nx
+import numpy as np
+from discopygal.geometry_utils.bounding_boxes import calc_scene_bounding_box
+from discopygal.geometry_utils.conversions import Point_2_list_to_Point_d, Point_2_to_xy, FT_to_float
 
 from discopygal.solvers.samplers import Sampler
 from discopygal.solvers import Scene
@@ -19,6 +22,7 @@ from utils.path_shortener import PathShortener
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
+from utils.utils import point2_to_point_d
 
 
 class SquaresPrm(Solver):
@@ -32,11 +36,11 @@ class SquaresPrm(Solver):
             exit(-1)
 
         self.k = k
-        num_prob = [0.5, 0.1, 0.4]
         samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
-        self.sampler = CombinedSampler(num_prob, samplers)
-        if self.sampler is None:
-            self.sampler = BasicSquaresSampler()
+        num_prob = [1 / len(samplers)] * len(samplers)
+        self.samplers = [CombinedSampler(num_prob, samplers), CombinedSampler(num_prob, samplers)]
+        if self.samplers is None:
+            self.samplers = [BasicSquaresSampler()] * len(samplers)
 
         metric = 'Euclidean'
         if metric is None or metric == 'Euclidean':
@@ -119,6 +123,13 @@ class SquaresPrm(Solver):
 
         return True
 
+    def is_edge_valid(self, robot, p: Point_2, q: Point_2) -> bool:
+        is_edge_valid = True
+        edge = Segment_2(p, q)
+        if not self.collision_detection[robot].is_edge_valid(edge):
+            is_edge_valid = False
+        return is_edge_valid
+
     def add_edge_func(self, point: Point_2, neighbor: Point_2, graph: nx.Graph):
         """
         Add an edge between two points in the roadmap
@@ -146,9 +157,10 @@ class SquaresPrm(Solver):
         :type scene: :class:`~discopygal.solvers.Scene`
         """
         super().load_scene(scene)
-        self.sampler.set_scene(scene, self._bounding_box)
-        self.sampler.set_num_samples(self.num_landmarks)
-        self.sampler.ready_sampler()
+        for sampler in self.samplers:
+            sampler.set_scene(scene, self._bounding_box)
+            sampler.set_num_samples(self.num_landmarks)
+            sampler.ready_sampler()
 
         # Build collision detection for each robot
         for i, robot in enumerate(scene.robots):
@@ -165,12 +177,44 @@ class SquaresPrm(Solver):
         self.roadmap.add_node(self.start)
         self.roadmap.add_node(self.end)
 
+        self.roadmaps = [nx.Graph()] * len(self.samplers)
+        self.starts = []
+        self.ends = []
+        for i, robot in enumerate(scene.robots):
+            self.starts.append(robot.start)
+            self.ends.append(robot.end)
+            self.roadmaps[i].add_node(robot.start)
+            self.roadmaps[i].add_node(robot.end)
+
         # Add valid points
-        #for i, robot in enumerate(scene.robots):
+        nearest_neighbors = NearestNeighbors_sklearn()
+        min_x, max_x, min_y,max_y = self._bounding_box or calc_scene_bounding_box(self.scene)
+        min_x, max_x, min_y, max_y = FT_to_float(min_x), FT_to_float(max_x), FT_to_float(min_y), FT_to_float(max_y)
         for j in range(self.num_landmarks):
-            p = self.sampler.sample_free(0)
-            p2 = self.sampler.sample_free(1)
-            p_rand = conversions.Point_2_list_to_Point_d([p, p2])
+            p_rand = []
+            for i, robot in enumerate(scene.robots):
+                p_rand.append(self.samplers[i].sample_free(i))
+                nearest_neighbors.fit(list(self.roadmaps[i].nodes))
+                point = p_rand[i]
+                neighbor = nearest_neighbors.k_nearest(point, 1)[0]
+                n_x, n_y = Point_2_to_xy(neighbor)
+                p_x, p_y = Point_2_to_xy(point)
+                reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
+                reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
+                self.samplers[i].update_probs(reward)
+
+        for j in range(self.num_landmarks):
+
+            p_rand = []
+            for i, robot in enumerate(scene.robots):
+                p_rand.append(self.samplers[i].sample_free(i))
+                # nearest_neighbors.fit(list(self.roadmaps[i].nodes))
+                # point = p_rand[i]
+                # neighbors = nearest_neighbors.k_nearest(point, 1)[0]
+                # reward = self.metric.dist(point, neighbors).to_double()
+                # self.samplers[i].update_probs(reward)
+
+            p_rand = conversions.Point_2_list_to_Point_d(p_rand)
 
             self.roadmap.add_node(p_rand)
             if j % 100 == 0 and self.verbose:
@@ -202,8 +246,9 @@ class SquaresPrm(Solver):
                     self.add_edge_func(middle_point_coords, neighbor, G)
                     self.add_edge_func(point, middle_point_coords, G)
 
-                elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(second_middle_point_coords,
-                                                                                                point):
+                elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
+                        second_middle_point_coords,
+                        point):
                     G.add_node(second_middle_point_coords)
                     self.add_edge_func(second_middle_point_coords, neighbor, G)
                     self.add_edge_func(point, second_middle_point_coords, G)

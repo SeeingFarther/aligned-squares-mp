@@ -42,7 +42,7 @@ class CombinedSampler(BasicSquaresSampler):
             sampler.set_num_samples(num_samples)
         return
 
-    def update_probs(self, sampler_index, reward, learning_rate=0.1):
+    def update_probs(self, reward, learning_rate=0.001):
         # Update probabilities using reward-based learning
-        self.probs[sampler_index] += learning_rate * reward
+        self.probs[self.sampler_index] += learning_rate * reward
         self.probs /= np.sum(self.probs)  # Normalize probabilities to sum to 1

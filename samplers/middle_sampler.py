@@ -1,8 +1,9 @@
 from discopygal.bindings import Point_2, FT, Polygon_2
+from discopygal.geometry_utils.conversions import Point_2_to_xy
 from discopygal.solvers import Scene
 
 from samplers.basic_sampler import BasicSquaresSampler
-from utils.utils import out_of_bounds, find_y_coordinate, point2_to_floats, point_inside_polygon
+from utils.utils import out_of_bounds, find_y_coordinate, point_inside_polygon
 
 
 class MiddleSampler(BasicSquaresSampler):
@@ -16,7 +17,7 @@ class MiddleSampler(BasicSquaresSampler):
         self.set_scene(scene)
 
     def compute_middle_point(self, point: Point_2, min_y: float, max_y: float, obstacles) -> float:
-        p_x, p_y = point2_to_floats(point)
+        p_x, p_y = Point_2_to_xy(point)
         y_top = max_y
 
         for obstacle in obstacles:
@@ -64,7 +65,7 @@ class MiddleSampler(BasicSquaresSampler):
 
             sample_tag = self.find_middle(sample)
             if self.collision_detection[robot].is_point_valid(sample_tag):
-                x, y = point2_to_floats(sample_tag)
+                x, y = Point_2_to_xy(sample_tag)
 
                 points = [(x, y), (x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length)]
                 for x_p, y_p in points:

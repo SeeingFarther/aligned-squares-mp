@@ -9,7 +9,7 @@ from discopygal.bindings import FT, Point_2
 from benchmarks.drrt import BasicDRRTForExperiments
 from benchmarks.prm import BasicPrmForExperiments
 from benchmarks.staggered_grid import BasicsStaggeredGridForExperiments
-from squares_planner import SquareMotionPlanner
+from squares_planner import SquaresPrm as SquareMotionPlanner
 
 
 class ExperimentsWrapper:
