@@ -28,7 +28,7 @@ class CombinedSampler(BasicSquaresSampler):
         self.num_sample = 0
         self.sampler_index = 0
         self.samplers = samplers
-        self.probs = probs
+        self.init_probs = probs
 
     def set_scene(self, scene: Scene, bounding_box=None):
         """
@@ -46,6 +46,8 @@ class CombinedSampler(BasicSquaresSampler):
         for sampler in self.samplers:
             sampler.set_scene(scene, bounding_box)
 
+        self.probs = [self.init_probs] * len(self.robots)
+
     def sample_free(self, robot_index: int):
         """
         Sample a free point in the scene using the combined sampler.
@@ -59,18 +61,18 @@ class CombinedSampler(BasicSquaresSampler):
 
         # Choose a sampler based on the probabilities
         indexes = list(range(len(self.samplers)))
-        self.sampler_index = random.choices(indexes, self.probs, k=1)[0]
+        self.sampler_index = random.choices(indexes, self.probs[robot_index], k=1)[0]
 
         # Sample a point from the chosen sampler
         return self.samplers[self.sampler_index].sample_free(robot_index)
 
-    def set_probs(self, probs: list[int]):
+    def set_init_probs(self, probs: list[int]):
         """
         Set the probabilities for each sampler.
         :param probs:
         :type probs: list
         """
-        self.probs = probs
+        self.init_probs = probs
 
     def ready_sampler(self):
         """
@@ -91,9 +93,11 @@ class CombinedSampler(BasicSquaresSampler):
             sampler.set_num_samples(num_samples)
         return
 
-    def update_probs(self, reward: float, learning_rate: float = 0.001):
+    def update_probs(self, robot_index: int, reward: float, learning_rate: float = 0.001):
         """
         Update the probabilities of the samplers based on the reward.
+        :param robot_index:
+        :type robot_index: int
         :param reward:
         :type reward: float
         :param learning_rate:
@@ -101,5 +105,5 @@ class CombinedSampler(BasicSquaresSampler):
         :return:
         """
         # Update probabilities using reward-based learning
-        self.probs[self.sampler_index] += learning_rate * reward
-        self.probs /= np.sum(self.probs)  # Normalize probabilities to sum to 1
+        self.probs[robot_index][self.sampler_index] += learning_rate * reward
+        self.probs[robot_index] /= np.sum(self.probs[robot_index])  # Normalize probabilities to sum to 1

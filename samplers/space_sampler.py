@@ -7,6 +7,7 @@ from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.bindings import FT, Point_2
 
 from samplers.basic_sampler import BasicSquaresSampler
+from utils.utils import out_of_bounds
 
 
 class SpaceSampler(BasicSquaresSampler):
@@ -104,6 +105,10 @@ class SpaceSampler(BasicSquaresSampler):
                     # Check if point is valid for robot
                     for x_p, y_p in points:
                         sample = Point_2(FT(x_p), FT(y_p))
+                        square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length), (x_p + robot_length, y_p + robot_length)]
+                        if out_of_bounds(self.min_x,self.max_x, self.min_y, self.max_y, square):
+                            continue
+
                         if self.collision_detection[self.robots[k]].is_point_valid(sample):
                             self.list_of_samples_robots[k].append(sample)
                             break

@@ -76,6 +76,71 @@ def find_x_coordinate(p1: Point_2, p2: Point_2, y: float, min_x: float, max_x: f
     return []
 
 
+def find_x_coordinate_minimal(p1: Point_2, p2: Point_2, y: float) -> float:
+    """
+    Find the minimal x-coordinate of the intersection of the line between p1 and p2 with the y-coordinate
+    :param p1:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param p2:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param y:
+    :type y: float
+
+    :return: x coordinate of the intersection if we run vertical line from y to the edge
+    :rtype: float
+    """
+    # Extracting coordinates
+    x1, y1 = Point_2_to_xy(p1)
+    x2, y2 = Point_2_to_xy(p2)
+
+    if y1 == y2:
+        return min(x1, x2)
+
+    # Calculate the slope (m)
+    if x2 != x1:  # Horizontal
+        m = (y2 - y1) / (x2 - x1)
+    else:
+        return x1
+
+    # Calculate the y-intercept (b)
+    b = y1 - m * x1
+
+    # Calculate x-coordinate for the given x-coordinate
+    x_edge = (y - b) / m
+    return x_edge
+
+
+def find_y_coordinate_minimal(p1: Point_2, p2: Point_2, x: float) -> float:
+    """
+    Find the y-coordinate of the intersection of the line between p1 and p2 with the x-coordinate
+    :param p1:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param p2:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param x:
+    :type x: float
+
+    :return: l y coordinate of the intersection if we run horizontal line from x to the edge
+    :rtype: list
+    """
+    # Extracting coordinates
+    x1, y1 = Point_2_to_xy(p1)
+    x2, y2 = Point_2_to_xy(p2)
+
+    # Calculate the slope (m)
+    if x2 != x1:  # Vertical
+        m = (y2 - y1) / (x2 - x1)
+    else:
+        return min(y1, y2)
+
+    # Calculate the y-intercept (b)
+    b = y1 - m * x1
+
+    # Calculate y-coordinate for the given x-coordinate
+    y_edge = m * x + b
+    return y_edge
+
+
 def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: float) -> list[
     float]:
     """
@@ -208,7 +273,7 @@ def euclidean_distance_1d(point1: float, point2: float) -> float:
     return distance
 
 
-def inside_limits(x: float, value1:float, value2: float) -> bool:
+def inside_limits(x: float, value1: float, value2: float) -> bool:
     """
     Check if x is inside the limits of value1 and value2
     :param x:
@@ -310,7 +375,7 @@ def get_square_coordinates(square):
     return x1, y1, x2, y2
 
 
-def point_inside_square(point: tuple, square: list)-> bool:
+def point_inside_square(point: tuple, square: list) -> bool:
     """
     Check if a point is inside a square
     :param point:

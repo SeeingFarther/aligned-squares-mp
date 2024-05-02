@@ -51,13 +51,11 @@ class SquaresPrm(Solver):
             print('Error: Number of K bigger than number of landmarks')
             exit(-1)
 
-
         # Set samplers
-        samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
-        #samplers = [MiddleSampler()]
+        #samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
+        samplers = [MiddleSampler(y_axis=True), MiddleSampler(y_axis=True)]
         num_prob = [1 / len(samplers)] * len(samplers)
         self.combined_sampler = CombinedSampler(num_prob, samplers)
-
 
         # Choose metric for nearest neighbors
         metric = 'Euclidean'
@@ -237,7 +235,7 @@ class SquaresPrm(Solver):
 
         # Add valid points
         nearest_neighbors = NearestNeighbors_sklearn()
-        min_x, max_x, min_y,max_y = self._bounding_box or calc_scene_bounding_box(self.scene)
+        min_x, max_x, min_y, max_y = self._bounding_box or calc_scene_bounding_box(self.scene)
         min_x, max_x, min_y, max_y = FT_to_float(min_x), FT_to_float(max_x), FT_to_float(min_y), FT_to_float(max_y)
         for j in range(self.num_landmarks):
             p_rand = []
@@ -250,26 +248,19 @@ class SquaresPrm(Solver):
                 p_x, p_y = Point_2_to_xy(point)
                 reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
                 reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
-                self.combined_sampler.update_probs(reward)
+                self.combined_sampler.update_probs(i, reward)
                 self.roadmaps[i].add_node(point)
 
         sampler = PairSampler()
         sampler.set_scene(scene, self._bounding_box)
-        landmarks = int(0.2 * self.num_landmarks)
+        landmarks = int(0.0 * self.num_landmarks)
         sampler.set_num_samples(landmarks)
         sampler.ready_sampler()
 
         for j in range(self.num_landmarks - landmarks):
-
             p_rand = []
             for i, robot in enumerate(scene.robots):
                 p_rand.append(self.combined_sampler.sample_free(i))
-                # nearest_neighbors.fit(list(self.roadmaps[i].nodes))
-                # point = p_rand[i]
-                # neighbors = nearest_neighbors.k_nearest(point, 1)[0]
-                # reward = self.metric.dist(point, neighbors).to_double()
-                # self.samplers[i].update_probs(reward)
-
             p_rand = conversions.Point_2_list_to_Point_d(p_rand)
 
             self.roadmap.add_node(p_rand)
@@ -279,7 +270,6 @@ class SquaresPrm(Solver):
         for j in range(landmarks):
             p_rand = (sampler.sample_free())
             self.roadmap.add_node(p_rand)
-
 
         self.nearest_neighbors.fit(list(self.roadmap.nodes))
 
@@ -300,19 +290,19 @@ class SquaresPrm(Solver):
                     # Add edge to graph
                     self.add_edge_func(point, neighbor, G)
 
-                # Try 3 Phase movement instead
-                elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
-                                                                                                point):
-                    G.add_node(middle_point_coords)
-                    self.add_edge_func(middle_point_coords, neighbor, G)
-                    self.add_edge_func(point, middle_point_coords, G)
-
-                elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
-                        second_middle_point_coords,
-                        point):
-                    G.add_node(second_middle_point_coords)
-                    self.add_edge_func(second_middle_point_coords, neighbor, G)
-                    self.add_edge_func(point, second_middle_point_coords, G)
+                # # Try 3 Phase movement instead
+                # elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
+                #                                                                                 point):
+                #     G.add_node(middle_point_coords)
+                #     self.add_edge_func(middle_point_coords, neighbor, G)
+                #     self.add_edge_func(point, middle_point_coords, G)
+                #
+                # elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
+                #         second_middle_point_coords,
+                #         point):
+                #     G.add_node(second_middle_point_coords)
+                #     self.add_edge_func(second_middle_point_coords, neighbor, G)
+                #     self.add_edge_func(point, second_middle_point_coords, G)
 
             if cnt % 100 == 0 and self.verbose:
                 print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
