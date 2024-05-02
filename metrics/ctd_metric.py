@@ -10,7 +10,7 @@ class MetricNotImplemented(Exception):
 
 class Metric_CTD(Metric):
     """
-    Implementation of the Euclidean metric for nearest neighbors search
+    Implementation of the CTD metric for nearest neighbors search
     """
 
     @staticmethod
@@ -84,9 +84,12 @@ class Metric_CTD(Metric):
             raise MetricNotImplemented('p,q should be same dimension or Not even dimension')
 
     @staticmethod
-    def sklearn_impl():
+    def sklearn_impl() -> sklearn.metrics.DistanceMetric:
         """
         Return the metric as sklearn metric object.
+
+        :return: metric object
+        :rtype: :class:`~sklearn.metrics.DistanceMetric`
         """
         # Implementation specific to scikit-learn
         return sklearn.metrics.DistanceMetric.get_metric(metric='pyfunc', func=Metric_CTD.float_dist)

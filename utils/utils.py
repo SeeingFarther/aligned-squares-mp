@@ -1,12 +1,20 @@
 import numpy as np
-from discopygal.bindings import *
-from discopygal.geometry_utils.conversions import Point_2_to_xy, Polygon_2_to_array_of_points
 from shapely.geometry import Point, Polygon, LineString
 
+from discopygal.bindings import *
+from discopygal.geometry_utils.conversions import Point_2_to_xy, Polygon_2_to_array_of_points
 
-def find_square_corners(square_length, center_x, center_y):
+
+def find_square_corners(square_length: float, center_x: float, center_y: float) -> list[list]:
     """
-    Find the corners of square using is center
+    Find the corners of square using it center
+    :param square_length:
+    :type square_length: float
+    :param center_x:
+    :type center_x: float
+    :param center_y:
+    :type center_y: float
+
     :return list of square corners:
     :rtype list:
     """
@@ -17,6 +25,22 @@ def find_square_corners(square_length, center_x, center_y):
 
 def find_x_coordinate(p1: Point_2, p2: Point_2, y: float, min_x: float, max_x: float) -> list[
     float]:
+    """
+    Find the x-coordinate of the intersection of the line between p1 and p2 with the y-coordinate
+    :param p1:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param p2:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param y:
+    :type y: float
+    :param min_x:
+    :type min_x: float
+    :param max_x:
+    :type max_x: float
+
+    :return: list of x-coordinates
+    :rtype: list
+    """
     # Extracting coordinates
     x1, y1 = Point_2_to_xy(p1)
     x2, y2 = Point_2_to_xy(p2)
@@ -54,6 +78,22 @@ def find_x_coordinate(p1: Point_2, p2: Point_2, y: float, min_x: float, max_x: f
 
 def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: float) -> list[
     float]:
+    """
+    Find the y-coordinate of the intersection of the line between p1 and p2 with the x-coordinate
+    :param p1:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param p2:
+    :type :class:`~discopygal.bindings.Point_2`
+    :param x:
+    :type x: float
+    :param min_y:
+    :type min_y: float
+    :param max_y:
+    :type max_y: float
+
+    :return: list of y-coordinates
+    :rtype: list
+    """
     # Extracting coordinates
     x1, y1 = Point_2_to_xy(p1)
     x2, y2 = Point_2_to_xy(p2)
@@ -89,6 +129,20 @@ def find_y_coordinate(p1: Point_2, p2: Point_2, x: float, min_y: float, max_y: f
 
 
 def compute_y_intersections(p_x: float, min_y: float, max_y: float, obstacles) -> list:
+    """
+    Compute the y-intersections of a vertical line with the obstacles
+    :param p_x:
+    :type :class:`~discopygal.bindings.FT`
+    :param min_y:
+    :type min_y: float
+    :param max_y:
+    :type max_y: float
+    :param obstacles:
+    :type obstacles: list[:class:`~discopygal.bindings.Obstacle`]
+
+    :return: list of y-intersections
+    :rtype: list
+    """
     y_intersections = []
 
     for obstacle in obstacles:
@@ -107,6 +161,20 @@ def compute_y_intersections(p_x: float, min_y: float, max_y: float, obstacles) -
 
 
 def compute_x_intersections(p_y: float, min_x: float, max_x: float, obstacles) -> list:
+    """
+    Compute the x-intersections of a horizontal line with the obstacles
+    :param p_y:
+    :type p_y: float
+    :param min_x:
+    :type min_x: float
+    :param max_x:
+    :type max_x: float
+    :param obstacles:
+    :type obstacles: list[:class:`~discopygal.bindings.Obstacle`]
+
+    :return: list of x-intersections
+    :rtype: list
+    """
     x_intersections = []
 
     for obstacle in obstacles:
@@ -124,23 +192,65 @@ def compute_x_intersections(p_y: float, min_x: float, max_x: float, obstacles) -
     return x_intersections
 
 
-def euclidean_distance_1d(point1, point2):
+def euclidean_distance_1d(point1: float, point2: float) -> float:
+    """
+    Compute the euclidean distance between two points in 1D
+    :param point1:
+    :type point1: float
+    :param point2:
+    :type point2: float
+
+    :return: distance
+    :rtype: float
+    """
     # Compute absolute difference between coordinates
     distance = abs(point2 - point1)
     return distance
 
 
-def inside_limits(x, value1, value2):
+def inside_limits(x: float, value1:float, value2: float) -> bool:
+    """
+    Check if x is inside the limits of value1 and value2
+    :param x:
+    :type x: float
+    :param value1:
+    :type value1: float
+    :param value2:
+    :type value2: float
+
+    :return: True if x is inside the limits, False otherwise
+    :rtype: bool
+    """
     min_value = min(value1, value2)
     max_value = max(value1, value2)
     return min_value <= x <= max_value
 
 
-def inside_limits_fast(x, min_value, max_value):
+def inside_limits_fast(x: float, min_value: float, max_value: float) -> bool:
+    """
+    Check if x is inside the limits of min_value and max_value
+    :param x:
+    :type x: float
+    :param min_value:
+    :type min_value: float
+    :param max_value:
+    :type max_value: float
+
+    :return: True if x is inside the limits, False otherwise
+    :rtype: bool
+    """
     return min_value <= x <= max_value
 
 
-def find_max_value_coordinates(arr):
+def find_max_value_coordinates(arr: list) -> tuple:
+    """
+    Find the coordinates of the max value in the array
+    :param arr:
+    :type arr: list
+
+    :return: tuple of index and value
+    :rtype: tuple
+    """
     # return the index of the max cell in the array
     arr = np.array(arr)
     max_index = np.unravel_index(np.argmax(arr, axis=None), arr.shape)
@@ -149,6 +259,22 @@ def find_max_value_coordinates(arr):
 
 def get_point_d(robot_idx_to_shorten: int, prev_next_idx_to_shorten: int, prev_joint_point: Point_d,
                 orig_curr_joint_point: Point_d, next_joint_point: Point_d) -> Point_d:
+    """
+    Get the point_d for the robot to shorten
+    :param robot_idx_to_shorten:
+    :type robot_idx_to_shorten: int
+    :param prev_next_idx_to_shorten:
+    :type prev_next_idx_to_shorten: int
+    :param prev_joint_point:
+    :type prev_joint_point: Point_d
+    :param orig_curr_joint_point
+    :type orig_curr_joint_point: Point_d
+    :param next_joint_point:
+    :type next_joint_point: Point_d
+
+    :return: Point_d
+    :rtype: Point_d
+    """
     result = [0, 0, 0, 0]
     new_point = prev_joint_point if prev_next_idx_to_shorten == 0 else next_joint_point
     result[robot_idx_to_shorten * 2] = new_point[robot_idx_to_shorten * 2]
@@ -159,7 +285,17 @@ def get_point_d(robot_idx_to_shorten: int, prev_next_idx_to_shorten: int, prev_j
     return Point_d(4, result)
 
 
-def get_robot_point_by_idx(point_d: Point_d, robot_idx: int):
+def get_robot_point_by_idx(point_d: Point_d, robot_idx: int) -> Point_2:
+    """
+    Get the point of the robot by index
+    :param point_d:
+    :type point_d: Point_d
+    :param robot_idx:
+    :type robot_idx: int
+
+    :return: Point_2 of the robot corresponding to the index
+    :rtype: Point_2
+    """
     # utility function to get point in array
     return Point_2(point_d[robot_idx * 2], point_d[robot_idx * 2 + 1])
 
@@ -174,13 +310,33 @@ def get_square_coordinates(square):
     return x1, y1, x2, y2
 
 
-def point_inside_square(point, square):
+def point_inside_square(point: tuple, square: list)-> bool:
+    """
+    Check if a point is inside a square
+    :param point:
+    :type point: tuple
+    :param square:
+    :type square: list
+
+    :return: True if the point is inside the square, False otherwise
+    :rtype: bool
+    """
     x, y = point
     x1, y1, x2, y2 = get_square_coordinates(square)
     return x1 < x < x2 and y1 < y < y2
 
 
-def squares_overlap(square1, square2):
+def squares_overlap(square1: list, square2: list) -> bool:
+    """
+    Check if two squares overlap
+    :param square1:
+    :type square1: list
+    :param square2:
+    :type square2: list
+
+    :return: True if the squares overlap, False otherwise
+    :rtype: bool
+    """
     for point in square1:
         if point_inside_square(point, square2):
             return True
@@ -190,21 +346,66 @@ def squares_overlap(square1, square2):
     return False
 
 
-def out_of_bounds(x_min, x_max, y_min, y_max, square):
+def out_of_bounds(x_min: float, x_max: float, y_min: float, y_max: float, square: list) -> bool:
+    """
+    Check if a square is out of bounds
+    :param x_min:
+    :type x_min: float
+    :param x_max:
+    :type x_max: float
+    :param y_min:
+    :type y_min: float
+    :param y_max:
+    :type y_max: float
+    :param square:
+    :type square: list
+
+    :return: True if the square is out of bounds, False otherwise
+    :rtype: bool
+    """
     x1, y1, x2, y2 = get_square_coordinates(square)
     if x1 < x_min or x2 > x_max or y1 < y_min or y2 > y_max:
         return True
     return False
 
 
-def point_inside_polygon(x, y, poly):
+def point_inside_polygon(x: float, y: float, poly: Polygon_2) -> bool:
+    """
+    Check if a point is inside a polygon
+    :param x:
+    :type x: float
+    :param y:
+    :type y: float
+    :param poly:
+    :type poly: Polygon_2
+
+    :return: True if the point is inside the polygon, False otherwise
+    :rtype: bool
+    """
+
     point = Point(x, y)
     vertices = Polygon_2_to_array_of_points(poly)
     polygon = Polygon(vertices)
     return polygon.contains(point)
 
 
-def line_inside_polygon(x1, y1, x2, y2, poly):
+def line_inside_polygon(x1: float, y1: float, x2: float, y2: float, poly: Polygon_2) -> bool:
+    """
+    Check if a line is inside a polygon
+    :param x1:
+    :type x1: float
+    :param y1:
+    :type y1: float
+    :param x2:
+    :type x2: float
+    :param y2:
+    :type y2: float
+    :param poly:
+    :type poly: Polygon_2
+
+    :return: check if the line is inside the polygon
+    :rtype: bool
+    """
     line = LineString([[x1, y1], [x2, y2]])
     vertices = Polygon_2_to_array_of_points(poly)
     polygon = Polygon(vertices)
@@ -213,5 +414,14 @@ def line_inside_polygon(x1, y1, x2, y2, poly):
     return True
 
 
-def point2_to_point_d(point2: Point_2):
+def point2_to_point_d(point2: Point_2) -> Point_d:
+    """
+    Convert a Point_2 to a Point_d
+    :param point2:
+    :type point2: Point_2
+
+    :return: Point_d
+    :rtype: Point_d
+    """
+
     return Point_d(2, [point2.x().to_double(), point2.y().to_double()])

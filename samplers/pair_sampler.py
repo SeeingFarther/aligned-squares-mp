@@ -10,24 +10,33 @@ from utils.utils import squares_overlap, find_square_corners, compute_y_intersec
 
 class PairSampler(BasicSquaresSampler):
     def __init__(self, scene: Scene = None):
+        """
+        Constructor for the MiddleSampler.
+
+        :param scene:
+        :type scene: :class:`~discopygal.solvers.Scene`
+        """
+
         super().__init__(scene)
 
         if scene is None:
             return
 
+        # Same length for both robots? different algorithm
         self.sample_free = self.sample_free_identical if self.robot_lengths[0] == self.robot_lengths[
             1] else self.sample_free_unidentical
 
-    def set_scene(self, scene, bounding_box=None):
+    def set_scene(self, scene: Scene, bounding_box=None):
         """
         Set the scene the sampler should use.
         Can be overridded to add additional processing.
 
         :param bounding_box:
-        :param num_samples:
+        :type :class:`~discopygal.Bounding_Box
         :param scene: a scene to sample in
         :type scene: :class:`~discopygal.solvers.Scene`
         """
+
         super().set_scene(scene)
         self.sample_free = self.sample_free_identical if self.robot_lengths[0] == self.robot_lengths[
             1] else self.sample_free_unidentical
@@ -35,12 +44,18 @@ class PairSampler(BasicSquaresSampler):
     def sample_free(self) -> Point_d:
         """
         Sample a free random sample for both robot 1 and robot 2 combined
+
+        :return: sample
+        :rtype: :class:`~discopygal.bindings.Point_d`
         """
         return self.sample_free()
 
     def sample_free_identical(self) -> Point_d:
         """
         Sample a free random sample for both robot 1 and robot 2 combined for robots with equal edge size
+
+        :return: sample for two identical robots
+        :rtype: :class:`~discopygal.bindings.Point_d`
         """
         # Sampling Combined
         p_rand = []
@@ -48,16 +63,15 @@ class PairSampler(BasicSquaresSampler):
         while len(free_positions) < 2:
             sample = self.sample()
 
-            # sample = Point_2(FT(0.0), FT(-1.0))
-            free_positions = self.find_trivial_positions(sample, 0)
+            # Try to find trivial position we can position both squares in the sampled point.
+            free_positions = self.find_trivial_positions(sample)
 
+            # If we can't find trivial positions, try to find non-trivial positions
             if len(free_positions) < 2:
-                free_positions = self.find_non_trivial_x_positions(sample, 0)
+                free_positions = self.find_non_trivial_x_positions(sample)
+                free_positions += self.find_non_trivial_y_positions(sample)
 
-            if len(free_positions) < 2:
-                free_positions = self.find_non_trivial_y_positions(sample, 0)
-
-        # Choose free positions randomly
+        # Choose two free positions randomly
         i = random.randint(0, len(free_positions) - 1)
         j = i
         while j == i:
@@ -71,10 +85,12 @@ class PairSampler(BasicSquaresSampler):
     def sample_free_unidentical(self) -> Point_d:
         """
         Sample a free random sample for both robot 1 and robot 2 combined for robots with different edge size
+
+        :return: sample for two non-identical robots
+        :rtype: :class:`~discopygal.bindings.Point_d`
         """
         # Sampling Combined
         p_rand = []
-
         while not p_rand:
             sample = self.sample()
 
@@ -88,19 +104,28 @@ class PairSampler(BasicSquaresSampler):
             free_positions_robot1 += self.find_non_trivial_x_positions(sample, 1)
             free_positions_robot1 += self.find_non_trivial_y_positions(sample, 1)
 
+            # Create combined free positions for both robots
             for i, robot0_position in enumerate(free_positions_robot0):
                 for j, robot1_position in enumerate(free_positions_robot1):
                     if self.robots_overlap(robot0_position, robot1_position):
                         continue
                     p_rand.append([robot0_position, robot1_position])
 
+        # Choose a random pair of free positions
         i = random.randint(0, len(p_rand) - 1)
         p_rand = conversions.Point_2_list_to_Point_d(p_rand[i])
         return p_rand
 
-    def robots_overlap(self, robot0, robot1):
+    def robots_overlap(self, robot0: Point_2, robot1: Point_2) -> bool:
         """
-        Check if two squares overlap
+        Check if two squares robots overlap
+        :param robot0: position of robot 0
+        :type robot0: :class:`~discopygal.bindings.Point_2`
+        :param robot1: position of robot 1
+        :type robot1: :class:`~discopygal.bindings.Point_2`
+
+        :return: True if the robots overlap, False otherwise
+        :rtype: bool
         """
         # Find robot 0 limits
         min_y = robot0.y().to_double()
@@ -119,14 +144,15 @@ class PairSampler(BasicSquaresSampler):
         # Check if squares overlap
         return squares_overlap(square0, square1)
 
-    def find_trivial_positions(self, square_center, robot_index: int) -> list:
+    def find_trivial_positions(self, square_center: Point_2, robot_index: int = 0) -> list:
         """
         Find the free positions the robot can be placed inside the square
+
         :return list of free trivial positions for robot inside the square:
         :rtype list:
         """
 
-        # Find corners
+        # Find corners of the square robot with edge length of sum of both robots lengths
         center_x = square_center.x().to_double()
         center_y = square_center.y().to_double()
         corners = find_square_corners(self.square_length, center_x, center_y)
@@ -145,14 +171,15 @@ class PairSampler(BasicSquaresSampler):
 
         return free_positions
 
-    def find_non_trivial_y_positions(self, square_center: Point_2, robot_index: int) -> list:
+    def find_non_trivial_y_positions(self, square_center: Point_2, robot_index: int = 0) -> list:
         """
         Find the free positions the robot can be placed inside the square
+
         :return list of free trivial positions for robot inside the square:
         :rtype list:
         """
 
-        # Find corners
+        # Get square center
         center_x = square_center.x().to_double()
         center_y = square_center.y().to_double()
 
@@ -163,7 +190,7 @@ class PairSampler(BasicSquaresSampler):
         min_x = center_x - diff
         max_x = center_x + diff
 
-        # Find positions inside the square that are collision free
+        # Find positions inside the square that are collision free and not trivial
         diff = self.robot_lengths[robot_index] * 0.5
         free_positions = []
         x = min_x + diff
@@ -180,7 +207,7 @@ class PairSampler(BasicSquaresSampler):
 
         return free_positions
 
-    def find_non_trivial_x_positions(self, square_center: Point_2, robot_index: int):
+    def find_non_trivial_x_positions(self, square_center: Point_2, robot_index: int = 0):
         # Find corners
         center_x = square_center.x().to_double()
         center_y = square_center.y().to_double()

@@ -1,12 +1,23 @@
 from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection
+from discopygal.solvers import Scene
 from discopygal.solvers.metrics import Metric_Euclidean
+
 from .utils import euclidean_distance_1d
 
 
 class GapPositionFinder:
+    """
+    Find gap positions in a scene
+    """
 
-    def __init__(self, scene):
+    def __init__(self, scene: Scene):
+        """
+        Constructor
+
+        :param scene:
+        :type scene: :class:`~discopygal.solvers.Scene`
+        """
 
         self.robot_lengths = [0, 0]
         self.robots = []
@@ -23,7 +34,20 @@ class GapPositionFinder:
                 self.robot_lengths[i] = Metric_Euclidean.dist(e.source(), e.target()).to_double()
                 break
 
-    def find_gap_positions_y(self, x, y_intersections, robot_index):
+    def find_gap_positions_y(self, x: float, y_intersections: list, robot_index: int) -> list:
+        """
+        Find the gap positions in the y-axis incase obstacles are present inside
+        the square at the length of sum of the robot lengths
+        :param x:
+        :type x: float
+        :param y_intersections:
+        :type y_intersections: list
+        :param robot_index:
+        :type robot_index: int
+
+        :return: list of free positions
+        :rtype: list
+        """
         free_positions = []
         y_intersections.sort()
         length = len(y_intersections)
@@ -51,7 +75,21 @@ class GapPositionFinder:
 
         return free_positions
 
-    def find_gap_positions_x(self, y, x_intersections, robot_index):
+    def find_gap_positions_x(self, y: float, x_intersections: list, robot_index: int) -> list:
+        """
+        Find the gap positions in the x-axis incase obstacles are present inside the square at the length of sum of
+        the robot lengths
+        :param y:
+        :type y: float
+        :param x_intersections:
+        :type x_intersections: list
+        :param robot_index:
+        :type robot_index: int
+
+        :return: list of free positions
+        :rtype: list
+        """
+
         free_positions = []
         x_intersections.sort()
         length = len(x_intersections)

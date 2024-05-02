@@ -12,8 +12,21 @@ from utils.gap_position_finder import GapPositionFinder
 
 
 class BasicSquaresSampler(Sampler):
+    """
+    Basic sampler for sampling squares in a scene
+    """
     def __init__(self, scene: Scene, metric: Metric = None, graph: networkx.Graph = None):
-        # Init
+        """
+        Constructor
+        :param scene:
+        :type scene: :class:`~discopygal.solvers.Scene`
+        :param metric:
+        :type metric: :class:`~discopygal.solvers.metrics.Metric`
+        :param graph:
+        :type graph: :class:`~networkx.Graph`
+        """
+
+        # Initialize the sampler
         super().__init__(scene)
         self.gap_finder = None
         self.square_length = None
@@ -27,13 +40,13 @@ class BasicSquaresSampler(Sampler):
 
         self.set_scene(scene)
 
-    def set_scene(self, scene,  bounding_box = None):
+    def set_scene(self, scene: Scene,  bounding_box = None):
         """
         Set the scene the sampler should use.
         Can be overridded to add additional processing.
 
         :param bounding_box:
-        :param num_samples:
+        :type :class:`~discopygal.Bounding_Box
         :param scene: a scene to sample in
         :type scene: :class:`~discopygal.solvers.Scene`
         """
@@ -67,12 +80,20 @@ class BasicSquaresSampler(Sampler):
         self.min_x, self.max_x, self.min_y, self.max_y = min_x, max_x, min_y, max_y
 
     def set_num_samples(self, num_samples: int):
+        """
+        Set the number of samples to generate
+        :param num_samples:
+        :type num_samples: int
+        """
         pass
 
     def ready_sampler(self):
+        """
+        Prepare the sampler for sampling
+        """
         pass
 
-    def sample(self):
+    def sample(self) -> Point_2:
         """
         Return a sample in the space (might be invalid)
 

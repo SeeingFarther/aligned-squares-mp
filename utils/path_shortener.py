@@ -7,7 +7,18 @@ from utils.utils import get_robot_point_by_idx, get_point_d, find_max_value_coor
 
 
 class PathShortener:
+    """
+    Shorten the path by removing unnecessary points from the path
+    """
     def __init__(self, scene: Scene, metric: Metric):
+        """
+        Constructor
+
+        :param scene:
+        :type scene: :class:`~discopygal.solvers.Scene`
+        :param metric:
+        :type metric: :class:`~discopygal.solvers.metrics.Metric`
+        """
         self.robots = scene.robots
         self.scene = scene
         self.metric = metric
@@ -17,10 +28,30 @@ class PathShortener:
             self.collision_detection[robot] = collision_detection.ObjectCollisionDetection(scene.obstacles, robot)
 
     def single_robot_collision_free(self, robot, point, neighbor):
+        """
+        Check if the edge between the point and the neighbor is collision free for the robot
+        :param robot:
+        :type robot: :class:`Robot`
+        :param point:
+        :type point: :class:`~discopygal.bindings.Point_d`
+        :param neighbor:
+        :type neighbor: :class:`~discopygal.bindings.Point_d`
+
+        :return: True if the edge is collision free, False otherwise
+        :rtype: bool
+        """
         edge = Segment_2(point, neighbor)
         return self.collision_detection[robot].is_edge_valid(edge)
 
-    def merge_path_points(self, orig_tensor_path: list):
+    def merge_path_points(self, orig_tensor_path: list) -> list:
+        """
+        Merge the path points to shorten the path in unison for both robots
+        :param orig_tensor_path:
+        :type orig_tensor_path: list
+
+        :return: list of points of the new path without point that can be removed
+        :rtype: list
+        """
         new_tensor_path: list[Point_d] = [orig_tensor_path[0]]
         for idx, curr_joint_point in enumerate(orig_tensor_path[1: len(orig_tensor_path) - 1], 1):
             robots_shorten_size = [[-1, -1], [-1, -1]]
@@ -92,7 +123,15 @@ class PathShortener:
         new_tensor_path.append(orig_tensor_path[-1])
         return new_tensor_path
 
-    def remove_path_points(self, orig_tensor_path: list):
+    def remove_path_points(self, orig_tensor_path: list) -> list:
+        """
+        Merge the path points to shorten the path for single robot each time
+        :param orig_tensor_path:
+        :type orig_tensor_path: list
+
+        :return: list of points of the new path without point that can be removed
+        :rtype: list
+        """
 
         # Pass the path and try to get rid of unnecessary joint robots points to shorten path
         new_tensor_path: list[Point_d] = [orig_tensor_path[0]]
@@ -127,5 +166,13 @@ class PathShortener:
         new_tensor_path.append(orig_tensor_path[-1])
         return new_tensor_path
 
-    def shorten_path(self, path):
+    def shorten_path(self, path: list | dict) -> list:
+        """
+        Shorten the path by removing unnecessary points from the path
+        :param path:
+        :type path: list | dict
+
+        :return: list of points of the new shorted path
+        :rtype: list
+        """
         return self.merge_path_points(self.remove_path_points(path))

@@ -1,16 +1,8 @@
-import math
-import random
-
 import numpy as np
-from scipy.optimize import minimize
 import sklearn.metrics
+
 from discopygal.bindings import *
 from discopygal.solvers.metrics import Metric
-from scipy.spatial.distance import cdist
-
-import numpy as np
-from scipy.optimize import minimize
-from scipy.spatial.distance import cdist
 
 
 class MetricNotImplemented(Exception):
@@ -18,15 +10,37 @@ class MetricNotImplemented(Exception):
 
 
 class Metric_Epsilon(Metric):
+    """Epsilon metric for nearest neighbors search"""
+
     @staticmethod
-    def compute_translation_l2(U, V):
+    def compute_translation_l2(U, V) -> tuple:
+        """
+        Compute the optimal translation T^* for the given set of points U and V
+        :param U:
+        :type U: :class:np.array
+        :param V:
+        :type V: :class:np.array
+
+        :return: Optimal translation T^*
+        :rtype: :class:tuple
+        """
         m = len(U)
         dx = -np.sum(U[:, 0] - V[:, 0]) / m
         dy = -np.sum(U[:, 1] - V[:, 1]) / m
         return dx, dy
 
     @staticmethod
-    def congruence_objective_l2(U, V):
+    def congruence_objective_l2(U, V) -> float:
+        """
+        Compute the epsilon-congruence with respect to L_2
+        :param U:
+        :type U: :class:np.array
+        :param V:
+        :type V: :class:np.array
+
+        :return: L_2 epsilon-congruence
+        :rtype: :class:float
+        """
         translation = Metric_Epsilon.compute_translation_l2(U, V)
         translated_start_robots_points = [(start_point[0] + translation[0], start_point[1] + translation[1]) for
                                           start_point in U]
@@ -35,7 +49,17 @@ class Metric_Epsilon(Metric):
         return np.max(distances)
 
     @staticmethod
-    def compute_translation_l_inf(U, V):
+    def compute_translation_l_inf(U, V) -> tuple:
+        """
+        Compute the optimal translation T^* for the given set of points U and V
+        :param U:
+        :type U: :class:np.array
+        :param V:
+        :type V: :class:np.array
+
+        :return: Optimal translation T^*
+        :rtype: :class:tuple
+        """
         diffs = V - U  # Compute the vectors d_i = v_i - u_i
 
         # Find the median components of d_i across all i = 1, ..., m
@@ -47,7 +71,17 @@ class Metric_Epsilon(Metric):
         return optimal_translation
 
     @staticmethod
-    def congruence_objective_l_inf(U, V):
+    def congruence_objective_l_inf(U, V) -> float:
+        """
+        Compute the epsilon-congruence with respect to L_inf
+        :param U:
+        :type U: :class:np.array of floats
+        :param V:
+        :type V: :class:np.array of floats
+
+        :return: L_inf epsilon-congruence
+        :rtype: :class:float
+        """
         translation = Metric_Epsilon.compute_translation_l_inf(U, V)
 
         # Compute the epsilon-congruence with respect to L_inf
@@ -56,29 +90,61 @@ class Metric_Epsilon(Metric):
         return epsilon_l_inf
 
     @staticmethod
-    def create_arrays(length, p, q):
+    def create_arrays(length, p, q) -> tuple:
+        """
+        Create two arrays from the input lists p and q
+        :param length:
+        :type length: :class:int
+        :param p:
+        :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
+        :param q:
+        :type q: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
+
+        :return: tuple of two float lists
+        :rtype: :class:tuple
+        """
         curr = [(p[2 * i], p[2 * i + 1]) for i in range(length)]
         next = [(q[2 * i], q[2 * i + 1]) for i in range(length)]
         return curr, next
 
     @staticmethod
-    def points_to_list(p, q):
+    def points_to_list(p, q) -> tuple:
+        """
+        Create two arrays from the Point_d to lists
+        :param p:
+        :type p: :class:`~discopygal.bindings.Point_2`
+        :param q:
+        :type q: :class:`~discopygal.bindings.Point_2'
+
+        :return: list of tuples of point coordinates
+        :rtype: :class:tuple
+        """
         length = int(len(p) / 2)
         return Metric_Epsilon.create_arrays(length, p, q)
 
     @staticmethod
-    def points_d_to_list(p, q):
+    def points_d_to_list(p, q) -> tuple:
+        """
+        Create two arrays from the Point_d to lists
+        :param p:
+        :type p: :class:`~discopygal.bindings.Point_d`
+        :param q:
+        :type q: :class:`~discopygal.bindings.Point_d'
+
+        :return: list of tuples of point coordinates
+        :rtype: :class:tuple
+        """
         length = int(p.dimension() / 2)
         return Metric_Epsilon.create_arrays(length, p, q)
 
 
 class Metric_Epsilon_2(Metric_Epsilon):
     """
-    Implementation of the Euclidean metric for nearest neighbors search
+    Implementation of the Epsilon 2 metric for nearest neighbors search
     """
 
     @staticmethod
-    def dist(p, q):
+    def dist(p, q) -> FT:
         """
         Return the distance between two points
 
@@ -105,7 +171,7 @@ class Metric_Epsilon_2(Metric_Epsilon):
             raise MetricNotImplemented('p,q should be Point_2 or Point_d or Not even dimension')
 
     @staticmethod
-    def float_dist(p, q):
+    def float_dist(p, q) -> float:
         """
         Return the distance between two points
 
@@ -126,7 +192,7 @@ class Metric_Epsilon_2(Metric_Epsilon):
             raise MetricNotImplemented('p,q should be Point_2 or Point_d or Not even dimension')
 
     @staticmethod
-    def sklearn_impl():
+    def sklearn_impl() -> sklearn.metrics.DistanceMetric:
         """
         Return the metric as sklearn metric object.
         """
@@ -136,11 +202,11 @@ class Metric_Epsilon_2(Metric_Epsilon):
 
 class Metric_Epsilon_Inf(Metric_Epsilon):
     """
-    Implementation of the Euclidean metric for nearest neighbors search
+    Implementation of the Epsilon Inf metric for nearest neighbors search
     """
 
     @staticmethod
-    def dist(p, q):
+    def dist(p, q) -> FT:
         """
         Return the distance between two points
 
@@ -166,7 +232,7 @@ class Metric_Epsilon_Inf(Metric_Epsilon):
             raise MetricNotImplemented('p,q should be Point_2 or Point_d or Not even dimension')
 
     @staticmethod
-    def float_dist(p, q):
+    def float_dist(p, q) -> float:
         """
         Return the distance between two points
 
@@ -187,9 +253,12 @@ class Metric_Epsilon_Inf(Metric_Epsilon):
             raise MetricNotImplemented('p,q should be Point_2 or Point_d or Not even dimension')
 
     @staticmethod
-    def sklearn_impl():
+    def sklearn_impl() -> sklearn.metrics.DistanceMetric:
         """
         Return the metric as sklearn metric object.
+
+        :return: metric object
+        :rtype  :class:`~sklearn.metrics.DistanceMetric`
         """
         # Implementation specific to scikit-learn
         return sklearn.metrics.DistanceMetric.get_metric(metric='pyfunc', func=Metric_Epsilon_Inf.float_dist)

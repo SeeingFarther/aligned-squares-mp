@@ -1,15 +1,28 @@
 import random
-
 import numpy as np
 
+from discopygal.solvers import Scene
+
 from samplers.basic_sampler import BasicSquaresSampler
-from samplers.pair_sampler import PairSampler
-from samplers.space_sampler import SpaceSampler
 
 
 class CombinedSampler(BasicSquaresSampler):
+    """
+    Combined sampler for sampling points in a scene.
+    """
 
-    def __init__(self, probs: list, samplers: list, scene=None):
+    def __init__(self, probs: list[int], samplers: list[BasicSquaresSampler], scene: Scene = None):
+        """
+        Constructor for the CombinedSampler.
+        :param probs:
+        :type probs: list
+        :param samplers:
+        :type samplers: list
+        :param scene:
+        :type scene: :class:`~discopygal.solvers.Scene`
+        """
+
+        # Initialize the sampler
         super().__init__(scene)
         self.scene = scene
         self.num_sample = 0
@@ -17,32 +30,76 @@ class CombinedSampler(BasicSquaresSampler):
         self.samplers = samplers
         self.probs = probs
 
-    def set_scene(self, scene, bounding_box=None):
+    def set_scene(self, scene: Scene, bounding_box=None):
+        """
+        Set the scene for sampler should use for each of is samplers.
+        Can be overridded to add additional processing.
+
+        :param bounding_box:
+        :type :class:`~discopygal.Bounding_Box
+        :param scene: a scene to sample in
+        :type scene: :class:`~discopygal.solvers.Scene`
+        """
+
         super().set_scene(scene, bounding_box)
         self.scene = scene
         for sampler in self.samplers:
             sampler.set_scene(scene, bounding_box)
 
-    def sample_free(self, robot_index):
+    def sample_free(self, robot_index: int):
+        """
+        Sample a free point in the scene using the combined sampler.
+        Choose a sampler based on the probabilities and sample a point from it.
+        :param robot_index:
+        :type robot_index: int
+
+        :return: Sampled point
+        :rtype: :class:`~discopygal.bindings.Point_2`
+        """
+
+        # Choose a sampler based on the probabilities
         indexes = list(range(len(self.samplers)))
         self.sampler_index = random.choices(indexes, self.probs, k=1)[0]
+
+        # Sample a point from the chosen sampler
         return self.samplers[self.sampler_index].sample_free(robot_index)
 
-    def set_probs(self, probs):
+    def set_probs(self, probs: list[int]):
+        """
+        Set the probabilities for each sampler.
+        :param probs:
+        :type probs: list
+        """
         self.probs = probs
 
     def ready_sampler(self):
+        """
+        Ready the sampler for sampling.
+        """
         super().ready_sampler()
         for sampler in self.samplers:
             sampler.ready_sampler()
 
     def set_num_samples(self, num_samples: int):
+        """
+        Set the number of samples to generate.
+        :param num_samples:
+        :type num_samples: int
+        """
         super().set_num_samples(num_samples)
         for sampler in self.samplers:
             sampler.set_num_samples(num_samples)
         return
 
-    def update_probs(self, reward, learning_rate=0.001):
+    def update_probs(self, reward: float, learning_rate: float = 0.001):
+        """
+        Update the probabilities of the samplers based on the reward.
+        :param reward:
+        :type reward: float
+        :param learning_rate:
+        :type learning_rate: float
+        :return:
+        """
         # Update probabilities using reward-based learning
         self.probs[self.sampler_index] += learning_rate * reward
         self.probs /= np.sum(self.probs)  # Normalize probabilities to sum to 1

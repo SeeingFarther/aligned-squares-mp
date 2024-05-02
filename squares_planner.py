@@ -5,7 +5,7 @@ from discopygal.geometry_utils.bounding_boxes import calc_scene_bounding_box
 from discopygal.geometry_utils.conversions import Point_2_list_to_Point_d, Point_2_to_xy, FT_to_float
 
 from discopygal.solvers.samplers import Sampler
-from discopygal.solvers import Scene
+from discopygal.solvers import Scene, Robot
 from discopygal.solvers import PathPoint, Path, PathCollection
 from discopygal.solvers.metrics import Metric_Euclidean
 from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
@@ -17,6 +17,7 @@ from samplers.basic_sampler import BasicSquaresSampler
 from samplers.bridge_sampler import BridgeSampler
 from samplers.combined_sampler import CombinedSampler
 from samplers.middle_sampler import MiddleSampler
+from samplers.pair_sampler import PairSampler
 from samplers.space_sampler import SpaceSampler
 from utils.path_shortener import PathShortener
 from metrics.ctd_metric import Metric_CTD
@@ -26,8 +27,23 @@ from utils.utils import point2_to_point_d
 
 
 class SquaresPrm(Solver):
+    """
+    Squares PRM Solver
+    """
+
     def __init__(self, num_landmarks: int, k: int,
                  bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, sampler: Sampler = None):
+        """
+        Constructor for the SquaresPrm solver.
+        :param num_landmarks:
+        :type num_landmarks: int
+        :param k:
+        :type k: int
+        :param bounding_margin_width_factor:
+        :type bounding_margin_width_factor: FT
+        :param samplers:
+        :type samplers: list[:class:`~discopygal.solvers.samplers.Sampler`]
+        """
         super().__init__(FT(bounding_margin_width_factor))
         self.num_landmarks = num_landmarks
 
@@ -35,14 +51,15 @@ class SquaresPrm(Solver):
             print('Error: Number of K bigger than number of landmarks')
             exit(-1)
 
-        self.k = k
+
+        # Set samplers
         samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
         #samplers = [MiddleSampler()]
         num_prob = [1 / len(samplers)] * len(samplers)
-        self.samplers = [CombinedSampler(num_prob, samplers), CombinedSampler(num_prob, samplers)]
-        if self.samplers is None:
-            self.samplers = [BasicSquaresSampler()] * len(samplers)
+        self.combined_sampler = CombinedSampler(num_prob, samplers)
 
+
+        # Choose metric for nearest neighbors
         metric = 'Euclidean'
         if metric is None or metric == 'Euclidean':
             self.nearest_neighbors = NearestNeighbors_sklearn()
@@ -56,7 +73,9 @@ class SquaresPrm(Solver):
             print('Unknown metric')
             exit(-1)
 
+        # Metric for distance computation
         self.metric = Metric_Euclidean
+        self.k = k
         self.roadmap = None
         self.collision_detection = {}
         self.start = None
@@ -102,7 +121,17 @@ class SquaresPrm(Solver):
     def collision_free(self, p: Point_d, q: Point_d) -> bool:
         """
         Get two points in the configuration space and decide if they can be connected
+        without colliding with any obstacles.
+        :param p: start point
+        :type p: :class:`~discopygal.bindings.Point_d`
+        :param q: end point
+        :type q: :class:`~discopygal.bindings.Point_d`
+
+        :return: True if the edge is collision free, False otherwise
+        :rtype: bool
         """
+
+        # Convert to Point_2 list
         p_list = conversions.Point_d_to_Point_2_list(p)
         q_list = conversions.Point_d_to_Point_2_list(q)
 
@@ -124,7 +153,19 @@ class SquaresPrm(Solver):
 
         return True
 
-    def is_edge_valid(self, robot, p: Point_2, q: Point_2) -> bool:
+    def is_edge_valid(self, robot: Robot, p: Point_2, q: Point_2) -> bool:
+        """
+        Check if the edge between the point and the neighbor is collision free for the robot
+        :param robot:
+        :type robot: :class:`Robot`
+        :param p:
+        :type p: :class:`~discopygal.bindings.Point_2`
+        :param q:
+        :type q: :class:`~discopygal.bindings.Point_2`
+
+        :return: True if the edge is collision free, False otherwise
+        :rtype: bool
+        """
         is_edge_valid = True
         edge = Segment_2(p, q)
         if not self.collision_detection[robot].is_edge_valid(edge):
@@ -134,14 +175,22 @@ class SquaresPrm(Solver):
     def add_edge_func(self, point: Point_2, neighbor: Point_2, graph: nx.Graph):
         """
         Add an edge between two points in the roadmap
+        :param point:
+        :type point: :class:`~discopygal.bindings.Point_2`
+        :param neighbor:
+        :type neighbor: :class:`~discopygal.bindings.Point_2`
+        :param graph:
+        :type graph: :class:`networkx.Graph`
+
         """
 
+        # Build the points
         point_1_coords = Point_2(point[0], point[1])
         point_2_coords = Point_2(point[2], point[3])
         neighbor_1_coords = Point_2(neighbor[0], neighbor[1])
         neighbor_2_coords = Point_2(neighbor[2], neighbor[3])
 
-        # Compute distance
+        # Compute distance of the edge
         dist_1 = self.metric.dist(point_1_coords, neighbor_1_coords).to_double()
         dist_2 = self.metric.dist(point_2_coords, neighbor_2_coords).to_double()
 
@@ -158,10 +207,9 @@ class SquaresPrm(Solver):
         :type scene: :class:`~discopygal.solvers.Scene`
         """
         super().load_scene(scene)
-        for sampler in self.samplers:
-            sampler.set_scene(scene, self._bounding_box)
-            sampler.set_num_samples(self.num_landmarks)
-            sampler.ready_sampler()
+        self.combined_sampler.set_scene(scene, self._bounding_box)
+        self.combined_sampler.set_num_samples(self.num_landmarks)
+        self.combined_sampler.ready_sampler()
 
         # Build collision detection for each robot
         for i, robot in enumerate(scene.robots):
@@ -178,7 +226,7 @@ class SquaresPrm(Solver):
         self.roadmap.add_node(self.start)
         self.roadmap.add_node(self.end)
 
-        self.roadmaps = [nx.Graph()] * len(self.samplers)
+        self.roadmaps = [nx.Graph()] * len(self.collision_detection)
         self.starts = []
         self.ends = []
         for i, robot in enumerate(scene.robots):
@@ -194,7 +242,7 @@ class SquaresPrm(Solver):
         for j in range(self.num_landmarks):
             p_rand = []
             for i, robot in enumerate(scene.robots):
-                p_rand.append(self.samplers[i].sample_free(i))
+                p_rand.append(self.combined_sampler.sample_free(i))
                 nearest_neighbors.fit(list(self.roadmaps[i].nodes))
                 point = p_rand[i]
                 neighbor = nearest_neighbors.k_nearest(point, 1)[0]
@@ -202,13 +250,20 @@ class SquaresPrm(Solver):
                 p_x, p_y = Point_2_to_xy(point)
                 reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
                 reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
-                self.samplers[i].update_probs(reward)
+                self.combined_sampler.update_probs(reward)
+                self.roadmaps[i].add_node(point)
 
-        for j in range(self.num_landmarks):
+        sampler = PairSampler()
+        sampler.set_scene(scene, self._bounding_box)
+        landmarks = int(0.2 * self.num_landmarks)
+        sampler.set_num_samples(landmarks)
+        sampler.ready_sampler()
+
+        for j in range(self.num_landmarks - landmarks):
 
             p_rand = []
             for i, robot in enumerate(scene.robots):
-                p_rand.append(self.samplers[i].sample_free(i))
+                p_rand.append(self.combined_sampler.sample_free(i))
                 # nearest_neighbors.fit(list(self.roadmaps[i].nodes))
                 # point = p_rand[i]
                 # neighbors = nearest_neighbors.k_nearest(point, 1)[0]
@@ -220,6 +275,11 @@ class SquaresPrm(Solver):
             self.roadmap.add_node(p_rand)
             if j % 100 == 0 and self.verbose:
                 print('added', j, 'landmarks in PRM', file=self.writer)
+
+        for j in range(landmarks):
+            p_rand = (sampler.sample_free())
+            self.roadmap.add_node(p_rand)
+
 
         self.nearest_neighbors.fit(list(self.roadmap.nodes))
 
@@ -292,6 +352,6 @@ class SquaresPrm(Solver):
 if __name__ == '__main__':
     with open('./scenes/cubic3.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquaresPrm(num_landmarks=1000, k=15, sampler=BridgeSampler())
+    solver = SquaresPrm(num_landmarks=1000, k=15, sampler=None)
     solver.load_scene(scene)
     solver.solve()

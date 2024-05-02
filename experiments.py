@@ -130,22 +130,26 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
             solvers_time_results[solver] = time
 
         min_time = 999999
+        min_time_solver = ''
         for solver, time in solvers_time_results.items():
             if time != 0 and time < min_time:
                 min_time = time
+                min_time_solver = solver
 
 
         min_path_len = 999999
+        min_len_solver = ''
         for solver, path_len in solvers_length_results.items():
             if path_len != 0 and path_len < min_path_len:
                 min_path_len = path_len
+                min_len_solver = solver
 
         print("_________________________")
         print("Results for scene: ", scene_name)
         print("Times: ", solvers_time_results)
         print("Path Lengths: ", solvers_length_results)
         print(
-            f'For {num_experiments} experiments, best time won solver {solver} with {min_time:.5f} seconds, best length won solver {solver} with {min_path_len}  path length')
+            f'For {num_experiments} experiments, best time won solver {min_time_solver} with {min_time:.5f} seconds, best length won solver {min_len_solver} with {min_path_len}  path length')
         print("_________________________")
     return
 
@@ -154,16 +158,17 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Argument Parser")
 
     # Add arguments
+    parser.add_argument('--compare-length', type=int, default=15, help='Value of k')
     parser.add_argument('--k', type=int, default=15, help='Value of k')
-    parser.add_argument('--num_landmarks', type=int, default=1000, help='Number of landmarks')
-    parser.add_argument('-prm_num_landmarks', type=int, default=2000, help='Number of landmarks for PRM for DRRT')
+    parser.add_argument('--num-landmarks', type=int, default=1000, help='Number of landmarks')
+    parser.add_argument('-prm-num-landmarks', type=int, default=2000, help='Number of landmarks for PRM for DRRT')
     parser.add_argument('--num_experiments', type=int, default=5, help='Number of experiments')
     parser.add_argument('--bound', type=int, default=2, help='Bounding width factor')
     parser.add_argument('--eps', type=float, default=5, help='Number of experiments')
     parser.add_argument('--delta', type=float, default=2, help='Bounding width factor')
     parser.add_argument('--solver', type=str, default="squares", choices=['prm', 'drrt', 'staggered', 'squares'],
                         help='Type of solver')
-    parser.add_argument('--path', type=str, default='scene_length_2.json', help='Path to scene file')
+    parser.add_argument('--path', type=str, default='./scenes/easy2.json', help='Path to scene file')
     parser.add_argument('--sampler', type=str, default='none', choices=['none', 'uniform', 'combined'],
                         help='Type of sampler')
 
@@ -181,19 +186,23 @@ print('Running experiments for length of path')
 # length_num_landmarks(['scene_length_1.json', './scenes/bug_trap1.json', './scenes/cubic3.json'], 'StaggeredGrid',None)
 print('Running experiments for Squares')
 
-scenes = []
-for root, dirs, files in os.walk("./scenes", topdown=False):
-    for file in files:
-        if file.endswith('.json'):
-            scenes.append(os.path.join(root, file))
 
-#length_num_landmarks(scenes, 'Squares', None)
-compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
 
 if __name__ == '__main__':
     args = parse_arguments()
     with open(args.path, 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
+
+    if args.compare_length:
+        scenes = []
+        for root, dirs, files in os.walk("./scenes", topdown=False):
+            for file in files:
+                if file.endswith('.json'):
+                    scenes.append(os.path.join(root, file))
+
+        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
+        #compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
+        exit()
 
     sampler = None
     if args.sampler == 'uniform':
