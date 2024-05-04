@@ -2,7 +2,8 @@ import numpy as np
 from shapely.geometry import Point, Polygon, LineString
 
 from discopygal.bindings import *
-from discopygal.geometry_utils.conversions import Point_2_to_xy, Polygon_2_to_array_of_points
+from discopygal.geometry_utils.conversions import Point_2_to_xy, Polygon_2_to_array_of_points, \
+    array_of_points_to_Polygon_2
 
 
 def find_square_corners(square_length: float, center_x: float, center_y: float) -> list[list]:
@@ -432,6 +433,56 @@ def out_of_bounds(x_min: float, x_max: float, y_min: float, y_max: float, square
     if x1 < x_min or x2 > x_max or y1 < y_min or y2 > y_max:
         return True
     return False
+
+
+def point_inside_obstacle(x: float, y: float, obstacles: list) -> bool:
+    """
+    Check if a point is inside an obstacle
+    :param x:
+    :type x: float
+    :param y:
+    :type y: float
+    :param obstacles:
+    :type obstacles: list
+
+    :return: True if the point is inside the obstacle, False otherwise
+    :rtype: bool
+    """
+
+    for obstacle in obstacles:
+        if point_inside_polygon(x, y, obstacle.poly):
+            return True
+    return False
+
+def find_point_inside_obstacle(point: Point_2, robot_length: float, obstacles: list) -> Point_2:
+    """
+    Find a point inside an obstacle for a robot
+    :param point:
+    :type point: Point_2
+    :param robot_length:
+    :type robot_length: float
+    :param obstacles:
+    :type obstacles: list
+
+    :return: Point_2 inside the obstacle
+    :rtype: Point_2
+    """
+    x_p, y_p = Point_2_to_xy(point)
+    robot_points = [(x_p, y_p), (x_p, y_p + robot_length),
+              (x_p + robot_length, y_p + robot_length),(x_p + robot_length, y_p), (x_p + robot_length / 2, y_p + robot_length / 2)]
+    for square_point in robot_points:
+        if point_inside_obstacle(square_point[0], square_point[1], obstacles):
+            return Point_2(FT(square_point[0]), FT(square_point[1]))
+
+    robot_points.pop()
+    robot = array_of_points_to_Polygon_2(robot_points)
+    for obstacle in obstacles:
+        vertices = Polygon_2_to_array_of_points(obstacle.poly)
+        for vertex in vertices:
+            x, y = vertex
+            if point_inside_polygon(x, y, robot):
+                return Point_2(FT(x), FT(y))
+
 
 
 def point_inside_polygon(x: float, y: float, poly: Polygon_2) -> bool:

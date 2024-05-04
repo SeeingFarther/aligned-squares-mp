@@ -6,7 +6,8 @@ from discopygal.geometry_utils.conversions import Point_2_to_xy
 from discopygal.solvers import Scene
 
 from samplers.basic_sampler import BasicSquaresSampler
-from utils.utils import out_of_bounds, line_inside_polygon, find_x_coordinate_minimal, find_y_coordinate_minimal
+from utils.utils import out_of_bounds, line_inside_polygon, find_x_coordinate_minimal, find_y_coordinate_minimal, \
+    point_inside_obstacle
 
 
 class MiddleSampler(BasicSquaresSampler):
@@ -158,8 +159,11 @@ class MiddleSampler(BasicSquaresSampler):
             robot_length = self.robot_lengths[robot_index]
 
             # If the point is valid? sample a new point
-            if self.collision_detection[robot].is_point_valid(sample):
+            x, y = Point_2_to_xy(sample)
+            if not point_inside_obstacle(x, y, self.obstacles):
                 continue
+            #sample = find_point_inside_obstacle(sample, robot_length , self.obstacles)
+
 
             # Get middle point
             middle_point = self.find_middle(sample)

@@ -52,8 +52,8 @@ class SquaresPrm(Solver):
             exit(-1)
 
         # Set samplers
-        #samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler()]
-        samplers = [MiddleSampler(y_axis=True), MiddleSampler(y_axis=True)]
+        samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler(y_axis=True), MiddleSampler(y_axis=False)]
+        #samplers = [MiddleSampler(y_axis=True), MiddleSampler(y_axis=True)]
         num_prob = [1 / len(samplers)] * len(samplers)
         self.combined_sampler = CombinedSampler(num_prob, samplers)
 

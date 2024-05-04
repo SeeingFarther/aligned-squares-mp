@@ -1,0 +1,78 @@
+_________________________
+Results for scene:  scenes\bug_trap1
+Times:  {'Squares': 0.18079934120178223}
+Path Lengths:  {'Squares': 135.91805027200598}
+For 5 experiments, best time won solver Squares with 0.18080 seconds, best length won solver Squares with 135.91805027200598  path length
+_________________________
+_________________________
+Results for scene:  scenes\bug_trap2
+Times:  {'Squares': 0.0452392578125}
+Path Lengths:  {'Squares': 87.93088718872629}
+For 5 experiments, best time won solver Squares with 0.04524 seconds, best length won solver Squares with 87.93088718872629  path length
+_________________________
+_________________________
+Results for scene:  scenes\bug_trap3
+Times:  {'Squares': 0.1300436496734619}
+Path Lengths:  {'Squares': 92.54354240156829}
+For 5 experiments, best time won solver Squares with 0.13004 seconds, best length won solver Squares with 92.54354240156829  path length
+_________________________
+_________________________
+Results for scene:  scenes\bug_trap_diff_size
+Times:  {'Squares': 0.05119905471801758}
+Path Lengths:  {'Squares': 84.73842360258635}
+For 5 experiments, best time won solver Squares with 0.05120 seconds, best length won solver Squares with 84.73842360258635  path length
+_________________________
+_________________________
+Results for scene:  scenes\cubic1
+Times:  {'Squares': 0.08807315826416015}
+Path Lengths:  {'Squares': 315.14494619245005}
+For 5 experiments, best time won solver Squares with 0.08807 seconds, best length won solver Squares with 315.14494619245005  path length
+_________________________
+_________________________
+Results for scene:  scenes\cubic2
+Times:  {'Squares': 0.10480771064758301}
+Path Lengths:  {'Squares': 402.4847576056382}
+For 5 experiments, best time won solver Squares with 0.10481 seconds, best length won solver Squares with 402.4847576056382  path length
+_________________________
+_________________________
+Results for scene:  scenes\cubic3
+Times:  {'Squares': 0.09078927040100097}
+Path Lengths:  {'Squares': 369.53546346337384}
+For 5 experiments, best time won solver Squares with 0.09079 seconds, best length won solver Squares with 369.53546346337384  path length
+_________________________
+_________________________
+Results for scene:  scenes\cubic_diff_size
+Times:  {'Squares': 0.07399997711181641}
+Path Lengths:  {'Squares': 290.5559122537866}
+For 5 experiments, best time won solver Squares with 0.07400 seconds, best length won solver Squares with 290.5559122537866  path length
+_________________________
+_________________________
+Results for scene:  scenes\easy1
+Times:  {'Squares': 0.13649768829345704}
+Path Lengths:  {'Squares': 376.2693749354007}
+For 5 experiments, best time won solver Squares with 0.13650 seconds, best length won solver Squares with 376.2693749354007  path length
+_________________________
+_________________________
+Results for scene:  scenes\easy2
+Times:  {'Squares': 0.12710604667663575}
+Path Lengths:  {'Squares': 355.8082837803619}
+For 5 experiments, best time won solver Squares with 0.12711 seconds, best length won solver Squares with 355.8082837803619  path length
+_________________________
+_________________________
+Results for scene:  scenes\easy3
+Times:  {'Squares': 0.10232219696044922}
+Path Lengths:  {'Squares': 263.21840260731506}
+For 5 experiments, best time won solver Squares with 0.10232 seconds, best length won solver Squares with 263.21840260731506  path length
+_________________________
+_________________________
+Results for scene:  scenes\easy_diff_size
+Times:  {'Squares': 0.12446489334106445}
+Path Lengths:  {'Squares': 348.9705204851278}
+For 5 experiments, best time won solver Squares with 0.12446 seconds, best length won solver Squares with 348.9705204851278  path length
+_________________________
+_________________________
+Results for scene:  scenes\sphiral
+Times:  {'Squares': 0.15882091522216796}
+Path Lengths:  {'Squares': 822.2766200826379}
+For 5 experiments, best time won solver Squares with 0.15882 seconds, best length won solver Squares with 822.2766200826379  path length
+_________________________

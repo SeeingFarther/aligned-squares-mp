@@ -190,18 +190,25 @@ print('Running experiments for Squares')
 
 if __name__ == '__main__':
     args = parse_arguments()
+    args.compare_length = True
     with open(args.path, 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
 
     if args.compare_length:
-        scenes = []
-        for root, dirs, files in os.walk("./scenes", topdown=False):
-            for file in files:
-                if file.endswith('.json'):
-                    scenes.append(os.path.join(root, file))
+        # for python3
+        import sys
 
-        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
-        #compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
+        with open('Length_Experiments.txt', 'w') as sys.stdout:
+
+            scenes = []
+            for root, dirs, files in os.walk("./scenes", topdown=False):
+                for file in files:
+                    if file.endswith('.json'):
+                        scenes.append(os.path.join(root, file))
+
+            #compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
+            compare_algo(scenes, ['Squares'], None)
+            #compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
         exit()
 
     sampler = None
