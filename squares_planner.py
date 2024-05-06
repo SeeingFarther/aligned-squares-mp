@@ -291,18 +291,18 @@ class SquaresPrm(Solver):
                     self.add_edge_func(point, neighbor, G)
 
                 # # Try 3 Phase movement instead
-                # elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
-                #                                                                                 point):
-                #     G.add_node(middle_point_coords)
-                #     self.add_edge_func(middle_point_coords, neighbor, G)
-                #     self.add_edge_func(point, middle_point_coords, G)
-                #
-                # elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
-                #         second_middle_point_coords,
-                #         point):
-                #     G.add_node(second_middle_point_coords)
-                #     self.add_edge_func(second_middle_point_coords, neighbor, G)
-                #     self.add_edge_func(point, second_middle_point_coords, G)
+                elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
+                                                                                                point):
+                    G.add_node(middle_point_coords)
+                    self.add_edge_func(middle_point_coords, neighbor, G)
+                    self.add_edge_func(point, middle_point_coords, G)
+
+                elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
+                        second_middle_point_coords,
+                        point):
+                    G.add_node(second_middle_point_coords)
+                    self.add_edge_func(second_middle_point_coords, neighbor, G)
+                    self.add_edge_func(point, second_middle_point_coords, G)
 
             if cnt % 100 == 0 and self.verbose:
                 print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)

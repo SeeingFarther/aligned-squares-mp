@@ -1,78 +1,78 @@
 _________________________
-Results for scene:  scenes\bug_trap1
-Times:  {'Squares': 0.18079934120178223}
-Path Lengths:  {'Squares': 135.91805027200598}
-For 5 experiments, best time won solver Squares with 0.18080 seconds, best length won solver Squares with 135.91805027200598  path length
+Results for scene:  bug_trap1
+Times:  {'Squares': 0.028278255462646486}
+Path Lengths:  {'Squares': 132.19262497928247}
+For 5 experiments, best time won solver Squares with 0.02828 seconds, best length won solver Squares with 132.19262497928247  path length
 _________________________
 _________________________
-Results for scene:  scenes\bug_trap2
-Times:  {'Squares': 0.0452392578125}
-Path Lengths:  {'Squares': 87.93088718872629}
-For 5 experiments, best time won solver Squares with 0.04524 seconds, best length won solver Squares with 87.93088718872629  path length
+Results for scene:  bug_trap2
+Times:  {'Squares': 0.013344478607177735}
+Path Lengths:  {'Squares': 88.00799257267494}
+For 5 experiments, best time won solver Squares with 0.01334 seconds, best length won solver Squares with 88.00799257267494  path length
 _________________________
 _________________________
-Results for scene:  scenes\bug_trap3
-Times:  {'Squares': 0.1300436496734619}
-Path Lengths:  {'Squares': 92.54354240156829}
-For 5 experiments, best time won solver Squares with 0.13004 seconds, best length won solver Squares with 92.54354240156829  path length
+Results for scene:  bug_trap3
+Times:  {'Squares': 0.024937248229980467}
+Path Lengths:  {'Squares': 98.29161369574939}
+For 5 experiments, best time won solver Squares with 0.02494 seconds, best length won solver Squares with 98.29161369574939  path length
 _________________________
 _________________________
-Results for scene:  scenes\bug_trap_diff_size
-Times:  {'Squares': 0.05119905471801758}
-Path Lengths:  {'Squares': 84.73842360258635}
-For 5 experiments, best time won solver Squares with 0.05120 seconds, best length won solver Squares with 84.73842360258635  path length
+Results for scene:  bug_trap_diff_size
+Times:  {'Squares': 0.016413545608520506}
+Path Lengths:  {'Squares': 84.79958233518173}
+For 5 experiments, best time won solver Squares with 0.01641 seconds, best length won solver Squares with 84.79958233518173  path length
 _________________________
 _________________________
-Results for scene:  scenes\cubic1
-Times:  {'Squares': 0.08807315826416015}
-Path Lengths:  {'Squares': 315.14494619245005}
-For 5 experiments, best time won solver Squares with 0.08807 seconds, best length won solver Squares with 315.14494619245005  path length
+Results for scene:  cubic1
+Times:  {'Squares': 0.028248691558837892}
+Path Lengths:  {'Squares': 335.568346003907}
+For 5 experiments, best time won solver Squares with 0.02825 seconds, best length won solver Squares with 335.568346003907  path length
 _________________________
 _________________________
-Results for scene:  scenes\cubic2
-Times:  {'Squares': 0.10480771064758301}
-Path Lengths:  {'Squares': 402.4847576056382}
-For 5 experiments, best time won solver Squares with 0.10481 seconds, best length won solver Squares with 402.4847576056382  path length
+Results for scene:  cubic2
+Times:  {'Squares': 0.0445955753326416}
+Path Lengths:  {'Squares': 397.07289009159297}
+For 5 experiments, best time won solver Squares with 0.04460 seconds, best length won solver Squares with 397.07289009159297  path length
 _________________________
 _________________________
-Results for scene:  scenes\cubic3
-Times:  {'Squares': 0.09078927040100097}
-Path Lengths:  {'Squares': 369.53546346337384}
-For 5 experiments, best time won solver Squares with 0.09079 seconds, best length won solver Squares with 369.53546346337384  path length
+Results for scene:  cubic3
+Times:  {'Squares': 0.031667137145996095}
+Path Lengths:  {'Squares': 346.1916748910979}
+For 5 experiments, best time won solver Squares with 0.03167 seconds, best length won solver Squares with 346.1916748910979  path length
 _________________________
 _________________________
-Results for scene:  scenes\cubic_diff_size
-Times:  {'Squares': 0.07399997711181641}
-Path Lengths:  {'Squares': 290.5559122537866}
-For 5 experiments, best time won solver Squares with 0.07400 seconds, best length won solver Squares with 290.5559122537866  path length
+Results for scene:  cubic_diff_size
+Times:  {'Squares': 0.030329275131225585}
+Path Lengths:  {'Squares': 305.1507476179538}
+For 5 experiments, best time won solver Squares with 0.03033 seconds, best length won solver Squares with 305.1507476179538  path length
 _________________________
 _________________________
-Results for scene:  scenes\easy1
-Times:  {'Squares': 0.13649768829345704}
-Path Lengths:  {'Squares': 376.2693749354007}
-For 5 experiments, best time won solver Squares with 0.13650 seconds, best length won solver Squares with 376.2693749354007  path length
+Results for scene:  easy1
+Times:  {'Squares': 0.07286949157714843}
+Path Lengths:  {'Squares': 371.07468357878395}
+For 5 experiments, best time won solver Squares with 0.07287 seconds, best length won solver Squares with 371.07468357878395  path length
 _________________________
 _________________________
-Results for scene:  scenes\easy2
-Times:  {'Squares': 0.12710604667663575}
-Path Lengths:  {'Squares': 355.8082837803619}
-For 5 experiments, best time won solver Squares with 0.12711 seconds, best length won solver Squares with 355.8082837803619  path length
+Results for scene:  easy2
+Times:  {'Squares': 0.05682625770568848}
+Path Lengths:  {'Squares': 352.0518538681821}
+For 5 experiments, best time won solver Squares with 0.05683 seconds, best length won solver Squares with 352.0518538681821  path length
 _________________________
 _________________________
-Results for scene:  scenes\easy3
-Times:  {'Squares': 0.10232219696044922}
-Path Lengths:  {'Squares': 263.21840260731506}
-For 5 experiments, best time won solver Squares with 0.10232 seconds, best length won solver Squares with 263.21840260731506  path length
+Results for scene:  easy3
+Times:  {'Squares': 0.04938669204711914}
+Path Lengths:  {'Squares': 269.8567559544008}
+For 5 experiments, best time won solver Squares with 0.04939 seconds, best length won solver Squares with 269.8567559544008  path length
 _________________________
 _________________________
-Results for scene:  scenes\easy_diff_size
-Times:  {'Squares': 0.12446489334106445}
-Path Lengths:  {'Squares': 348.9705204851278}
-For 5 experiments, best time won solver Squares with 0.12446 seconds, best length won solver Squares with 348.9705204851278  path length
+Results for scene:  easy_diff_size
+Times:  {'Squares': 0.06261396408081055}
+Path Lengths:  {'Squares': 342.95087937634133}
+For 5 experiments, best time won solver Squares with 0.06261 seconds, best length won solver Squares with 342.95087937634133  path length
 _________________________
 _________________________
-Results for scene:  scenes\sphiral
-Times:  {'Squares': 0.15882091522216796}
-Path Lengths:  {'Squares': 822.2766200826379}
-For 5 experiments, best time won solver Squares with 0.15882 seconds, best length won solver Squares with 822.2766200826379  path length
+Results for scene:  sphiral
+Times:  {'Squares': 0.06152772903442383}
+Path Lengths:  {'Squares': 797.6318198166732}
+For 5 experiments, best time won solver Squares with 0.06153 seconds, best length won solver Squares with 797.6318198166732  path length
 _________________________
