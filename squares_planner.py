@@ -239,7 +239,28 @@ class SquaresPrm(Solver):
         nearest_neighbors = NearestNeighbors_sklearn()
         min_x, max_x, min_y, max_y = self._bounding_box or calc_scene_bounding_box(self.scene)
         min_x, max_x, min_y, max_y = FT_to_float(min_x), FT_to_float(max_x), FT_to_float(min_y), FT_to_float(max_y)
-        for j in range(self.num_landmarks):
+        # for j in range(self.num_landmarks):
+        #     p_rand = []
+        #     for i, robot in enumerate(scene.robots):
+        #         p_rand.append(self.combined_sampler.sample_free(i))
+        #         nearest_neighbors.fit(list(self.roadmaps[i].nodes))
+        #         point = p_rand[i]
+        #         neighbor = nearest_neighbors.k_nearest(point, 1)[0]
+        #         n_x, n_y = Point_2_to_xy(neighbor)
+        #         p_x, p_y = Point_2_to_xy(point)
+        #         reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
+        #         reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
+        #         self.combined_sampler.update_weights(i, reward)
+        #         #self.combined_sampler.update_probs(i, reward)
+        #         self.roadmaps[i].add_node(point)
+
+        sampler = PairSampler()
+        sampler.set_scene(scene, self._bounding_box)
+        landmarks = int(0.0 * self.num_landmarks)
+        sampler.set_num_samples(landmarks)
+        sampler.ready_sampler()
+
+        for j in range(self.num_landmarks - landmarks):
             p_rand = []
             for i, robot in enumerate(scene.robots):
                 p_rand.append(self.combined_sampler.sample_free(i))
@@ -254,16 +275,8 @@ class SquaresPrm(Solver):
                 #self.combined_sampler.update_probs(i, reward)
                 self.roadmaps[i].add_node(point)
 
-        sampler = PairSampler()
-        sampler.set_scene(scene, self._bounding_box)
-        landmarks = int(0.0 * self.num_landmarks)
-        sampler.set_num_samples(landmarks)
-        sampler.ready_sampler()
 
-        for j in range(self.num_landmarks - landmarks):
-            p_rand = []
-            for i, robot in enumerate(scene.robots):
-                p_rand.append(self.combined_sampler.sample_free(i))
+                #p_rand.append(self.combined_sampler.sample_free(i))
             p_rand = conversions.Point_2_list_to_Point_d(p_rand)
 
             self.roadmap.add_node(p_rand)
