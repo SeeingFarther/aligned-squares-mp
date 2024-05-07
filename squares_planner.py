@@ -18,6 +18,7 @@ from samplers.bridge_sampler import BridgeSampler
 from samplers.combined_sampler import CombinedSampler
 from samplers.middle_sampler import MiddleSampler
 from samplers.pair_sampler import PairSampler
+from samplers.sada_sampler import SadaSampler
 from samplers.space_sampler import SpaceSampler
 from utils.path_shortener import PathShortener
 from metrics.ctd_metric import Metric_CTD
@@ -55,7 +56,8 @@ class SquaresPrm(Solver):
         samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler(y_axis=True), MiddleSampler(y_axis=False)]
         #samplers = [MiddleSampler(y_axis=True), MiddleSampler(y_axis=True)]
         num_prob = [1 / len(samplers)] * len(samplers)
-        self.combined_sampler = CombinedSampler(num_prob, samplers)
+        #self.combined_sampler = CombinedSampler(num_prob, samplers)s
+        self.combined_sampler = SadaSampler(samplers, gamma=0.2)
 
         # Choose metric for nearest neighbors
         metric = 'Euclidean'
@@ -248,7 +250,8 @@ class SquaresPrm(Solver):
                 p_x, p_y = Point_2_to_xy(point)
                 reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
                 reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
-                self.combined_sampler.update_probs(i, reward)
+                self.combined_sampler.update_weights(i, reward)
+                #self.combined_sampler.update_probs(i, reward)
                 self.roadmaps[i].add_node(point)
 
         sampler = PairSampler()

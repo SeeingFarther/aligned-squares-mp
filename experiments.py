@@ -203,7 +203,7 @@ if __name__ == '__main__':
         import sys
 
         # Redirect stdout to the file
-        with open('Length_Experiments.txt', 'w') as file:
+        with open('Length_Experiments1.txt', 'w') as file:
             with redirect_stdout(file):
 
                 scenes = []

@@ -1,17 +1,13 @@
-import json
 
 import numpy as np
 from discopygal.bindings import Point_2
 from discopygal.solvers import Scene
 
 from samplers.basic_sampler import BasicSquaresSampler
-from samplers.bridge_sampler import BridgeSampler
-from samplers.middle_sampler import MiddleSampler
-from samplers.space_sampler import SpaceSampler
 
 
 class SadaSampler(BasicSquaresSampler):
-    def __init__(self, samplers: list[BasicSquaresSampler], scene: Scene = None, gamma: float = 0.2):
+    def __init__(self, samplers: list[BasicSquaresSampler], scene: Scene = None, gamma: float = 0.05):
         """
         Constructor for the SadaSampler.
         :param samplers:
