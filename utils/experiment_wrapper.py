@@ -1,5 +1,6 @@
 import time
 
+import numpy as np
 from discopygal.solvers import Scene, PathCollection
 from discopygal.solvers.metrics import Metric, Metric_Euclidean
 from discopygal.solvers.Solver import Solver
@@ -22,7 +23,7 @@ class ExperimentsWrapper:
                  eps: float = -1, delta: float = -1,
                  bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR,
                  nearest_neighbors=None, metric: Metric = None, sampler: Sampler = None, prm_num_landmarks=None,
-                 prm_nearest_neighbors=None):
+                 prm_nearest_neighbors=None, exact: bool = False, wrapper_metric: Metric = None, time_limit: float = 100000):
         """
         Constructor for the ExperimentsWrapper.
 
@@ -54,6 +55,20 @@ class ExperimentsWrapper:
         :type prm_nearest_neighbors:
         """
         # Build the proper solver
+        self.solver_name = solver_name
+        self.bounding_margin_width_factor = bounding_margin_width_factor
+        self.nearest_neighbors = nearest_neighbors
+        self.sampler = sampler
+        self.prm_k = k
+        self.prm_nearest_neighbors = prm_nearest_neighbors
+        self.eps = eps
+        self.delta = delta
+        self.k = k
+        self.num_landmarks = num_landmarks
+        self.prm_num_landmarks = prm_num_landmarks
+        self.metric = metric
+        self.time_limit = time_limit
+
         if solver_name == 'PRM':
             self.solver = BasicPrmForExperiments(num_landmarks, k,
                                                  bounding_margin_width_factor=bounding_margin_width_factor,
@@ -72,19 +87,47 @@ class ExperimentsWrapper:
                                                             sampler=sampler)
         elif solver_name == 'Squares':
             self.solver = SquareMotionPlanner(num_landmarks=num_landmarks, k=k,
-                                              bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR,
+                                              bounding_margin_width_factor=bounding_margin_width_factor,
                                               sampler=sampler)
         else:
             raise ValueError('Invalid solver name')
 
-        # Load scene
-        self.solver.load_scene(scene)
+        self.scene = scene
         self.num_experiments = num_experiments
+        self.exact = exact
+        if self.exact:
+            print('Exact mode enabled, until the exact number of successful is found the experiments will not stop.')
 
         # Metric for path length
-        self.metric = metric
-        if self.metric is None:
-            self.metric = Metric_Euclidean
+        self.wrapper_metric = wrapper_metric
+        if self.wrapper_metric is None:
+            self.wrapper_metric = Metric_Euclidean
+
+    def restart(self):
+        """
+        Restart the solver
+        """
+        # Build the proper solver
+        if self.solver_name == 'PRM':
+            self.solver = BasicPrmForExperiments(self.num_landmarks, self.k,
+                                                 bounding_margin_width_factor=self.bounding_margin_width_factor,
+                                                 nearest_neighbors=self.nearest_neighbors, metric=self.metric, sampler=self.sampler)
+        elif self.solver_name == 'DRRT':
+            self.solver = BasicDRRTForExperiments(num_landmarks=self.num_landmarks, prm_num_landmarks=self.prm_num_landmarks,
+                                                  prm_k=self.k,
+                                                  bounding_margin_width_factor=self.bounding_margin_width_factor,
+                                                  nearest_neighbors=self.nearest_neighbors,
+                                                  prm_nearest_neighbors=self.prm_nearest_neighbors, metric=self.metric,
+                                                  sampler=self.sampler)
+        elif self.solver_name == 'StaggeredGrid':
+            self.solver = BasicsStaggeredGridForExperiments(self.eps, self.delta,
+                                                            bounding_margin_width_factor=self.bounding_margin_width_factor,
+                                                            nearest_neighbors=self.nearest_neighbors, metric=self.metric,
+                                                            sampler=self.sampler)
+        elif self.solver_name == 'Squares':
+            self.solver = SquareMotionPlanner(num_landmarks=self.num_landmarks, k=self.k,
+                                              bounding_margin_width_factor=self.bounding_margin_width_factor,
+                                              sampler=self.sampler)
 
     def run(self) -> (float, float):
         """
@@ -98,14 +141,26 @@ class ExperimentsWrapper:
 
         # Run the experiments
         for experiment in range(self.num_experiments):
-            # Compute time of execution
-            start = time.time()
-            robot_paths = self.solver.solve()
-            total_time = time.time() - start
-            time_results.append(total_time)
+            stopper = time.time()
+            first_time = True
+            continue_running = False
+            total_time = np.inf
+            length = np.inf
+            while continue_running or first_time:
+                first_time = False
+                self.restart()
+                # Compute time of execution
+                start = time.time()
+                self.solver.load_scene(self.scene)
+                robot_paths = self.solver.solve()
+                total_time = time.time() - start
 
-            # Compute path length
-            paths_len.append(path_length(robot_paths, self.metric.dist))
+                # Compute path length
+                length = path_length(robot_paths, self.wrapper_metric.dist)
+                continue_running = self.exact and (length == 0) and (abs(time.time() - stopper) < self.time_limit)
+
+            time_results.append(total_time)
+            paths_len.append(length)
 
         # Compute average time and path length
         avg_time = avg(time_results)

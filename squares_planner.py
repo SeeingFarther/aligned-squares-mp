@@ -32,7 +32,7 @@ class SquaresPrm(Solver):
     """
 
     def __init__(self, num_landmarks: int, k: int,
-                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, sampler: Sampler = None):
+                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, sampler: Sampler = None, metric: str = None):
         """
         Constructor for the SquaresPrm solver.
         :param num_landmarks:
