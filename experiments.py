@@ -306,7 +306,7 @@ if __name__ == '__main__':
     args = parse_arguments()
     args.compare_length = True
     args.to_file = True
-    args.file = './results/Length_Experiments2.txt'
+    args.file = 'results/output.txt'
 
     if args.to_file:
         with open(args.file, 'w') as f:
