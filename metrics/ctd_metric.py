@@ -1,6 +1,7 @@
 import sklearn.metrics
 import numpy as np
 from discopygal.bindings import *
+from discopygal.geometry_utils.conversions import Point_2_list_to_Point_d
 from discopygal.solvers.metrics import Metric
 
 
@@ -37,9 +38,12 @@ class Metric_CTD(Metric):
             return FT(d)
         elif type(p) is Point_d and type(
                 q) is Point_d and p.dimension() == q.dimension() and p.dimension() % 2 == 0 and q.dimension() % 2 == 0:
-            r = p - q
+            r = []
+            for i in range(int(p.dimension() / 2)):
+                r.append(Point_2(p[i] - q[i], p[i + 1] - q[i + 1]))
+            r = Point_2_list_to_Point_d(r)
             a, sum_x, sum_y = 0, 0, 0
-            length = r.dimension() / 2
+            length = int(r.dimension() / 2)
             for i in range(length):
                 x = r[2 * i]
                 y = r[2 * i + 1]

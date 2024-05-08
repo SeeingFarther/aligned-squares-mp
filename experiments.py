@@ -73,7 +73,7 @@ def run_length_exp_algos(solver: str, sampler: Sampler = None, exact: bool = Fal
 
 
 def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
-             k_values: list[int] = [5, 15, 50],
+             k_values: list[int] = [5, 15, 50], nearest_neighbors_metric: str = 'CTD',
              num_landmark: int = 1000, bound: FT = 0, delta: int = 0.1, eps: int = 9999,
              prm_num_landmarks: int = 2000, exact: bool = False, time_limit=100000):
     # Run experiments for each scene
@@ -97,18 +97,18 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
         for k in k_values:
             if solver == 'PRM' or solver == 'Squares':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k,
+                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
             elif solver == 'DRRT':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k,
+                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         prm_num_landmarks=prm_num_landmarks, exact=exact,
                                                         time_limit=time_limit)
             elif solver == 'StaggeredGrid':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        eps=eps, delta=delta,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric, eps=eps, delta=delta,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
@@ -119,7 +119,7 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
 
 
 def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
-                         k: int = 15, num_landmarks_values: list[int] = [500, 1000, 5000], bound: FT = 0,
+                         k: int = 15, nearest_neighbors_metric: str = 'CTD', num_landmarks_values: list[int] = [500, 1000, 5000], bound: FT = 0,
                          delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                          time_limit=100000):
     for scene_path in scenes_path:
@@ -142,18 +142,18 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
         for num_landmarks in num_landmarks_values:
             if solver == 'PRM' or solver == 'Squares':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmarks, k=k,
+                                                        num_landmarks=num_landmarks, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
             elif solver == 'DRRT':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmarks, k=k,
+                                                        num_landmarks=num_landmarks, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         prm_num_landmarks=prm_num_landmarks, exact=exact,
                                                         time_limit=time_limit)
             elif solver == 'StaggeredGrid':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        eps=eps, delta=delta,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric, eps=eps, delta=delta,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
@@ -164,7 +164,7 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
 
 
 def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = None, num_experiments: int = 5,
-                 k: int = 15, num_landmark: int = 5000, bound: FT = 0,
+                 k: int = 15, nearest_neighbors_metric: str = 'CTD', num_landmark: int = 5000, bound: FT = 0,
                  delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                  time_limit=100000):
     # Run experiments for each scene
@@ -179,18 +179,18 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
         for solver in solvers:
             if solver == 'PRM' or solver == 'Squares':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k,
+                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
             elif solver == 'DRRT':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k,
+                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         prm_num_landmarks=prm_num_landmarks, exact=exact,
                                                         time_limit=time_limit)
             elif solver == 'StaggeredGrid':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        eps=eps, delta=delta,
+                                                        eps=eps, delta=delta, nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
@@ -257,7 +257,7 @@ def parse_arguments():
     parser.add_argument('--delta', type=float, default=2, help='Bounding width factor')
     parser.add_argument('--solver', type=str, default="squares", choices=['prm', 'drrt', 'staggered', 'squares'],
                         help='Type of solver')
-    parser.add_argument('--metric', type=str, default=None, choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf'],
+    parser.add_argument('--nearest_neighbors', type=str, default=None, choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf'],
                         help='Type of solver')
     parser.add_argument('--exact', type=bool, default=False, help='Run exact number of successful experiments')
     parser.add_argument('--path', type=str, default='./scenes/easy2.json', help='Path to scene file')
@@ -277,13 +277,14 @@ def start_running(args):
     with open(args.path, 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
 
+
     if args.compare_algo:
         scenes = get_scene_paths(args.scene_dir)
         scenes = scenes[:-1]
         # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
-        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=500, exact=True, time_limit=100)
-        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=1500, exact=True, time_limit=100)
-        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=5000, exact=True, time_limit=200)
+        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
+        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=1500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
+        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=5000, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=200)
         # compare_algo(scenes, ['Squares'], num_landmark=1500, sampler=None, exact=True, time_limit=600)
         # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
         exit(0)
@@ -291,15 +292,15 @@ def start_running(args):
     if args.compare_landmarks:
         scenes = get_scene_paths(args.scene_dir)
         length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
-                             k=args.k,
-                             delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
+                             k=args.k, nearest_neighbors_metric=args.nearest_neighbors, delta=args.delta, eps=args.eps,
+                             prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
                              time_limit=args.time_limit)
         exit(0)
 
     if args.compare_k:
         scenes = get_scene_paths(args.scene_dir)
         length_k(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
-                 num_landmark=args.num_landmarks, delta=args.delta, eps=args.eps,
+                 num_landmark=args.num_landmarks, nearest_neighbors_metric=args.nearest_neighbors, delta=args.delta, eps=args.eps,
                  prm_num_landmarks=args.prm_num_landmarks, exact=args.exact, time_limit=args.time_limit)
         exit(0)
 

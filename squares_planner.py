@@ -7,7 +7,6 @@ from discopygal.geometry_utils.conversions import Point_2_list_to_Point_d, Point
 from discopygal.solvers.samplers import Sampler
 from discopygal.solvers import Scene, Robot
 from discopygal.solvers import PathPoint, Path, PathCollection
-from discopygal.solvers.metrics import Metric_Euclidean
 from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection, conversions
@@ -23,6 +22,7 @@ from samplers.space_sampler import SpaceSampler
 from utils.path_shortener import PathShortener
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
+from metrics.euclidean_metric import Metric_Euclidean, Metric
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
 from utils.utils import point2_to_point_d
 
@@ -33,7 +33,7 @@ class SquaresPrm(Solver):
     """
 
     def __init__(self, num_landmarks: int, k: int,
-                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, sampler: Sampler = None, metric: str = None):
+                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors = None, sampler: Sampler = None, metric: Metric = None):
         """
         Constructor for the SquaresPrm solver.
         :param num_landmarks:
@@ -42,8 +42,12 @@ class SquaresPrm(Solver):
         :type k: int
         :param bounding_margin_width_factor:
         :type bounding_margin_width_factor: FT
+        :param nearest_neighbors:
+        :type nearest_neighbors:
         :param samplers:
         :type samplers: list[:class:`~discopygal.solvers.samplers.Sampler`]
+        :param metric:
+        :type metric: :class:`~discopygal.solvers.metrics.Metric`
         """
         super().__init__(FT(bounding_margin_width_factor))
         self.num_landmarks = num_landmarks
@@ -60,21 +64,15 @@ class SquaresPrm(Solver):
         self.combined_sampler = SadaSampler(samplers, gamma=0.2)
 
         # Choose metric for nearest neighbors
-        metric = 'Euclidean'
-        if metric is None or metric == 'Euclidean':
+        self.nearest_neighbors = nearest_neighbors
+        if nearest_neighbors is None:
             self.nearest_neighbors = NearestNeighbors_sklearn()
-        elif metric == 'CTD':
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
-        elif metric == 'Epsilon_2':
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
-        elif metric == 'Epsilon_Inf':
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
-        else:
-            print('Unknown metric')
-            exit(-1)
 
         # Metric for distance computation
         self.metric = Metric_Euclidean
+        if metric is None:
+            self.metric = Metric_Euclidean
+
         self.k = k
         self.roadmap = None
         self.collision_detection = {}

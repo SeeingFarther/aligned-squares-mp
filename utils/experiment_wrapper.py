@@ -10,7 +10,10 @@ from discopygal.bindings import FT, Point_2
 from benchmarks.drrt import BasicDRRTForExperiments
 from benchmarks.prm import BasicPrmForExperiments
 from benchmarks.staggered_grid import BasicsStaggeredGridForExperiments
+from metrics.ctd_metric import Metric_CTD
+from metrics.epsilon_metric import Metric_Epsilon_Inf, Metric_Epsilon_2
 from squares_planner import SquaresPrm as SquareMotionPlanner
+from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
 
 
 class ExperimentsWrapper:
@@ -22,8 +25,9 @@ class ExperimentsWrapper:
                  k: int = -1,
                  eps: float = -1, delta: float = -1,
                  bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR,
-                 nearest_neighbors=None, metric: Metric = None, sampler: Sampler = None, prm_num_landmarks=None,
-                 prm_nearest_neighbors=None, exact: bool = False, wrapper_metric: Metric = None, time_limit: float = 100000):
+                 nearest_neighbors_metric: str = 'CTD',
+                 metric: Metric = None, sampler: Sampler = None, prm_num_landmarks=None,
+                 exact: bool = False, wrapper_metric: Metric = None, time_limit: float = 100000):
         """
         Constructor for the ExperimentsWrapper.
 
@@ -43,24 +47,21 @@ class ExperimentsWrapper:
         :type delta: float
         :param bounding_margin_width_factor:
         :type bounding_margin_width_factor: :class:`~discopygal.bindings.FT`
-        :param nearest_neighbors:
-        :type nearest_neighbors:
+        :param nearest_neighbors_metric:
+        :type nearest_neighbors_metric: str
         :param metric:
         :type metric: :class:`~discopygal.solvers.metrics.Metric`
         :param sampler:
         :type sampler: :class:`~discopygal.solvers.samplers.Sampler`
         :param prm_num_landmarks:
         :type prm_num_landmarks: int
-        :param prm_nearest_neighbors:
-        :type prm_nearest_neighbors:
+
         """
         # Build the proper solver
         self.solver_name = solver_name
         self.bounding_margin_width_factor = bounding_margin_width_factor
-        self.nearest_neighbors = nearest_neighbors
         self.sampler = sampler
         self.prm_k = k
-        self.prm_nearest_neighbors = prm_nearest_neighbors
         self.eps = eps
         self.delta = delta
         self.k = k
@@ -69,21 +70,40 @@ class ExperimentsWrapper:
         self.metric = metric
         self.time_limit = time_limit
 
+        if self.metric is None:
+            NearestNeighbors_sklearn()
+        if nearest_neighbors_metric == 'Euclidean':
+            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+        elif nearest_neighbors_metric == 'CTD':
+            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+        elif nearest_neighbors_metric == 'Epsilon_2':
+            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+        elif nearest_neighbors_metric == 'Epsilon_Inf':
+            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        else:
+            print('Unknown metric')
+            exit(-1)
+
         if solver_name == 'PRM':
             self.solver = BasicPrmForExperiments(num_landmarks, k,
                                                  bounding_margin_width_factor=bounding_margin_width_factor,
-                                                 nearest_neighbors=nearest_neighbors, metric=metric, sampler=sampler)
+                                                 nearest_neighbors=self.nearest_neighbors, metric=metric,
+                                                 sampler=sampler)
         elif solver_name == 'DRRT':
             self.solver = BasicDRRTForExperiments(num_landmarks=num_landmarks, prm_num_landmarks=prm_num_landmarks,
                                                   prm_k=k,
                                                   bounding_margin_width_factor=bounding_margin_width_factor,
-                                                  nearest_neighbors=nearest_neighbors,
-                                                  prm_nearest_neighbors=prm_nearest_neighbors, metric=metric,
+                                                  nearest_neighbors=self.nearest_neighbors,
+                                                  prm_nearest_neighbors=self.prm_nearest_neighbors, metric=metric,
                                                   sampler=sampler)
         elif solver_name == 'StaggeredGrid':
             self.solver = BasicsStaggeredGridForExperiments(eps, delta,
                                                             bounding_margin_width_factor=bounding_margin_width_factor,
-                                                            nearest_neighbors=nearest_neighbors, metric=metric,
+                                                            nearest_neighbors=self.nearest_neighbors, metric=metric,
                                                             sampler=sampler)
         elif solver_name == 'Squares':
             self.solver = SquareMotionPlanner(num_landmarks=num_landmarks, k=k,
@@ -96,7 +116,8 @@ class ExperimentsWrapper:
         self.num_experiments = num_experiments
         self.exact = exact
         if self.exact:
-            print('Exact mode enabled, until the exact number of successful experiments will not stop or time limit passed.')
+            print(
+                'Exact mode enabled, until the exact number of successful experiments will not stop or time limit passed.')
 
         # Metric for path length
         self.wrapper_metric = wrapper_metric
@@ -111,9 +132,11 @@ class ExperimentsWrapper:
         if self.solver_name == 'PRM':
             self.solver = BasicPrmForExperiments(self.num_landmarks, self.k,
                                                  bounding_margin_width_factor=self.bounding_margin_width_factor,
-                                                 nearest_neighbors=self.nearest_neighbors, metric=self.metric, sampler=self.sampler)
+                                                 nearest_neighbors=self.nearest_neighbors, metric=self.metric,
+                                                 sampler=self.sampler)
         elif self.solver_name == 'DRRT':
-            self.solver = BasicDRRTForExperiments(num_landmarks=self.num_landmarks, prm_num_landmarks=self.prm_num_landmarks,
+            self.solver = BasicDRRTForExperiments(num_landmarks=self.num_landmarks,
+                                                  prm_num_landmarks=self.prm_num_landmarks,
                                                   prm_k=self.k,
                                                   bounding_margin_width_factor=self.bounding_margin_width_factor,
                                                   nearest_neighbors=self.nearest_neighbors,
@@ -122,7 +145,8 @@ class ExperimentsWrapper:
         elif self.solver_name == 'StaggeredGrid':
             self.solver = BasicsStaggeredGridForExperiments(self.eps, self.delta,
                                                             bounding_margin_width_factor=self.bounding_margin_width_factor,
-                                                            nearest_neighbors=self.nearest_neighbors, metric=self.metric,
+                                                            nearest_neighbors=self.nearest_neighbors,
+                                                            metric=self.metric,
                                                             sampler=self.sampler)
         elif self.solver_name == 'Squares':
             self.solver = SquareMotionPlanner(num_landmarks=self.num_landmarks, k=self.k,
