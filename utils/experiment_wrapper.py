@@ -96,7 +96,7 @@ class ExperimentsWrapper:
         self.num_experiments = num_experiments
         self.exact = exact
         if self.exact:
-            print('Exact mode enabled, until the exact number of successful is found the experiments will not stop.')
+            print('Exact mode enabled, until the exact number of successful experiments will not stop or time limit passed.')
 
         # Metric for path length
         self.wrapper_metric = wrapper_metric

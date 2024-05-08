@@ -14,6 +14,37 @@ from samplers.space_sampler import SpaceSampler
 from utils.experiment_wrapper import ExperimentsWrapper
 
 
+class StringPrinter:
+    def __init__(self):
+        self.filename = None
+        self.to_file = False
+        return
+
+    def ready_printer(self, args):
+        self.filename = args.file
+        self.to_file = args.to_file
+        if self.to_file:
+            self.print_func = self.print_to_file_and_stdout
+        else:
+            self.print_func = self.print_to_stdout
+
+    def print(self, input_string):
+        self.print_func(input_string)
+
+    def print_to_stdout(self, input_string):
+        print(input_string)
+
+    def print_to_file_and_stdout(self, input_string):
+        # Print to stdout
+        print(input_string)
+
+        # Write to file
+        with open(self.filename, 'w+') as file:
+            with redirect_stdout(file):
+                print(input_string)
+
+
+
 def run_length_exp_algos(solver: str, sampler: Sampler = None, exact: bool = False):
     scenes = {
         'scene_length_1.json': (5, 1000, 0),
@@ -28,7 +59,7 @@ def run_length_exp_algos(solver: str, sampler: Sampler = None, exact: bool = Fal
     for scene_name in scenes:
         # Get the parameters for the scene
         k, num_landmarks, bound = scenes[scene_name]
-        print(f'--------- Start Scene {scene_name}--------')
+        string_printer.print(f'--------- Start Scene {scene_name}--------')
         with open(scene_name, 'r') as fp:
             curr_scene = Scene.from_dict(json.load(fp))
 
@@ -36,7 +67,7 @@ def run_length_exp_algos(solver: str, sampler: Sampler = None, exact: bool = Fal
                                                 num_landmarks=num_landmarks, k=k,
                                                 bounding_margin_width_factor=bound, sampler=sampler, exact=exact)
         time, path_len = experiment_wrapper.run()
-        print(
+        string_printer.print(
             f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} with {num_landmarks} samples, we have got {time:.5f} seconds and {path_len} path length')
     return
 
@@ -51,17 +82,17 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
         with open(scene_path, 'r') as fp:
             scene = Scene.from_dict(json.load(fp))
 
-        print("_________________________")
-        print("Results for scene: ", scene_name)
-        print("For following parameters:")
-        print("Solver: ", solver)
-        print("Number of experiments: ", num_experiments)
-        print("num_landmark: ", num_landmark)
-        print("Bounding width factor: ", bound)
-        print("Delta: ", delta)
-        print("Epsilon: ", eps)
-        print("PRM Number of landmarks: ", prm_num_landmarks)
-        print("Exact: ", exact)
+        string_printer.print('_________________________')
+        string_printer.print(f'Results for scene: { scene_name}')
+        string_printer.print('For following parameters:')
+        string_printer.print(f'Solver: {solver}')
+        string_printer.print(f'Number of experiments: {num_experiments}')
+        string_printer.print(f'num_landmark: : { num_landmark}')
+        string_printer.print(f'Bounding width factor: {bound}')
+        string_printer.print(f'Delta: {delta}')
+        string_printer.print(f'Epsilon: { eps}')
+        string_printer.print(f'PRM Number of landmarks: { prm_num_landmarks}')
+        string_printer.print(f'Exact:{ exact}')
 
         for k in k_values:
             if solver == 'PRM' or solver == 'Squares':
@@ -82,7 +113,7 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
                                                         exact=exact, time_limit=time_limit)
 
             time, path_len = experiment_wrapper.run()
-            print(
+            string_printer.print(
                 f'Results for k: {k}  we have got {time:.5f} seconds and {path_len} path length')
     return
 
@@ -96,17 +127,17 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
         with open(scene_path, 'r') as fp:
             scene = Scene.from_dict(json.load(fp))
 
-        print("_________________________")
-        print("Results for scene: ", scene_name)
-        print("For following parameters:")
-        print("Solver: ", solver)
-        print("Number of experiments: ", num_experiments)
-        print("K: ", k)
-        print("Bounding width factor: ", bound)
-        print("Delta: ", delta)
-        print("Epsilon: ", eps)
-        print("PRM Number of landmarks: ", prm_num_landmarks)
-        print("Exact: ", exact)
+        string_printer.print('_________________________')
+        string_printer.print(f'Results for scene: { scene_name}')
+        string_printer.print('For following parameters:')
+        string_printer.print(f'Solver: {solver}')
+        string_printer.print(f'Number of experiments: {num_experiments}')
+        string_printer.print(f'K: : { k}')
+        string_printer.print(f'Bounding width factor: {bound}')
+        string_printer.print(f'Delta: {delta}')
+        string_printer.print(f'Epsilon: { eps}')
+        string_printer.print(f'PRM Number of landmarks: { prm_num_landmarks}')
+        string_printer.print(f'Exact:{ exact}')
 
         for num_landmarks in num_landmarks_values:
             if solver == 'PRM' or solver == 'Squares':
@@ -127,7 +158,7 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
                                                         exact=exact, time_limit=time_limit)
 
             time, path_len = experiment_wrapper.run()
-            print(
+            string_printer.print(
                 f'Results for num_landmark: {num_landmarks}  we have got {time:.5f} seconds and {path_len} path length')
     return
 
@@ -181,24 +212,24 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
                 min_path_len = path_len
                 min_len_solver = solver
 
-        print("_________________________")
-        print("Results for scene: ", scene_name)
-        print("For following parameters:")
-        print("Solver: ", solvers)
-        print("Number of experiments: ", num_experiments)
-        print("K: ", k)
-        print("Number of landmarks: ", num_landmark)
-        print("Bounding width factor: ", bound)
-        print("Delta: ", delta)
-        print("Epsilon: ", eps)
-        print("PRM Number of landmarks: ", prm_num_landmarks)
-        print("Exact: ", exact)
-        print("Time Limit: ", time_limit)
-        print("Times: ", solvers_time_results)
-        print("Path Lengths: ", solvers_length_results)
-        print(
+        string_printer.print('_________________________')
+        string_printer.print(f'Results for scene: { scene_name}')
+        string_printer.print('For following parameters:')
+        string_printer.print(f'Solver: {solvers}')
+        string_printer.print(f'Number of experiments: {num_experiments}')
+        string_printer.print(f'K: : { k}')
+        string_printer.print(f'Number of landmarks: { num_landmark}')
+        string_printer.print(f'Bounding width factor: {bound}')
+        string_printer.print(f'Delta: {delta}')
+        string_printer.print(f'Epsilon: { eps}')
+        string_printer.print(f'PRM Number of landmarks: { prm_num_landmarks}')
+        string_printer.print(f'Exact:{ exact}')
+        string_printer.print(f'Time Limit: { time_limit}')
+        string_printer.print(f'Times:: { solvers_time_results}')
+        string_printer.print(f'Path Lengths: {solvers_length_results}')
+        string_printer.print(
             f'For {num_experiments} experiments, best time won solver {min_time_solver} with {min_time:.5f} seconds, best length won solver {min_len_solver} with {min_path_len}  path length')
-        print("_________________________")
+        string_printer.print('_________________________')
     return
 
 
@@ -216,7 +247,7 @@ def parse_arguments():
 
     # Add arguments
     parser.add_argument('--compare-landmarks', type=bool, default=False, help='Do landmarks experiments')
-    parser.add_argument('--compare-length', type=bool, default=False, help='Do length experiments')
+    parser.add_argument('--compare-algo', type=bool, default=False, help='Do algorithms experiments')
     parser.add_argument('--k', type=int, default=15, help='Value of k')
     parser.add_argument('--num-landmarks', type=int, default=1000, help='Number of landmarks')
     parser.add_argument('-prm-num-landmarks', type=int, default=2000, help='Number of landmarks for PRM for DRRT')
@@ -233,7 +264,7 @@ def parse_arguments():
     parser.add_argument('--sampler', type=str, default='none', choices=['none', 'uniform', 'combined'],
                         help='Type of sampler')
     parser.add_argument('--to-file', type=bool, default=False, help='Write output to file')
-    parser.add_argument('--file', type=str, default='./results/test', help='Path to scene file')
+    parser.add_argument('--file', type=str, default='./results/other_benchmarks_tests.txt', help='Path to scene file')
     parser.add_argument('--scene-dir', type=str, default='./scenes/', help='Path to scene directory')
     parser.add_argument('--time_limit', type=int, default=200, help='Second time limit')
 
@@ -246,19 +277,23 @@ def start_running(args):
     with open(args.path, 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
 
-    if args.compare_length:
+    if args.compare_algo:
         scenes = get_scene_paths(args.scene_dir)
-
+        scenes = scenes[:-1]
         # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
-        compare_algo(scenes, ['Squares'], num_landmark=1500, sampler=None, exact=True, time_limit=600)
+        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=500, exact=True, time_limit=100)
+        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=1500, exact=True, time_limit=100)
+        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=5000, exact=True, time_limit=200)
+        # compare_algo(scenes, ['Squares'], num_landmark=1500, sampler=None, exact=True, time_limit=600)
         # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
         exit(0)
 
     if args.compare_landmarks:
         scenes = get_scene_paths(args.scene_dir)
-        length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound, k=args.k,
-                 delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
-                 time_limit=args.time_limit)
+        length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
+                             k=args.k,
+                             delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
+                             time_limit=args.time_limit)
         exit(0)
 
     if args.compare_k:
@@ -298,19 +333,16 @@ def start_running(args):
                                                 metric=args.metric)
 
     time_result, path_len_result = experiment_wrapper.run()
-    print(
+    string_printer.print(
         f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time_result:.3f} seconds and {path_len_result} path length')
 
 
+string_printer = StringPrinter()
+
 if __name__ == '__main__':
     args = parse_arguments()
-    args.compare_length = True
+    args.compare_algo = True
     args.to_file = True
     args.file = 'results/output.txt'
-
-    if args.to_file:
-        with open(args.file, 'w') as f:
-            with redirect_stdout(f):
-                start_running(args)
-    else:
-        start_running(args)
+    string_printer.ready_printer(args)
+    start_running(args)
