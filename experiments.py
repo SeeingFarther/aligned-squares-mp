@@ -277,6 +277,9 @@ def start_running(args):
     with open(args.path, 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
 
+    # TODO: DELETE AFTER TESTS
+    # compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=True,
+    #              nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
 
     if args.compare_algo:
         scenes = get_scene_paths(args.scene_dir)

@@ -4,6 +4,7 @@ import numpy as np
 from discopygal.solvers import Scene, PathCollection
 from discopygal.solvers.metrics import Metric, Metric_Euclidean
 from discopygal.solvers.Solver import Solver
+from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.solvers.samplers import Sampler
 from discopygal.bindings import FT, Point_2
 
@@ -69,10 +70,12 @@ class ExperimentsWrapper:
         self.prm_num_landmarks = prm_num_landmarks
         self.metric = metric
         self.time_limit = time_limit
+        self.nearest_neighbors_metric = nearest_neighbors_metric
 
-        if self.metric is None:
-            NearestNeighbors_sklearn()
-        if nearest_neighbors_metric == 'Euclidean':
+        if self.nearest_neighbors_metric is None:
+            self.nearest_neighbors = NearestNeighbors_sklearn()
+            self.prm_nearest_neighbors = NearestNeighbors_sklearn()
+        elif nearest_neighbors_metric == 'Euclidean':
             self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
             self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
         elif nearest_neighbors_metric == 'CTD':

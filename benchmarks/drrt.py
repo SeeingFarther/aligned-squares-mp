@@ -40,17 +40,20 @@ class dRRT(Solver):
     """
 
     def __init__(self, num_landmarks, prm_num_landmarks, prm_k,
-                 bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors=None
+                 bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors=None, prm_nearest_neighbors = None
                   ,metric=None, sampler=None):
         super().__init__(bounding_margin_width_factor)
         self.num_landmarks = num_landmarks
         self.prm_num_landmarks = prm_num_landmarks
         self.prm_k = prm_k
 
-        nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
-        nearest_neighbors1 =  NearestNeighbors_sklearn_ball(Metric_CTD)
+        #TODO: Fix bug
+        # nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+        # nearest_neighbors1 =  NearestNeighbors_sklearn_ball(Metric_CTD)
+        # self.nearest_neighbors = nearest_neighbors
+        # self.prm_nearest_neighbors = nearest_neighbors1
         self.nearest_neighbors = nearest_neighbors
-        self.prm_nearest_neighbors = nearest_neighbors1
+        self.prm_nearest_neighbors = prm_nearest_neighbors
         self.metric = metric
 
         self.sampler = sampler
@@ -202,28 +205,29 @@ class dRRT(Solver):
 
         return path_collection
 
-# class BasicDRRTForExperiments(dRRT):
-#     """ Basic DRRT for experiments"""
-#
-#     def load_scene(self, scene: Scene):
-#         """
-#         Load the scene for the DRRT algorithm
-#         :param scene
-#         :type scene: :class:`~discopygal.solvers.Scene`
-#         """
-#         super().load_scene(scene)
-#
-#     def solve(self) -> PathCollection:
-#         """
-#         Solve the scene using the DRRT algorithm
-#         :return: Path solution
-#         :rtype: :class:`~discopygal.solvers.PathCollection`
-#         """
-#         path = super().solve()
-#         return path
+class BasicDRRTForExperiments(dRRT):
+    """ Basic DRRT for experiments"""
 
-with open('../scenes/cubic3.json') as f:
-    scene = Scene.from_dict(json.load(f))
-    drrt = dRRT(1000, 2000, 15)
-    drrt.load_scene(scene)
-    drrt.solve()
+    def load_scene(self, scene: Scene):
+        """
+        Load the scene for the DRRT algorithm
+        :param scene
+        :type scene: :class:`~discopygal.solvers.Scene`
+        """
+        super().load_scene(scene)
+
+    def solve(self) -> PathCollection:
+        """
+        Solve the scene using the DRRT algorithm
+        :return: Path solution
+        :rtype: :class:`~discopygal.solvers.PathCollection`
+        """
+        path = super().solve()
+        return path
+
+# TODO: Debug
+# with open('../scenes/cubic3.json') as f:
+#     scene = Scene.from_dict(json.load(f))
+#     drrt = dRRT(1000, 2000, 15)
+#     drrt.load_scene(scene)
+#     drrt.solve()

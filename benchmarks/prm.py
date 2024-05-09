@@ -233,9 +233,9 @@ class BasicPrmForExperiments(PRM):
         path = super().solve()
         return path
 
-
-with open('../scenes/cubic3.json', 'r') as fp:
-    scene = Scene.from_dict(json.load(fp))
-solver = PRM(1000, 2000, 15, 1.0, None, None, None, None)
-solver.load_scene(scene)
-solver.solve()
+# TODO: DELETE THIS
+# with open('../scenes/cubic3.json', 'r') as fp:
+#     scene = Scene.from_dict(json.load(fp))
+# solver = PRM(1000, 2000, 15, 1.0, None, None, None, None)
+# solver.load_scene(scene)
+# solver.solve()
