@@ -5,12 +5,15 @@ import networkx as nx
 from discopygal.solvers import Robot, RobotDisc, RobotPolygon, RobotRod
 from discopygal.solvers import Obstacle, ObstacleDisc, ObstaclePolygon, Scene
 from discopygal.solvers import PathPoint, Path, PathCollection
+from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.solvers.samplers import Sampler_Uniform
 from discopygal.bindings import *
 from discopygal.geometry_utils import conversions
 from discopygal.solvers.Solver import Solver
 
 from metrics.ctd_metric import Metric_CTD
+from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
+from metrics.euclidean_metric import Metric_Euclidean
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
 from utils.tensor_roadmap import TensorRoadmap, build_probabilistic_roadmap
 
@@ -40,20 +43,16 @@ class dRRT(Solver):
     """
 
     def __init__(self, num_landmarks, prm_num_landmarks, prm_k,
-                 bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors=None, prm_nearest_neighbors = None
-                  ,metric=None, sampler=None):
+                 bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR
+                  ,metric=None, sampler=None, nearest_neighbors_metric=None):
         super().__init__(bounding_margin_width_factor)
         self.num_landmarks = num_landmarks
         self.prm_num_landmarks = prm_num_landmarks
         self.prm_k = prm_k
 
         #TODO: Fix bug
-        # nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
-        # nearest_neighbors1 =  NearestNeighbors_sklearn_ball(Metric_CTD)
-        # self.nearest_neighbors = nearest_neighbors
-        # self.prm_nearest_neighbors = nearest_neighbors1
-        self.nearest_neighbors = nearest_neighbors
-        self.prm_nearest_neighbors = prm_nearest_neighbors
+        self.nearest_neighbors_metric = 'Euclidean'
+
         self.metric = metric
 
         self.sampler = sampler
@@ -119,13 +118,35 @@ class dRRT(Solver):
         for i, robot in enumerate(self.scene.robots):
             if self.verbose:
                 print('generating PRM #{}...'.format(i + 1), file=self.writer)
+            if self.nearest_neighbors_metric is None:
+                prm_nearest_neighbors = NearestNeighbors_sklearn()
+            elif self.nearest_neighbors_metric  == 'Euclidean':
+                prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+            elif self.nearest_neighbors_metric == 'CTD':
+                prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+            elif self.nearest_neighbors_metric  == 'Epsilon_2':
+                prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+            elif self.nearest_neighbors_metric  == 'Epsilon_Inf':
+                prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+
             roadmaps[robot] = build_probabilistic_roadmap(
                 self.scene, robot,
                 self.prm_num_landmarks, self.prm_k,
-                self.prm_nearest_neighbors, self.sampler)
+                prm_nearest_neighbors, self.sampler)
+
+        if self.nearest_neighbors_metric is None:
+            nearest_neighbors = NearestNeighbors_sklearn()
+        elif self.nearest_neighbors_metric == 'Euclidean':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+        elif self.nearest_neighbors_metric == 'CTD':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+        elif self.nearest_neighbors_metric == 'Epsilon_2':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+        elif self.nearest_neighbors_metric == 'Epsilon_Inf':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
 
         # Construct the tensor roadmap
-        self.tensor_roadmap = TensorRoadmap(roadmaps, self.nearest_neighbors, self.metric)
+        self.tensor_roadmap = TensorRoadmap(roadmaps, nearest_neighbors, self.metric)
 
         # Convert the start and end endpoints to Point_d
         self.start_points = []

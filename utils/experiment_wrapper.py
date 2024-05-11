@@ -74,19 +74,14 @@ class ExperimentsWrapper:
 
         if self.nearest_neighbors_metric is None:
             self.nearest_neighbors = NearestNeighbors_sklearn()
-            self.prm_nearest_neighbors = NearestNeighbors_sklearn()
         elif nearest_neighbors_metric == 'Euclidean':
             self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
-            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
         elif nearest_neighbors_metric == 'CTD':
             self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
-            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
         elif nearest_neighbors_metric == 'Epsilon_2':
             self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
-            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
         elif nearest_neighbors_metric == 'Epsilon_Inf':
             self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
-            self.prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
         else:
             print('Unknown metric')
             exit(-1)
@@ -100,8 +95,7 @@ class ExperimentsWrapper:
             self.solver = BasicDRRTForExperiments(num_landmarks=num_landmarks, prm_num_landmarks=prm_num_landmarks,
                                                   prm_k=k,
                                                   bounding_margin_width_factor=bounding_margin_width_factor,
-                                                  nearest_neighbors=self.nearest_neighbors,
-                                                  prm_nearest_neighbors=self.prm_nearest_neighbors, metric=metric,
+                                                  metric=metric, nearest_neighbors_metric = self.nearest_neighbors_metric,
                                                   sampler=sampler)
         elif solver_name == 'StaggeredGrid':
             self.solver = BasicsStaggeredGridForExperiments(eps, delta,
@@ -142,8 +136,7 @@ class ExperimentsWrapper:
                                                   prm_num_landmarks=self.prm_num_landmarks,
                                                   prm_k=self.k,
                                                   bounding_margin_width_factor=self.bounding_margin_width_factor,
-                                                  nearest_neighbors=self.nearest_neighbors,
-                                                  prm_nearest_neighbors=self.prm_nearest_neighbors, metric=self.metric,
+                                                  metric=self.metric,
                                                   sampler=self.sampler)
         elif self.solver_name == 'StaggeredGrid':
             self.solver = BasicsStaggeredGridForExperiments(self.eps, self.delta,

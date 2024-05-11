@@ -25,6 +25,13 @@ class StringPrinter:
         self.to_file = args.to_file
         if self.to_file:
             self.print_func = self.print_to_file_and_stdout
+            if os.path.exists(self.filename):
+                print('File exists')
+                exit(-1)
+
+            with open(self.filename, 'w') as file:
+                with redirect_stdout(file):
+                    print('Start of the file')
         else:
             self.print_func = self.print_to_stdout
 
@@ -39,9 +46,10 @@ class StringPrinter:
         print(input_string)
 
         # Write to file
-        with open(self.filename, 'w+') as file:
+        with open(self.filename, 'a') as file:
             with redirect_stdout(file):
                 print(input_string)
+                print('\n')
 
 
 
@@ -278,8 +286,9 @@ def start_running(args):
         scene = Scene.from_dict(json.load(fp))
 
     # TODO: DELETE AFTER TESTS
-    # compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=True,
-    #              nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
+    compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
+                 nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
+    exit()
 
     if args.compare_algo:
         scenes = get_scene_paths(args.scene_dir)
