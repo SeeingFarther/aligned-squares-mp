@@ -1,4 +1,11 @@
+import os
+import sys
 import networkx as nx
+
+dir = os.path.abspath(__file__)
+dir = dir.split('/')[0:-2]
+dir = '/'.join(dir)
+sys.path.insert(0,dir)
 
 from discopygal.solvers import Scene
 from discopygal.solvers import PathPoint, Path, PathCollection

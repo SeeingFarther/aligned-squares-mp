@@ -158,7 +158,7 @@ class Metric_Epsilon_2(Metric_Epsilon):
         """
 
         if type(p) is Point_2 and type(q) is Point_2:
-            U, V = np.array([p.x().to_double(), p.y().to_double()]), np.array([q.x().to_double(), q.y().to_double()])
+            U, V = np.array([[p.x().to_double(), p.y().to_double()]]), np.array([[q.x().to_double(), q.y().to_double()]])
             epsilon_2 = Metric_Epsilon_2.congruence_objective_l2(U, V)
             return FT(epsilon_2)
         elif type(p) is Point_d and type(
@@ -219,7 +219,7 @@ class Metric_Epsilon_Inf(Metric_Epsilon):
         :rtype: :class:`~discopygal.bindings.FT`
         """
         if type(p) is Point_2 and type(q) is Point_2:
-            U, V = np.array([p.x().to_double(), p.y().to_double()]), np.array([q.x().to_double(), q.y().to_double()])
+            U, V = np.array([[p.x().to_double(), p.y().to_double()]]), np.array([[q.x().to_double(), q.y().to_double()]])
             epsilon_inf = Metric_Epsilon_Inf.congruence_objective_l_inf(U, V)
             return FT(epsilon_inf)
         elif type(p) is Point_d and type(

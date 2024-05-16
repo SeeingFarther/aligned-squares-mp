@@ -49,8 +49,6 @@ class StringPrinter:
         with open(self.filename, 'a') as file:
             with redirect_stdout(file):
                 print(input_string)
-                print('\n')
-
 
 
 def run_length_exp_algos(solver: str, sampler: Sampler = None, exact: bool = False):
@@ -91,32 +89,35 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
             scene = Scene.from_dict(json.load(fp))
 
         string_printer.print('_________________________')
-        string_printer.print(f'Results for scene: { scene_name}')
+        string_printer.print(f'Results for scene: {scene_name}')
         string_printer.print('For following parameters:')
         string_printer.print(f'Solver: {solver}')
         string_printer.print(f'Number of experiments: {num_experiments}')
-        string_printer.print(f'num_landmark: : { num_landmark}')
+        string_printer.print(f'num_landmark: : {num_landmark}')
         string_printer.print(f'Bounding width factor: {bound}')
         string_printer.print(f'Delta: {delta}')
-        string_printer.print(f'Epsilon: { eps}')
-        string_printer.print(f'PRM Number of landmarks: { prm_num_landmarks}')
-        string_printer.print(f'Exact:{ exact}')
+        string_printer.print(f'Epsilon: {eps}')
+        string_printer.print(f'PRM Number of landmarks: {prm_num_landmarks}')
+        string_printer.print(f'Exact:{exact}')
 
         for k in k_values:
             if solver == 'PRM' or solver == 'Squares':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
             elif solver == 'DRRT':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         prm_num_landmarks=prm_num_landmarks, exact=exact,
                                                         time_limit=time_limit)
             elif solver == 'StaggeredGrid':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        nearest_neighbors_metric=nearest_neighbors_metric, eps=eps, delta=delta,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric, eps=eps,
+                                                        delta=delta,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
@@ -127,7 +128,8 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
 
 
 def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
-                         k: int = 15, nearest_neighbors_metric: str = 'CTD', num_landmarks_values: list[int] = [500, 1000, 5000], bound: FT = 0,
+                         k: int = 15, nearest_neighbors_metric: str = None, roadmap_nearest_neighbors_metric: str = None,
+                         num_landmarks_values: list[int] = [500, 1000, 5000], bound: FT = 0,
                          delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                          time_limit=100000):
     for scene_path in scenes_path:
@@ -136,32 +138,37 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
             scene = Scene.from_dict(json.load(fp))
 
         string_printer.print('_________________________')
-        string_printer.print(f'Results for scene: { scene_name}')
+        string_printer.print(f'Results for scene: {scene_name}')
         string_printer.print('For following parameters:')
         string_printer.print(f'Solver: {solver}')
         string_printer.print(f'Number of experiments: {num_experiments}')
-        string_printer.print(f'K: : { k}')
+        string_printer.print(f'K: : {k}')
+        print(f'Roadmap nearest neighbors: {roadmap_nearest_neighbors_metric}')
         string_printer.print(f'Bounding width factor: {bound}')
         string_printer.print(f'Delta: {delta}')
-        string_printer.print(f'Epsilon: { eps}')
-        string_printer.print(f'PRM Number of landmarks: { prm_num_landmarks}')
-        string_printer.print(f'Exact:{ exact}')
+        string_printer.print(f'Epsilon: {eps}')
+        string_printer.print(f'PRM Number of landmarks: {prm_num_landmarks}')
+        string_printer.print(f'Exact:{exact}')
+        string_printer.print(f'Nearest Neighbors Metric: {nearest_neighbors_metric}')
 
         for num_landmarks in num_landmarks_values:
             if solver == 'PRM' or solver == 'Squares':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmarks, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        num_landmarks=num_landmarks, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
             elif solver == 'DRRT':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmarks, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        num_landmarks=num_landmarks, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric, roadmap_nearest_neighbors_metric=roadmap_nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         prm_num_landmarks=prm_num_landmarks, exact=exact,
                                                         time_limit=time_limit)
             elif solver == 'StaggeredGrid':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        nearest_neighbors_metric=nearest_neighbors_metric, eps=eps, delta=delta,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric, eps=eps,
+                                                        delta=delta,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
@@ -171,8 +178,82 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
     return
 
 
+def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
+                   k: int = 15, nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf'], roadmap_nearest_neighbors_metric: str = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf'], num_landmark: int = 1000, bound: FT = 0,
+                   delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
+                   time_limit=100000):
+    for scene_path in scenes_path:
+        metrics_time_results = {}
+        metrics_length_results = {}
+
+        scene_name = scene_path.split('/')[-1].split('.')[0]
+        with open(scene_path, 'r') as fp:
+            scene = Scene.from_dict(json.load(fp))
+
+        for nearest_neighbors_metric in nearest_neighbors_metrics:
+            if solver == 'PRM' or solver == 'Squares':
+                experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        bounding_margin_width_factor=bound, sampler=sampler,
+                                                        exact=exact, time_limit=time_limit)
+            elif solver == 'DRRT':
+                roadmap_nearest_neighbors_metric = nearest_neighbors_metric
+                experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        bounding_margin_width_factor=bound, sampler=sampler,
+                                                        prm_num_landmarks=prm_num_landmarks, exact=exact,
+                                                        time_limit=time_limit, roadmap_nearest_neighbors_metric=roadmap_nearest_neighbors_metric)
+            elif solver == 'StaggeredGrid':
+                experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric, eps=eps,
+                                                        delta=delta,
+                                                        bounding_margin_width_factor=bound, sampler=sampler,
+                                                        exact=exact, time_limit=time_limit)
+
+            time, path_len = experiment_wrapper.run()
+            metrics_length_results[nearest_neighbors_metric] = path_len
+            metrics_time_results[nearest_neighbors_metric] = time
+
+        min_time = 999999
+        min_time_metric = ''
+        for metric, time in metrics_time_results.items():
+            if time != 0 and time < min_time:
+                min_time = time
+                min_time_metric = metric
+
+        min_path_len = 999999
+        min_len_metric = ''
+        for metric, path_len in metrics_length_results.items():
+            if path_len != 0 and path_len < min_path_len:
+                min_path_len = path_len
+                min_len_metric = metric
+
+        string_printer.print('_________________________')
+        string_printer.print(f'Results for scene: {scene_name}')
+        string_printer.print('For following parameters:')
+        string_printer.print(f'Solver: {solver}')
+        string_printer.print(f'Number of experiments: {num_experiments}')
+        string_printer.print(f'K: : {k}')
+        string_printer.print(f'Roadmap nearest neighbors: {roadmap_nearest_neighbors_metric}')
+        string_printer.print(f'Number of landmarks: {num_landmark}')
+        string_printer.print(f'Bounding width factor: {bound}')
+        string_printer.print(f'Delta: {delta}')
+        string_printer.print(f'Epsilon: {eps}')
+        string_printer.print(f'PRM Number of landmarks: {prm_num_landmarks}')
+        string_printer.print(f'Exact:{exact}')
+        string_printer.print(f'Time Limit: {time_limit}')
+        string_printer.print(f'Times:: {metrics_time_results}')
+        string_printer.print(f'Path Lengths: {metrics_length_results}')
+        string_printer.print(
+            f'For {num_experiments} experiments, best time won solver {min_time_metric} with {min_time:.5f} seconds, best length won solver {min_len_metric} with {min_path_len}  path length')
+        string_printer.print('_________________________')
+    return
+
+
 def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = None, num_experiments: int = 5,
-                 k: int = 15, nearest_neighbors_metric: str = 'CTD', num_landmark: int = 5000, bound: FT = 0,
+                 k: int = 15, nearest_neighbors_metric: str = None, roadmap_nearest_neighbors_metric: str = None, num_landmark: int = 5000, bound: FT = 0,
                  delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                  time_limit=100000):
     # Run experiments for each scene
@@ -187,18 +268,21 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
         for solver in solvers:
             if solver == 'PRM' or solver == 'Squares':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
             elif solver == 'DRRT':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        num_landmarks=num_landmark, k=k, nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        num_landmarks=num_landmark, k=k,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric, roadmap_nearest_neighbors_metric=roadmap_nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         prm_num_landmarks=prm_num_landmarks, exact=exact,
                                                         time_limit=time_limit)
             elif solver == 'StaggeredGrid':
                 experiment_wrapper = ExperimentsWrapper(scene, solver, num_experiments=num_experiments,
-                                                        eps=eps, delta=delta, nearest_neighbors_metric=nearest_neighbors_metric,
+                                                        eps=eps, delta=delta,
+                                                        nearest_neighbors_metric=nearest_neighbors_metric,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
@@ -221,20 +305,22 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
                 min_len_solver = solver
 
         string_printer.print('_________________________')
-        string_printer.print(f'Results for scene: { scene_name}')
+        string_printer.print(f'Results for scene: {scene_name}')
         string_printer.print('For following parameters:')
         string_printer.print(f'Solver: {solvers}')
         string_printer.print(f'Number of experiments: {num_experiments}')
-        string_printer.print(f'K: : { k}')
-        string_printer.print(f'Number of landmarks: { num_landmark}')
+        string_printer.print(f'K: : {k}')
+        string_printer.print(f'Roadmap nearest neighbors: {roadmap_nearest_neighbors_metric}')
+        string_printer.print(f'Number of landmarks: {num_landmark}')
         string_printer.print(f'Bounding width factor: {bound}')
         string_printer.print(f'Delta: {delta}')
-        string_printer.print(f'Epsilon: { eps}')
-        string_printer.print(f'PRM Number of landmarks: { prm_num_landmarks}')
-        string_printer.print(f'Exact:{ exact}')
-        string_printer.print(f'Time Limit: { time_limit}')
-        string_printer.print(f'Times:: { solvers_time_results}')
+        string_printer.print(f'Epsilon: {eps}')
+        string_printer.print(f'PRM Number of landmarks: {prm_num_landmarks}')
+        string_printer.print(f'Exact:{exact}')
+        string_printer.print(f'Time Limit: {time_limit}')
+        string_printer.print(f'Times:: {solvers_time_results}')
         string_printer.print(f'Path Lengths: {solvers_length_results}')
+        string_printer.print(f'Nearest Neighbors Metric: {nearest_neighbors_metric}')
         string_printer.print(
             f'For {num_experiments} experiments, best time won solver {min_time_solver} with {min_time:.5f} seconds, best length won solver {min_len_solver} with {min_path_len}  path length')
         string_printer.print('_________________________')
@@ -265,7 +351,11 @@ def parse_arguments():
     parser.add_argument('--delta', type=float, default=2, help='Bounding width factor')
     parser.add_argument('--solver', type=str, default="squares", choices=['prm', 'drrt', 'staggered', 'squares'],
                         help='Type of solver')
-    parser.add_argument('--nearest_neighbors', type=str, default=None, choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf'],
+    parser.add_argument('--nearest_neighbors', type=str, default=None,
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf'],
+                        help='Type of solver')
+    parser.add_argument('--roadmap_nearest_neighbors', type=str, default=None,
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf'],
                         help='Type of solver')
     parser.add_argument('--exact', type=bool, default=False, help='Run exact number of successful experiments')
     parser.add_argument('--path', type=str, default='./scenes/easy2.json', help='Path to scene file')
@@ -286,17 +376,32 @@ def start_running(args):
         scene = Scene.from_dict(json.load(fp))
 
     # TODO: DELETE AFTER TESTS
-    compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
-                 nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
-    exit()
+    # compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
+    #              nearest_neighbors_metric='Epsilon_Inf', time_limit=100)
+    # exit()
 
     if args.compare_algo:
+        #TODO: DELETE AFTER TESTS
         scenes = get_scene_paths(args.scene_dir)
-        scenes = scenes[:-1]
+        length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics= ['', 'Euclidean'], roadmap_nearest_neighbors_metric = ['', 'Euclidean'], num_landmark=500, prm_num_landmarks=1000, exact=True, time_limit=100)
+        length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics= ['', 'Euclidean'], roadmap_nearest_neighbors_metric = ['', 'Euclidean'], num_landmark=1000, prm_num_landmarks=2000, exact=True, time_limit=100)
+        length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics= ['', 'Euclidean'], roadmap_nearest_neighbors_metric = ['', 'Euclidean'], num_landmark=2500, prm_num_landmarks=5000, exact=True, time_limit=200)
+        length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics= ['', 'Euclidean'], roadmap_nearest_neighbors_metric = ['', 'Euclidean'], num_landmark=5000, prm_num_landmarks=7000, exact=True, time_limit=200)
+
+
+        # compare_algo(scenes, ['StaggeredGrid'], None)
+
+        # scenes = scenes[4:]
+        # length_metrics(scenes, 'PRM', None, num_landmark=500, exact=True, time_limit=100)
+        # length_metrics(scenes, 'PRM', None, num_landmark=1500, exact=True,
+        #              time_limit=100)
+        # length_metrics(scenes, 'PRM', None, num_landmark=5000, exact=True,
+        #              time_limit=200)
+
         # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
-        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
-        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=1500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
-        compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=5000, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=200)
+        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
+        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=1500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
+        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=5000, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=200)
         # compare_algo(scenes, ['Squares'], num_landmark=1500, sampler=None, exact=True, time_limit=600)
         # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
         exit(0)
@@ -304,7 +409,7 @@ def start_running(args):
     if args.compare_landmarks:
         scenes = get_scene_paths(args.scene_dir)
         length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
-                             k=args.k, nearest_neighbors_metric=args.nearest_neighbors, delta=args.delta, eps=args.eps,
+                             k=args.k, nearest_neighbors_metric=args.nearest_neighbors, roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta, eps=args.eps,
                              prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
                              time_limit=args.time_limit)
         exit(0)
@@ -312,7 +417,8 @@ def start_running(args):
     if args.compare_k:
         scenes = get_scene_paths(args.scene_dir)
         length_k(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
-                 num_landmark=args.num_landmarks, nearest_neighbors_metric=args.nearest_neighbors, delta=args.delta, eps=args.eps,
+                 num_landmark=args.num_landmarks, nearest_neighbors_metric=args.nearest_neighbors, roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta,
+                 eps=args.eps,
                  prm_num_landmarks=args.prm_num_landmarks, exact=args.exact, time_limit=args.time_limit)
         exit(0)
 
@@ -326,13 +432,14 @@ def start_running(args):
     experiment_wrapper = None
     if args.solver == 'prm':
         experiment_wrapper = ExperimentsWrapper(scene, 'PRM', num_experiments=args.num_experiments,
-                                                num_landmarks=args.num_landmarks, k=args.k,
+                                                num_landmarks=args.num_landmarks, k=args.k, nearest_neighbors_metric=args.nearest_neighbors,
                                                 bounding_margin_width_factor=args.bound, sampler=sampler,
                                                 metric=args.metric)
     elif args.solver == 'drrt':
         experiment_wrapper = ExperimentsWrapper(scene, 'DRRT', num_experiments=args.num_experiments,
                                                 prm_num_landmarks=args.prm_num_landmarks,
-                                                num_landmarks=args.num_landmarks, k=args.k,
+                                                num_landmarks=args.num_landmarks, k=args.k, roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors,
+                                                nearest_neighbors_metric=args.nearest_neighbors,
                                                 bounding_margin_width_factor=args.bound, sampler=sampler,
                                                 metric=args.metric)
     elif args.solver == 'staggered':
@@ -341,7 +448,7 @@ def start_running(args):
                                                 sampler=sampler, metric=args.metric)
     elif args.solver == 'squares':
         experiment_wrapper = ExperimentsWrapper(scene, 'Squares', num_experiments=args.num_experiments,
-                                                num_landmarks=args.num_landmarks, k=args.k,
+                                                num_landmarks=args.num_landmarks, k=args.k, nearest_neighbors_metric=args.nearest_neighbors,
                                                 bounding_margin_width_factor=args.bound, sampler=sampler,
                                                 metric=args.metric)
 
@@ -356,6 +463,6 @@ if __name__ == '__main__':
     args = parse_arguments()
     args.compare_algo = True
     args.to_file = True
-    args.file = 'results/output.txt'
+    args.file = 'results/drrt_metrics.txt'
     string_printer.ready_printer(args)
     start_running(args)

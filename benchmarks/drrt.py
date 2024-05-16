@@ -1,21 +1,27 @@
-import json
-
+import os
+import sys
 import networkx as nx
-
-from discopygal.solvers import Robot, RobotDisc, RobotPolygon, RobotRod
-from discopygal.solvers import Obstacle, ObstacleDisc, ObstaclePolygon, Scene
-from discopygal.solvers import PathPoint, Path, PathCollection
 from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
-from discopygal.solvers.samplers import Sampler_Uniform
-from discopygal.bindings import *
-from discopygal.geometry_utils import conversions
-from discopygal.solvers.Solver import Solver
 
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from metrics.euclidean_metric import Metric_Euclidean
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
+
+dir = os.path.abspath(__file__)
+dir = dir.split('/')[0:-2]
+dir = '/'.join(dir)
+sys.path.insert(0,dir)
+
+from discopygal.solvers import RobotRod, Scene
+from discopygal.solvers import PathPoint, Path, PathCollection
+from discopygal.solvers.samplers import Sampler_Uniform
+from discopygal.bindings import *
+from discopygal.geometry_utils import conversions
+from discopygal.solvers.Solver import Solver
+
 from utils.tensor_roadmap import TensorRoadmap, build_probabilistic_roadmap
+from discopygal.solvers.rrt.drrt import dRRT
 
 class dRRT(Solver):
     """
@@ -44,15 +50,14 @@ class dRRT(Solver):
 
     def __init__(self, num_landmarks, prm_num_landmarks, prm_k,
                  bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR
-                  ,metric=None, sampler=None, nearest_neighbors_metric=None):
+                  ,metric=None, sampler=None, prm_nearest_neighbors=None, roadmap_nearest_neighbors =None):
         super().__init__(bounding_margin_width_factor)
         self.num_landmarks = num_landmarks
         self.prm_num_landmarks = prm_num_landmarks
         self.prm_k = prm_k
 
-        #TODO: Fix bug
-        self.nearest_neighbors_metric = 'Euclidean'
-
+        self.prm_nearest_neighbors = prm_nearest_neighbors
+        self.nearest_neighbors = roadmap_nearest_neighbors
         self.metric = metric
 
         self.sampler = sampler
@@ -118,35 +123,42 @@ class dRRT(Solver):
         for i, robot in enumerate(self.scene.robots):
             if self.verbose:
                 print('generating PRM #{}...'.format(i + 1), file=self.writer)
-            if self.nearest_neighbors_metric is None:
+
+            if self.prm_nearest_neighbors is None or self.prm_nearest_neighbors == '':
                 prm_nearest_neighbors = NearestNeighbors_sklearn()
-            elif self.nearest_neighbors_metric  == 'Euclidean':
+            elif self.prm_nearest_neighbors == 'Euclidean':
                 prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
-            elif self.nearest_neighbors_metric == 'CTD':
+            elif self.prm_nearest_neighbors == 'CTD':
                 prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
-            elif self.nearest_neighbors_metric  == 'Epsilon_2':
+            elif self.prm_nearest_neighbors == 'Epsilon_2':
                 prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
-            elif self.nearest_neighbors_metric  == 'Epsilon_Inf':
+            elif self.prm_nearest_neighbors == 'Epsilon_Inf':
                 prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+            else:
+                print('Unknown metric')
+                exit(-1)
 
             roadmaps[robot] = build_probabilistic_roadmap(
                 self.scene, robot,
                 self.prm_num_landmarks, self.prm_k,
                 prm_nearest_neighbors, self.sampler)
 
-        if self.nearest_neighbors_metric is None:
-            nearest_neighbors = NearestNeighbors_sklearn()
-        elif self.nearest_neighbors_metric == 'Euclidean':
-            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
-        elif self.nearest_neighbors_metric == 'CTD':
-            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
-        elif self.nearest_neighbors_metric == 'Epsilon_2':
-            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
-        elif self.nearest_neighbors_metric == 'Epsilon_Inf':
-            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        if self.nearest_neighbors is None or self.nearest_neighbors == '':
+            roadmap_nearest_neighbors = NearestNeighbors_sklearn()
+        elif self.nearest_neighbors == 'Euclidean':
+            roadmap_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+        elif self.nearest_neighbors == 'CTD':
+            roadmap_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+        elif self.nearest_neighbors == 'Epsilon_2':
+            roadmap_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+        elif self.nearest_neighbors == 'Epsilon_Inf':
+            roadmap_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        else:
+            print('Unknown metric')
+            exit(-1)
 
         # Construct the tensor roadmap
-        self.tensor_roadmap = TensorRoadmap(roadmaps, nearest_neighbors, self.metric)
+        self.tensor_roadmap = TensorRoadmap(roadmaps, roadmap_nearest_neighbors, self.metric)
 
         # Convert the start and end endpoints to Point_d
         self.start_points = []
@@ -245,10 +257,3 @@ class BasicDRRTForExperiments(dRRT):
         """
         path = super().solve()
         return path
-
-# TODO: Debug
-# with open('../scenes/cubic3.json') as f:
-#     scene = Scene.from_dict(json.load(f))
-#     drrt = dRRT(1000, 2000, 15)
-#     drrt.load_scene(scene)
-#     drrt.solve()

@@ -26,7 +26,7 @@ class ExperimentsWrapper:
                  k: int = -1,
                  eps: float = -1, delta: float = -1,
                  bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR,
-                 nearest_neighbors_metric: str = 'CTD',
+                 nearest_neighbors_metric: str = '', roadmap_nearest_neighbors_metric: str = '',
                  metric: Metric = None, sampler: Sampler = None, prm_num_landmarks=None,
                  exact: bool = False, wrapper_metric: Metric = None, time_limit: float = 100000):
         """
@@ -71,17 +71,18 @@ class ExperimentsWrapper:
         self.metric = metric
         self.time_limit = time_limit
         self.nearest_neighbors_metric = nearest_neighbors_metric
+        self.roadmap_nearest_neighbors_metric = roadmap_nearest_neighbors_metric
 
-        if self.nearest_neighbors_metric is None:
-            self.nearest_neighbors = NearestNeighbors_sklearn()
-        elif nearest_neighbors_metric == 'Euclidean':
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
-        elif nearest_neighbors_metric == 'CTD':
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
-        elif nearest_neighbors_metric == 'Epsilon_2':
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
-        elif nearest_neighbors_metric == 'Epsilon_Inf':
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        if self.nearest_neighbors_metric is None or self.nearest_neighbors_metric == '':
+            nearest_neighbors = NearestNeighbors_sklearn()
+        elif self.nearest_neighbors_metric == 'Euclidean':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+        elif self.nearest_neighbors_metric == 'CTD':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+        elif self.nearest_neighbors_metric == 'Epsilon_2':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+        elif self.nearest_neighbors_metric == 'Epsilon_Inf':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
         else:
             print('Unknown metric')
             exit(-1)
@@ -89,21 +90,21 @@ class ExperimentsWrapper:
         if solver_name == 'PRM':
             self.solver = BasicPrmForExperiments(num_landmarks, k,
                                                  bounding_margin_width_factor=bounding_margin_width_factor,
-                                                 nearest_neighbors=self.nearest_neighbors, metric=metric,
+                                                 nearest_neighbors=nearest_neighbors, metric=metric,
                                                  sampler=sampler)
         elif solver_name == 'DRRT':
             self.solver = BasicDRRTForExperiments(num_landmarks=num_landmarks, prm_num_landmarks=prm_num_landmarks,
                                                   prm_k=k,
                                                   bounding_margin_width_factor=bounding_margin_width_factor,
-                                                  metric=metric, nearest_neighbors_metric = self.nearest_neighbors_metric,
+                                                  metric=metric, prm_nearest_neighbors=self.nearest_neighbors_metric,
+                                                  roadmap_nearest_neighbors=self.roadmap_nearest_neighbors_metric,
                                                   sampler=sampler)
         elif solver_name == 'StaggeredGrid':
             self.solver = BasicsStaggeredGridForExperiments(eps, delta,
                                                             bounding_margin_width_factor=bounding_margin_width_factor,
-                                                            nearest_neighbors=self.nearest_neighbors, metric=metric,
                                                             sampler=sampler)
         elif solver_name == 'Squares':
-            self.solver = SquareMotionPlanner(num_landmarks=num_landmarks, k=k,
+            self.solver = SquareMotionPlanner(num_landmarks=num_landmarks, k=k, nearest_neighbors=nearest_neighbors,
                                               bounding_margin_width_factor=bounding_margin_width_factor,
                                               sampler=sampler)
         else:
@@ -125,27 +126,40 @@ class ExperimentsWrapper:
         """
         Restart the solver
         """
+        if self.nearest_neighbors_metric is None or self.nearest_neighbors_metric == '':
+            nearest_neighbors = NearestNeighbors_sklearn()
+        elif self.nearest_neighbors_metric == 'Euclidean':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+        elif self.nearest_neighbors_metric == 'CTD':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_CTD)
+        elif self.nearest_neighbors_metric == 'Epsilon_2':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
+        elif self.nearest_neighbors_metric == 'Epsilon_Inf':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        else:
+            print('Unknown metric')
+            exit(-1)
+
         # Build the proper solver
         if self.solver_name == 'PRM':
             self.solver = BasicPrmForExperiments(self.num_landmarks, self.k,
                                                  bounding_margin_width_factor=self.bounding_margin_width_factor,
-                                                 nearest_neighbors=self.nearest_neighbors, metric=self.metric,
+                                                 nearest_neighbors=nearest_neighbors, metric=self.metric,
                                                  sampler=self.sampler)
         elif self.solver_name == 'DRRT':
             self.solver = BasicDRRTForExperiments(num_landmarks=self.num_landmarks,
                                                   prm_num_landmarks=self.prm_num_landmarks,
                                                   prm_k=self.k,
                                                   bounding_margin_width_factor=self.bounding_margin_width_factor,
-                                                  metric=self.metric,
+                                                  metric=self.metric, prm_nearest_neighbors=self.nearest_neighbors_metric,
+                                                  roadmap_nearest_neighbors=self.roadmap_nearest_neighbors_metric,
                                                   sampler=self.sampler)
         elif self.solver_name == 'StaggeredGrid':
             self.solver = BasicsStaggeredGridForExperiments(self.eps, self.delta,
                                                             bounding_margin_width_factor=self.bounding_margin_width_factor,
-                                                            nearest_neighbors=self.nearest_neighbors,
-                                                            metric=self.metric,
                                                             sampler=self.sampler)
         elif self.solver_name == 'Squares':
-            self.solver = SquareMotionPlanner(num_landmarks=self.num_landmarks, k=self.k,
+            self.solver = SquareMotionPlanner(num_landmarks=self.num_landmarks, k=self.k, nearest_neighbors=nearest_neighbors,
                                               bounding_margin_width_factor=self.bounding_margin_width_factor,
                                               sampler=self.sampler)
 

@@ -1,3 +1,4 @@
+
 import random
 import heapq
 import gc
@@ -329,7 +330,7 @@ class StaggeredGrid(Solver):
         radii = set()
         for robot in scene.robots:
             for e in robot.poly.edges():
-                radii.add( Metric_Euclidean.dist(e.source(), e.target()).to_double())
+                radii.add(Metric_Euclidean.dist(e.source(), e.target()).to_double())
                 break
 
         if len(radii) == 0:
@@ -392,6 +393,9 @@ class StaggeredGrid(Solver):
 
 
 class BasicsStaggeredGridForExperiments(StaggeredGrid):
+    def __init__(self, eps, delta, bounding_margin_width_factor=Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, sampler=None):
+        super().__init__(eps=eps, delta=delta, bounding_margin_width_factor=bounding_margin_width_factor, sampler=sampler)
+
     def load_scene(self, scene: Scene):
         super().load_scene(scene)
 

@@ -88,22 +88,15 @@ class Roadmap(object):
         :return: True if edge was added
         :rtype: :class:`bool`
         """
-        try:
-            assert (self.G.has_node(p))
-            assert (self.G.has_node(q))
-            if p == q:
-                return False
-            edge = Segment_2(p, q)
-            if self.collision_detection.is_edge_valid(edge):
-                self.G.add_edge(p, q)
-                return True
+        assert (self.G.has_node(p))
+        assert (self.G.has_node(q))
+        if p == q:
             return False
-        except AssertionError as e:
-            print('Error in adding edge')
-            print(e)
-            print(self.G.has_node(p))
-            print(p)
-            print(q)
+        edge = Segment_2(p, q)
+        if self.collision_detection.is_edge_valid(edge):
+            self.G.add_edge(p, q)
+            return True
+        return False
 
     def get_points(self):
         """
@@ -188,7 +181,7 @@ class TensorRoadmap(object):
 
         self.nearest_neighbors = nearest_neighbors
         if self.nearest_neighbors is None:
-            self.nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Euclidean)
+            self.nearest_neighbors = NearestNeighbors_sklearn()
 
         # Generate a cached nearest neighbors (if not already)
         if type(self.nearest_neighbors) is not NearestNeighborsCached:
@@ -305,6 +298,9 @@ class TensorRoadmap(object):
                     best_dist = dist
             vertex.append(best_p)
 
+        if vertex[1] is None or vertex[0] is None:
+            return False
+
         vertex = conversions.Point_2_list_to_Point_d(vertex)
         tensor_vertex = conversions.Point_2_list_to_Point_d(tensor_vertex)
 
@@ -316,7 +312,6 @@ class TensorRoadmap(object):
 
         self.nearest_neighbors.add_point(vertex)
         self.T.add_node(vertex)
-
         tensor_vertex1_coords = Point_2(tensor_vertex[0], tensor_vertex[1])
         tensor_vertex2_coords = Point_2(tensor_vertex[2], tensor_vertex[3])
         vertex_1_coords = Point_2(vertex[0], vertex[1])
@@ -328,7 +323,6 @@ class TensorRoadmap(object):
 
         self.T.add_edge(tensor_vertex, vertex, weight=dist_1 + dist_2)
         return True
-
     def try_connecting(self, vertex1, vertex2):
         """
         Try connecting two vertices of the tensor graph.
