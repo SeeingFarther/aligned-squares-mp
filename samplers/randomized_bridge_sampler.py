@@ -10,7 +10,7 @@ from samplers.basic_sampler import BasicSquaresSampler
 from utils.utils import out_of_bounds
 
 
-class BridgeSampler(BasicSquaresSampler):
+class RandomizedBridgeSampler(BasicSquaresSampler):
     """
     Bridge Sampler for sampling points in a scene.
     """
@@ -68,33 +68,28 @@ class BridgeSampler(BasicSquaresSampler):
             robot = self.scene.robots[robot_index]
             robot_length = self.robot_lengths[robot_index]
 
-            #  if the point is not valid? sample a new point
             if not self.collision_detection[robot].is_point_valid(sample):
-
                 # Sample a point from the gaussian distribution
                 sample_tag = self.sample_gauss(sample)
 
-                #  the point is not valid
-                if not self.collision_detection[robot].is_point_valid(sample_tag):
+                # Find the middle point
+                x = sample_tag.x().to_double()
+                y = sample_tag.y().to_double()
 
-                    # Find the middle point
-                    x = (sample.x() + sample_tag.x()).to_double() / 2
-                    y = (sample.y() + sample_tag.y()).to_double() / 2
+                # Check different square positions for the robot in that point
+                points = [(x, y), (x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length)]
+                random.shuffle(points)
+                for x_p, y_p in points:
 
-                    # Check different square positions for the robot in that point
-                    points = [(x, y), (x - robot_length, y), (x, y - robot_length), (x - robot_length, y - robot_length)]
-                    random.shuffle(points)
-                    for x_p, y_p in points:
+                    # Square is out of bounds? we can skip it
+                    p = Point_2(FT(x_p), FT(y_p))
+                    square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length), (x_p + robot_length, y_p + robot_length)]
+                    if out_of_bounds(self.min_x,self.max_x, self.min_y, self.max_y, square):
+                        continue
 
-                        # Square is out of bounds? we can skip it
-                        p = Point_2(FT(x_p), FT(y_p))
-                        square = [(x_p, y_p), (x_p + robot_length, y_p), (x_p, y_p + robot_length), (x_p + robot_length, y_p + robot_length)]
-                        if out_of_bounds(self.min_x,self.max_x, self.min_y, self.max_y, square):
-                            continue
-
-                        # Point valid? return it
-                        if self.collision_detection[robot].is_point_valid(p):
-                            return p
+                    # Point valid? return it
+                    if self.collision_detection[robot].is_point_valid(p):
+                        return p
 
     def sample_free(self, robot_index: int) -> Point_2:
         """

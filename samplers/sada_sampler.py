@@ -32,7 +32,7 @@ class SadaSampler(BasicSquaresSampler):
 
         self.sampler_index = 0
 
-    def set_scene(self, scene: Scene, bounding_box=None):
+    def set_scene(self, scene: Scene, bounding_box=None) -> None:
         """
         Set the scene for sampler should use for each of is samplers.
         Can be overridded to add additional processing.
@@ -47,6 +47,17 @@ class SadaSampler(BasicSquaresSampler):
         self.scene = scene
         for sampler in self.samplers:
             sampler.set_scene(scene, bounding_box)
+
+    def set_gamma(self, gamma: float) -> None:
+        """
+        Set the gamma value for the sampler.
+
+        :param gamma:
+        :type gamma: float
+        """
+
+        self.gamma = gamma
+        return
 
     def compute_cost_insensitive_probability(self, robot_index: int) -> np.array:
         """

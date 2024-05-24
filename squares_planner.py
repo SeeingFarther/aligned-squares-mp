@@ -11,20 +11,25 @@ from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.Solver import Solver
+from matplotlib import pyplot as plt
 
 from samplers.basic_sampler import BasicSquaresSampler
-from samplers.bridge_sampler import BridgeSampler
+from samplers.randomized_bridge_sampler import RandomizedBridgeSampler
 from samplers.combined_sampler import CombinedSampler
 from samplers.middle_sampler import MiddleSampler
 from samplers.pair_sampler import PairSampler
 from samplers.sada_sampler import SadaSampler
 from samplers.space_sampler import SpaceSampler
+from samplers.uniform_sampler import UniformSampler
 from utils.path_shortener import PathShortener
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from metrics.euclidean_metric import Metric_Euclidean, Metric
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
 from utils.utils import point2_to_point_d
+from utils.gui import start_gui
+
+
 
 
 class SquaresPrm(Solver):
@@ -57,7 +62,10 @@ class SquaresPrm(Solver):
             exit(-1)
 
         # Set samplers
-        samplers = [SpaceSampler(), BridgeSampler(), MiddleSampler(y_axis=True), MiddleSampler(y_axis=False)]
+        samplers = [SpaceSampler(), RandomizedBridgeSampler(), MiddleSampler(y_axis=True), MiddleSampler(y_axis=False), UniformSampler()]
+        #samplers = [SpaceSampler(), RandomizedBridgeSampler(), MiddleSampler(y_axis=True), MiddleSampler(y_axis=False)]
+        #samplers = [RandomizedBridgeSampler()]
+
         #samplers = [MiddleSampler(y_axis=True), MiddleSampler(y_axis=True)]
         num_prob = [1 / len(samplers)] * len(samplers)
         #self.combined_sampler = CombinedSampler(num_prob, samplers)s
@@ -235,23 +243,6 @@ class SquaresPrm(Solver):
 
         # Add valid points
         nearest_neighbors = NearestNeighbors_sklearn()
-        min_x, max_x, min_y, max_y = self._bounding_box or calc_scene_bounding_box(self.scene)
-        min_x, max_x, min_y, max_y = FT_to_float(min_x), FT_to_float(max_x), FT_to_float(min_y), FT_to_float(max_y)
-        # for j in range(self.num_landmarks):
-        #     p_rand = []
-        #     for i, robot in enumerate(scene.robots):
-        #         p_rand.append(self.combined_sampler.sample_free(i))
-        #         nearest_neighbors.fit(list(self.roadmaps[i].nodes))
-        #         point = p_rand[i]
-        #         neighbor = nearest_neighbors.k_nearest(point, 1)[0]
-        #         n_x, n_y = Point_2_to_xy(neighbor)
-        #         p_x, p_y = Point_2_to_xy(point)
-        #         reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
-        #         reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
-        #         self.combined_sampler.update_weights(i, reward)
-        #         #self.combined_sampler.update_probs(i, reward)
-        #         self.roadmaps[i].add_node(point)
-
         sampler = PairSampler()
         sampler.set_scene(scene, self._bounding_box)
         landmarks = int(0.0 * self.num_landmarks)
@@ -267,9 +258,19 @@ class SquaresPrm(Solver):
                 neighbor = nearest_neighbors.k_nearest(point, 1)[0]
                 n_x, n_y = Point_2_to_xy(neighbor)
                 p_x, p_y = Point_2_to_xy(point)
-                reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
-                reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
+                # reward = (np.sqrt(((p_x - n_x) ** 2))) / (max_x - min_x)
+                # reward += (np.sqrt(((p_y - n_y) ** 2))) / (max_y - min_y)
+                reward = (np.sqrt(((p_x - n_x) ** 2)))
+                reward += (np.sqrt(((p_y - n_y) ** 2)))
+
+                adjusted_reward = reward * ((j + 1) / (self.num_landmarks - landmarks))
+
+                #self.combined_sampler.update_weights(i, reward + adjusted_reward)
+                #self.combined_sampler.update_weights(i, adjusted_reward)
                 self.combined_sampler.update_weights(i, reward)
+                #self.combined_sampler.update_weights(i, 0)
+
+
                 #self.combined_sampler.update_probs(i, reward)
                 self.roadmaps[i].add_node(point)
 
@@ -323,6 +324,9 @@ class SquaresPrm(Solver):
 
         self.roadmap = nx.Graph(G)
 
+    def draw_nodes(self):
+        start_gui(scene=self.scene, graph=self.roadmaps[0])
+
     def solve(self):
         """
         Based on the start and end locations of each robot, solve the scene
@@ -356,6 +360,7 @@ class SquaresPrm(Solver):
 if __name__ == '__main__':
     with open('./scenes/cubic3.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquaresPrm(num_landmarks=1000, k=15, sampler=None)
+    solver = SquaresPrm(num_landmarks=1000, k=1, sampler=None)
     solver.load_scene(scene)
     solver.solve()
+    solver.draw_nodes()

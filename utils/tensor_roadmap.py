@@ -1,16 +1,13 @@
 import networkx as nx
-from discopygal.solvers.nearest_neighbors import NearestNeighborsCached
 from sklearn import neighbors
 
 from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.samplers import Sampler_Uniform
 from discopygal.solvers import *
 
-from discopygal.solvers.metrics import *
+from discopygal.solvers.metrics import Metric_Euclidean
 from discopygal.solvers.nearest_neighbors import *
 
-from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
-from metrics import euclidean_metric
 
 class Roadmap(object):
     """
