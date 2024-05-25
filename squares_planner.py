@@ -13,6 +13,7 @@ from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.Solver import Solver
 from matplotlib import pyplot as plt
 
+from metrics.max_l2_metric import Metric_Max_L2
 from samplers.basic_sampler import BasicSquaresSampler
 from samplers.randomized_bridge_sampler import RandomizedBridgeSampler
 from samplers.combined_sampler import CombinedSampler
@@ -73,11 +74,10 @@ class SquaresPrm(Solver):
 
         # Choose metric for nearest neighbors
         self.nearest_neighbors = nearest_neighbors
-        if nearest_neighbors is None:
+        if self.nearest_neighbors is None:
             self.nearest_neighbors = NearestNeighbors_sklearn()
 
         # Metric for distance computation
-        self.metric = Metric_Euclidean
         if metric is None:
             self.metric = Metric_Euclidean
 
@@ -360,7 +360,7 @@ class SquaresPrm(Solver):
 if __name__ == '__main__':
     with open('./scenes/cubic3.json', 'r') as fp:
         scene = Scene.from_dict(json.load(fp))
-    solver = SquaresPrm(num_landmarks=1000, k=1, sampler=None)
+    solver = SquaresPrm(num_landmarks=1000, k=15, sampler=None)
     solver.load_scene(scene)
     solver.solve()
-    solver.draw_nodes()
+    #solver.draw_nodes()

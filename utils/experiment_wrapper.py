@@ -2,7 +2,7 @@ import time
 
 import numpy as np
 from discopygal.solvers import Scene, PathCollection
-from discopygal.solvers.metrics import Metric, Metric_Euclidean
+from discopygal.solvers.metrics import Metric
 from discopygal.solvers.Solver import Solver
 from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.solvers.samplers import Sampler
@@ -12,6 +12,8 @@ from benchmarks.drrt import BasicDRRTForExperiments
 from benchmarks.prm import BasicPrmForExperiments
 from benchmarks.staggered_grid import BasicsStaggeredGridForExperiments
 from metrics.ctd_metric import Metric_CTD
+from metrics.euclidean_metric import Metric_Euclidean
+from metrics.max_l2_metric import Metric_Max_L2
 from metrics.epsilon_metric import Metric_Epsilon_Inf, Metric_Epsilon_2
 from squares_planner import SquaresPrm as SquareMotionPlanner
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
@@ -83,6 +85,8 @@ class ExperimentsWrapper:
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
         elif self.nearest_neighbors_metric == 'Epsilon_Inf':
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        elif self.nearest_neighbors_metric == 'Max_L2':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Max_L2)
         else:
             print('Unknown metric')
             exit(-1)
@@ -136,6 +140,8 @@ class ExperimentsWrapper:
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
         elif self.nearest_neighbors_metric == 'Epsilon_Inf':
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        elif self.nearest_neighbors_metric == 'Max_L2':
+            nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Max_L2)
         else:
             print('Unknown metric')
             exit(-1)

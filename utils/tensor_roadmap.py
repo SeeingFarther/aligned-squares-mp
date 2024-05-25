@@ -5,7 +5,7 @@ from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.samplers import Sampler_Uniform
 from discopygal.solvers import *
 
-from discopygal.solvers.metrics import Metric_Euclidean
+from metrics.euclidean_metric import Metric_Euclidean
 from discopygal.solvers.nearest_neighbors import *
 
 

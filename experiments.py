@@ -183,8 +183,8 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
 
 def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
                    k: int = 15,
-                   nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf'],
-                   roadmap_nearest_neighbors_metric: str = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf'],
+                   nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
+                   roadmap_nearest_neighbors_metric: str = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
                    num_landmark: int = 1000, bound: FT = 0,
                    delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                    time_limit=100000):
@@ -264,6 +264,7 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
                  num_landmark: int = 5000, bound: FT = 0,
                  delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                  time_limit=100000):
+
     # Run experiments for each scene
     for scene_path in scenes_path:
         solvers_time_results = {}
@@ -361,10 +362,10 @@ def parse_arguments():
     parser.add_argument('--solver', type=str, default="squares", choices=['prm', 'drrt', 'staggered', 'squares'],
                         help='Type of solver')
     parser.add_argument('--nearest_neighbors', type=str, default=None,
-                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf'],
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
                         help='Type of solver')
     parser.add_argument('--roadmap_nearest_neighbors', type=str, default=None,
-                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf'],
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
                         help='Type of solver')
     parser.add_argument('--exact', type=bool, default=False, help='Run exact number of successful experiments')
     parser.add_argument('--path', type=str, default='./scenes/easy2.json', help='Path to scene file')

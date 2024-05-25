@@ -6,6 +6,7 @@ from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from metrics.euclidean_metric import Metric_Euclidean
+from metrics.max_l2_metric import Metric_Max_L2
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
 
 dir = os.path.abspath(__file__)
@@ -134,6 +135,8 @@ class dRRT(Solver):
                 prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
             elif self.prm_nearest_neighbors == 'Epsilon_Inf':
                 prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+            elif self.prm_nearest_neighbors == 'Max_L2':
+                prm_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Max_L2)
             else:
                 print('Unknown metric')
                 exit(-1)
@@ -153,6 +156,8 @@ class dRRT(Solver):
             roadmap_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_2)
         elif self.nearest_neighbors == 'Epsilon_Inf':
             roadmap_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
+        elif self.nearest_neighbors == 'Max_L2':
+            roadmap_nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Max_L2)
         else:
             print('Unknown metric')
             exit(-1)
