@@ -10,7 +10,7 @@ from samplers.basic_sampler import BasicSquaresSampler
 from utils.utils import out_of_bounds
 
 
-class SpaceSampler(BasicSquaresSampler):
+class GridSampler(BasicSquaresSampler):
     """
     Space sampler for sampling points in a scene
     """

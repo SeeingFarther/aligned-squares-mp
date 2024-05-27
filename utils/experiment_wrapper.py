@@ -87,11 +87,17 @@ class ExperimentsWrapper:
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
         elif self.nearest_neighbors_metric == 'Max_L2':
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Max_L2)
+        elif self.nearest_neighbors_metric == 'Mix_CTD':
+            nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_CTD)]
+        elif self.nearest_neighbors_metric == 'Mix_Epsilon_2':
+            nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_Epsilon_2)]
         else:
             print('Unknown metric')
             exit(-1)
 
         if solver_name == 'PRM':
+            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+                nearest_neighbors = [nearest_neighbors]
             self.solver = BasicPrmForExperiments(num_landmarks, k,
                                                  bounding_margin_width_factor=bounding_margin_width_factor,
                                                  nearest_neighbors=nearest_neighbors, metric=metric,
@@ -108,6 +114,8 @@ class ExperimentsWrapper:
                                                             bounding_margin_width_factor=bounding_margin_width_factor,
                                                             sampler=sampler)
         elif solver_name == 'Squares':
+            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+                nearest_neighbors = [nearest_neighbors]
             self.solver = SquareMotionPlanner(num_landmarks=num_landmarks, k=k, nearest_neighbors=nearest_neighbors,
                                               bounding_margin_width_factor=bounding_margin_width_factor,
                                               sampler=sampler)
@@ -142,12 +150,18 @@ class ExperimentsWrapper:
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Epsilon_Inf)
         elif self.nearest_neighbors_metric == 'Max_L2':
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Max_L2)
+        elif self.nearest_neighbors_metric == 'Mix_CTD':
+            nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_CTD)]
+        elif self.nearest_neighbors_metric == 'Mix_Epsilon_2':
+            nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_Epsilon_2)]
         else:
             print('Unknown metric')
             exit(-1)
 
         # Build the proper solver
         if self.solver_name == 'PRM':
+            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+                nearest_neighbors = [nearest_neighbors]
             self.solver = BasicPrmForExperiments(self.num_landmarks, self.k,
                                                  bounding_margin_width_factor=self.bounding_margin_width_factor,
                                                  nearest_neighbors=nearest_neighbors, metric=self.metric,
@@ -165,6 +179,8 @@ class ExperimentsWrapper:
                                                             bounding_margin_width_factor=self.bounding_margin_width_factor,
                                                             sampler=self.sampler)
         elif self.solver_name == 'Squares':
+            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+                nearest_neighbors = [nearest_neighbors]
             self.solver = SquareMotionPlanner(num_landmarks=self.num_landmarks, k=self.k, nearest_neighbors=nearest_neighbors,
                                               bounding_margin_width_factor=self.bounding_margin_width_factor,
                                               sampler=self.sampler)

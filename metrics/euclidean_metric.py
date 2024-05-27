@@ -78,9 +78,9 @@ class Metric_Euclidean(Metric):
             return FT(d)
         elif type(p) is Point_d and type(q) is Point_d and p.dimension() == q.dimension():
             d = FT(0)
-            for i in range(p.dimension() / 2):
+            for i in range(int(p.dimension() / 2)):
                 dist = ((p[i] - q[i]) * (p[i] - q[i])) +((p[i+1] - q[i+1]) * (p[i+1] - q[i+1]))
-                d += math.sqrt(dist.to_double())
+                d += math.sqrt(dist)
             return FT(d)
         else:
             raise MetricNotImplemented('p,q should be Point_2 or Point_d')

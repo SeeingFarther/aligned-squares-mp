@@ -13,9 +13,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.483067011833191, 'Euclidean': 1.4308857202529908}
-Path Lengths: {'': 212.3444500767683, 'Euclidean': 226.52318591495805}
-For 10 experiments, best time won solver Euclidean with 1.43089 seconds, best length won solver  with 212.3444500767683  path length
+Times:: {'': 1.496614193916321, 'Euclidean': 2.0290238857269287}
+Path Lengths: {'': 225.86911962040864, 'Euclidean': 235.3534600177191}
+For 10 experiments, best time won solver  with 1.49661 seconds, best length won solver  with 225.86911962040864  path length
 _________________________
 _________________________
 Results for scene: bug_trap2
@@ -31,9 +31,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.377532410621643, 'Euclidean': 1.3411361932754517}
-Path Lengths: {'': 159.46226507043966, 'Euclidean': 145.68562347292283}
-For 10 experiments, best time won solver Euclidean with 1.34114 seconds, best length won solver Euclidean with 145.68562347292283  path length
+Times:: {'': 1.38187096118927, 'Euclidean': 1.9164230108261109}
+Path Lengths: {'': 144.53984888631285, 'Euclidean': 204.1118500262088}
+For 10 experiments, best time won solver  with 1.38187 seconds, best length won solver  with 144.53984888631285  path length
 _________________________
 _________________________
 Results for scene: bug_trap3
@@ -49,9 +49,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.5353558540344239, 'Euclidean': 1.5095420360565186}
-Path Lengths: {'': 124.53280305696266, 'Euclidean': 124.07856039286249}
-For 10 experiments, best time won solver Euclidean with 1.50954 seconds, best length won solver Euclidean with 124.07856039286249  path length
+Times:: {'': 1.5621086597442626, 'Euclidean': 1.9626017570495606}
+Path Lengths: {'': 124.4632054585197, 'Euclidean': 118.84819668775818}
+For 10 experiments, best time won solver  with 1.56211 seconds, best length won solver Euclidean with 118.84819668775818  path length
 _________________________
 _________________________
 Results for scene: bug_trap_2on2
@@ -67,9 +67,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.4746637105941773, 'Euclidean': 1.416592526435852}
-Path Lengths: {'': 149.92299701370013, 'Euclidean': 153.77597335406296}
-For 10 experiments, best time won solver Euclidean with 1.41659 seconds, best length won solver  with 149.92299701370013  path length
+Times:: {'': 1.5167723655700684, 'Euclidean': 2.0160333156585692}
+Path Lengths: {'': 162.72997904340554, 'Euclidean': 109.78031902590062}
+For 10 experiments, best time won solver  with 1.51677 seconds, best length won solver Euclidean with 109.78031902590062  path length
 _________________________
 _________________________
 Results for scene: bug_trap_3on3
@@ -85,9 +85,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.417582368850708, 'Euclidean': 1.3877042770385741}
-Path Lengths: {'': 163.57916939213462, 'Euclidean': 138.4566749842606}
-For 10 experiments, best time won solver Euclidean with 1.38770 seconds, best length won solver Euclidean with 138.4566749842606  path length
+Times:: {'': 1.4767261743545532, 'Euclidean': 2.0527111768722532}
+Path Lengths: {'': 137.14633742879883, 'Euclidean': 109.05835668831523}
+For 10 experiments, best time won solver  with 1.47673 seconds, best length won solver Euclidean with 109.05835668831523  path length
 _________________________
 _________________________
 Results for scene: bug_trap_diff_size
@@ -103,9 +103,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.430664587020874, 'Euclidean': 1.4003247976303101}
-Path Lengths: {'': 158.7463652334029, 'Euclidean': 151.31147114341792}
-For 10 experiments, best time won solver Euclidean with 1.40032 seconds, best length won solver Euclidean with 151.31147114341792  path length
+Times:: {'': 1.5033211708068848, 'Euclidean': 1.9895966529846192}
+Path Lengths: {'': 155.18566424445456, 'Euclidean': 102.74795312116241}
+For 10 experiments, best time won solver  with 1.50332 seconds, best length won solver Euclidean with 102.74795312116241  path length
 _________________________
 _________________________
 Results for scene: cubic1
@@ -121,9 +121,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.1640472173690797, 'Euclidean': 2.1711400985717773}
-Path Lengths: {'': 324.74076004970124, 'Euclidean': 307.8986146223382}
-For 10 experiments, best time won solver  with 2.16405 seconds, best length won solver Euclidean with 307.8986146223382  path length
+Times:: {'': 2.2293823957443237, 'Euclidean': 2.7442338705062865}
+Path Lengths: {'': 310.007491129347, 'Euclidean': 325.8418829688}
+For 10 experiments, best time won solver  with 2.22938 seconds, best length won solver  with 310.007491129347  path length
 _________________________
 _________________________
 Results for scene: cubic2
@@ -139,9 +139,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.458591866493225, 'Euclidean': 2.4403632402420046}
-Path Lengths: {'': 451.0203708808602, 'Euclidean': 465.0439636085627}
-For 10 experiments, best time won solver Euclidean with 2.44036 seconds, best length won solver  with 451.0203708808602  path length
+Times:: {'': 2.528375482559204, 'Euclidean': 3.07310791015625}
+Path Lengths: {'': 441.7865859704161, 'Euclidean': 439.9022159439839}
+For 10 experiments, best time won solver  with 2.52838 seconds, best length won solver Euclidean with 439.9022159439839  path length
 _________________________
 _________________________
 Results for scene: cubic3
@@ -157,9 +157,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.2370721817016603, 'Euclidean': 2.2308475494384767}
-Path Lengths: {'': 599.1791095917602, 'Euclidean': 564.3736579375038}
-For 10 experiments, best time won solver Euclidean with 2.23085 seconds, best length won solver Euclidean with 564.3736579375038  path length
+Times:: {'': 2.109606409072876, 'Euclidean': 2.73212251663208}
+Path Lengths: {'': 587.1281522881548, 'Euclidean': 541.4743658559671}
+For 10 experiments, best time won solver  with 2.10961 seconds, best length won solver Euclidean with 541.4743658559671  path length
 _________________________
 _________________________
 Results for scene: cubic_2on2
@@ -175,9 +175,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.146848034858704, 'Euclidean': 2.1715251207351685}
-Path Lengths: {'': 497.8927798657187, 'Euclidean': 505.5750762636867}
-For 10 experiments, best time won solver  with 2.14685 seconds, best length won solver  with 497.8927798657187  path length
+Times:: {'': 2.150574278831482, 'Euclidean': 2.5404027462005616}
+Path Lengths: {'': 494.3725677367568, 'Euclidean': 542.3639896501952}
+For 10 experiments, best time won solver  with 2.15057 seconds, best length won solver  with 494.3725677367568  path length
 _________________________
 _________________________
 Results for scene: cubic_3on3
@@ -193,9 +193,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.2868989944458007, 'Euclidean': 2.2454487085342407}
-Path Lengths: {'': 518.3181339638256, 'Euclidean': 503.6798421631364}
-For 10 experiments, best time won solver Euclidean with 2.24545 seconds, best length won solver Euclidean with 503.6798421631364  path length
+Times:: {'': 2.1258077383041383, 'Euclidean': 2.674657392501831}
+Path Lengths: {'': 547.8754161029854, 'Euclidean': 470.2333807605004}
+For 10 experiments, best time won solver  with 2.12581 seconds, best length won solver Euclidean with 470.2333807605004  path length
 _________________________
 _________________________
 Results for scene: cubic_diff_size
@@ -211,9 +211,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.1820749044418335, 'Euclidean': 2.3557109594345094}
-Path Lengths: {'': 502.0798330794543, 'Euclidean': 497.53742166435893}
-For 10 experiments, best time won solver  with 2.18207 seconds, best length won solver Euclidean with 497.53742166435893  path length
+Times:: {'': 2.072112035751343, 'Euclidean': 2.606537199020386}
+Path Lengths: {'': 550.3648585661304, 'Euclidean': 508.7908999990529}
+For 10 experiments, best time won solver  with 2.07211 seconds, best length won solver Euclidean with 508.7908999990529  path length
 _________________________
 _________________________
 Results for scene: easy1
@@ -229,9 +229,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.3518699884414673, 'Euclidean': 1.3081902503967284}
-Path Lengths: {'': 521.5060849651978, 'Euclidean': 537.9289632731712}
-For 10 experiments, best time won solver Euclidean with 1.30819 seconds, best length won solver  with 521.5060849651978  path length
+Times:: {'': 1.280961847305298, 'Euclidean': 1.7386860847473145}
+Path Lengths: {'': 524.4992941908192, 'Euclidean': 491.6826041628623}
+For 10 experiments, best time won solver  with 1.28096 seconds, best length won solver Euclidean with 491.6826041628623  path length
 _________________________
 _________________________
 Results for scene: easy2
@@ -247,9 +247,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.320853352546692, 'Euclidean': 1.2751043558120727}
-Path Lengths: {'': 555.3131863753663, 'Euclidean': 525.7399275256073}
-For 10 experiments, best time won solver Euclidean with 1.27510 seconds, best length won solver Euclidean with 525.7399275256073  path length
+Times:: {'': 1.2255134582519531, 'Euclidean': 1.7047881841659547}
+Path Lengths: {'': 506.09540914917113, 'Euclidean': 499.9296718060441}
+For 10 experiments, best time won solver  with 1.22551 seconds, best length won solver Euclidean with 499.9296718060441  path length
 _________________________
 _________________________
 Results for scene: easy3
@@ -265,9 +265,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.2729068756103517, 'Euclidean': 1.2852915048599243}
-Path Lengths: {'': 411.2541782919555, 'Euclidean': 400.2892132544504}
-For 10 experiments, best time won solver  with 1.27291 seconds, best length won solver Euclidean with 400.2892132544504  path length
+Times:: {'': 1.198358988761902, 'Euclidean': 1.6796270847320556}
+Path Lengths: {'': 401.13383843306474, 'Euclidean': 378.16595580110334}
+For 10 experiments, best time won solver  with 1.19836 seconds, best length won solver Euclidean with 378.16595580110334  path length
 _________________________
 _________________________
 Results for scene: easy_2on2
@@ -283,9 +283,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.3700348615646363, 'Euclidean': 1.3562149286270142}
-Path Lengths: {'': 506.2429013507584, 'Euclidean': 526.2115374820618}
-For 10 experiments, best time won solver Euclidean with 1.35621 seconds, best length won solver  with 506.2429013507584  path length
+Times:: {'': 1.222787618637085, 'Euclidean': 1.8007750272750855}
+Path Lengths: {'': 541.5719249486389, 'Euclidean': 509.17490631793163}
+For 10 experiments, best time won solver  with 1.22279 seconds, best length won solver Euclidean with 509.17490631793163  path length
 _________________________
 _________________________
 Results for scene: easy_3on3
@@ -301,9 +301,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.3331562280654907, 'Euclidean': 1.367758321762085}
-Path Lengths: {'': 539.6025946274315, 'Euclidean': 519.2922494810897}
-For 10 experiments, best time won solver  with 1.33316 seconds, best length won solver Euclidean with 519.2922494810897  path length
+Times:: {'': 1.2255579233169556, 'Euclidean': 1.6982128381729127}
+Path Lengths: {'': 517.2976546582789, 'Euclidean': 519.2207516863047}
+For 10 experiments, best time won solver  with 1.22556 seconds, best length won solver  with 517.2976546582789  path length
 _________________________
 _________________________
 Results for scene: easy_diff_size
@@ -319,29 +319,11 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.3149607181549072, 'Euclidean': 1.3223199367523193}
-Path Lengths: {'': 508.0487447338777, 'Euclidean': 547.4025972702677}
-For 10 experiments, best time won solver  with 1.31496 seconds, best length won solver  with 508.0487447338777  path length
+Times:: {'': 1.226822519302368, 'Euclidean': 1.7032240152359008}
+Path Lengths: {'': 553.3080943475198, 'Euclidean': 536.626654984504}
+For 10 experiments, best time won solver  with 1.22682 seconds, best length won solver Euclidean with 536.626654984504  path length
 _________________________
 _________________________
-Results for scene: long_lobby
-For following parameters:
-Solver: DRRT
-Number of experiments: 10
-K: : 15
-Roadmap nearest neighbors: Euclidean
-Number of landmarks: 500
-Bounding width factor: 0
-Delta: 0.04
-Epsilon: 9999
-PRM Number of landmarks: 1000
-Exact:True
-Time Limit: 100
-Times:: {'': 1.3149607181549072, 'Euclidean': 1.3223199367523193}
-Path Lengths: {'': 0.0, 'Euclidean': 0.0}
-For 10 experiments, best time won solver  with 13.45644 seconds, best length won solver  with 999999  path length
-_________________________
-__________________________________________________
 Results for scene: looby
 For following parameters:
 Solver: DRRT
@@ -355,9 +337,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 1.1874120712280274, 'Euclidean': 1.2557071208953858}
-Path Lengths: {'': 28.86330257999606, 'Euclidean': 27.94377149976888}
-For 10 experiments, best time won solver  with 1.18741 seconds, best length won solver Euclidean with 27.94377149976888  path length
+Times:: {'': 1.1170700073242188, 'Euclidean': 1.6555965900421143}
+Path Lengths: {'': 28.733452945255454, 'Euclidean': 28.280448268304905}
+For 10 experiments, best time won solver  with 1.11707 seconds, best length won solver Euclidean with 28.280448268304905  path length
 _________________________
 _________________________
 Results for scene: sphiral
@@ -373,9 +355,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 3.519969439506531, 'Euclidean': 3.5528610229492186}
-Path Lengths: {'': 874.4936701682409, 'Euclidean': 843.6678208093035}
-For 10 experiments, best time won solver  with 3.51997 seconds, best length won solver Euclidean with 843.6678208093035  path length
+Times:: {'': 3.556377148628235, 'Euclidean': 4.094248056411743}
+Path Lengths: {'': 852.6418997797116, 'Euclidean': 882.904919505671}
+For 10 experiments, best time won solver  with 3.55638 seconds, best length won solver  with 852.6418997797116  path length
 _________________________
 _________________________
 Results for scene: sphiral_2on2
@@ -391,9 +373,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 3.5977303743362428, 'Euclidean': 3.616667938232422}
-Path Lengths: {'': 912.7899699652255, 'Euclidean': 891.1146828165877}
-For 10 experiments, best time won solver  with 3.59773 seconds, best length won solver Euclidean with 891.1146828165877  path length
+Times:: {'': 3.53589289188385, 'Euclidean': 4.084805345535278}
+Path Lengths: {'': 907.1921360979777, 'Euclidean': 885.769007493848}
+For 10 experiments, best time won solver  with 3.53589 seconds, best length won solver Euclidean with 885.769007493848  path length
 _________________________
 _________________________
 Results for scene: sphiral_3on3
@@ -409,9 +391,9 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 3.6043820858001707, 'Euclidean': 3.652173471450806}
-Path Lengths: {'': 903.6244522033288, 'Euclidean': 920.3833259544259}
-For 10 experiments, best time won solver  with 3.60438 seconds, best length won solver  with 903.6244522033288  path length
+Times:: {'': 3.6047837257385256, 'Euclidean': 4.334182524681092}
+Path Lengths: {'': 921.2731178563438, 'Euclidean': 855.4900656617014}
+For 10 experiments, best time won solver  with 3.60478 seconds, best length won solver Euclidean with 855.4900656617014  path length
 _________________________
 _________________________
 Results for scene: sphiral_diff_size
@@ -427,26 +409,10 @@ Epsilon: 9999
 PRM Number of landmarks: 1000
 Exact:True
 Time Limit: 100
-Times:: {'': 3.603228735923767, 'Euclidean': 3.5391235828399656}
-Path Lengths: {'': 853.474616123983, 'Euclidean': 874.432590450892}
-For 10 experiments, best time won solver Euclidean with 3.53912 seconds, best length won solver  with 853.474616123983  path length
+Times:: {'': 3.586982250213623, 'Euclidean': 4.0916773796081545}
+Path Lengths: {'': 893.4217815503771, 'Euclidean': 897.9783292747203}
+For 10 experiments, best time won solver  with 3.58698 seconds, best length won solver  with 893.4217815503771  path length
 _________________________
-Results for scene: switch
-For following parameters:
-Solver: DRRT
-Number of experiments: 10
-K: : 15
-Roadmap nearest neighbors: Euclidean
-Number of landmarks: 500
-Bounding width factor: 0
-Delta: 0.04
-Epsilon: 9999
-PRM Number of landmarks: 1000
-Exact:True
-Time Limit: 100
-Times:: {'': 1.3149607181549072, 'Euclidean': 1.3223199367523193}
-Path Lengths: {'': 0.0, 'Euclidean': 0.0}
-For 10 experiments, best time won solver  with 13.45644 seconds, best length won solver  with 999999  path length
 _________________________
 Results for scene: bug_trap1
 For following parameters:
@@ -461,9 +427,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.792014718055725, 'Euclidean': 2.9088103771209717}
-Path Lengths: {'': 223.28704042700377, 'Euclidean': 245.43545882438153}
-For 10 experiments, best time won solver  with 2.79201 seconds, best length won solver  with 223.28704042700377  path length
+Times:: {'': 2.8432037830352783, 'Euclidean': 4.218639707565307}
+Path Lengths: {'': 234.3383487068025, 'Euclidean': 223.56049144134414}
+For 10 experiments, best time won solver  with 2.84320 seconds, best length won solver Euclidean with 223.56049144134414  path length
 _________________________
 _________________________
 Results for scene: bug_trap2
@@ -479,9 +445,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.623918128013611, 'Euclidean': 2.928681993484497}
-Path Lengths: {'': 178.3083599409935, 'Euclidean': 169.98691217629226}
-For 10 experiments, best time won solver  with 2.62392 seconds, best length won solver Euclidean with 169.98691217629226  path length
+Times:: {'': 2.5722028493881224, 'Euclidean': 4.208101487159729}
+Path Lengths: {'': 169.1232756544033, 'Euclidean': 176.55121681421272}
+For 10 experiments, best time won solver  with 2.57220 seconds, best length won solver  with 169.1232756544033  path length
 _________________________
 _________________________
 Results for scene: bug_trap3
@@ -497,9 +463,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.898086762428284, 'Euclidean': 3.049399495124817}
-Path Lengths: {'': 132.7191727783357, 'Euclidean': 132.81778301586303}
-For 10 experiments, best time won solver  with 2.89809 seconds, best length won solver  with 132.7191727783357  path length
+Times:: {'': 3.162699484825134, 'Euclidean': 4.294700956344604}
+Path Lengths: {'': 135.25700105063407, 'Euclidean': 114.42974412432754}
+For 10 experiments, best time won solver  with 3.16270 seconds, best length won solver Euclidean with 114.42974412432754  path length
 _________________________
 _________________________
 Results for scene: bug_trap_2on2
@@ -515,9 +481,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.9356027603149415, 'Euclidean': 2.991027045249939}
-Path Lengths: {'': 155.43206211997736, 'Euclidean': 163.09541420956256}
-For 10 experiments, best time won solver  with 2.93560 seconds, best length won solver  with 155.43206211997736  path length
+Times:: {'': 2.8042023181915283, 'Euclidean': 4.365218377113342}
+Path Lengths: {'': 172.52051556250586, 'Euclidean': 109.49642252869766}
+For 10 experiments, best time won solver  with 2.80420 seconds, best length won solver Euclidean with 109.49642252869766  path length
 _________________________
 _________________________
 Results for scene: bug_trap_3on3
@@ -533,9 +499,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 3.1004614353179933, 'Euclidean': 3.1027863025665283}
-Path Lengths: {'': 171.05827460860473, 'Euclidean': 179.93583987029993}
-For 10 experiments, best time won solver  with 3.10046 seconds, best length won solver  with 171.05827460860473  path length
+Times:: {'': 2.9211560487747192, 'Euclidean': 4.291628789901734}
+Path Lengths: {'': 194.22836436004866, 'Euclidean': 119.03711002546932}
+For 10 experiments, best time won solver  with 2.92116 seconds, best length won solver Euclidean with 119.03711002546932  path length
 _________________________
 _________________________
 Results for scene: bug_trap_diff_size
@@ -551,9 +517,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.9359989404678344, 'Euclidean': 2.90831196308136}
-Path Lengths: {'': 160.36621850341857, 'Euclidean': 155.03220108134678}
-For 10 experiments, best time won solver Euclidean with 2.90831 seconds, best length won solver Euclidean with 155.03220108134678  path length
+Times:: {'': 2.8399665117263795, 'Euclidean': 4.320249629020691}
+Path Lengths: {'': 180.42771400541204, 'Euclidean': 114.13607310468244}
+For 10 experiments, best time won solver  with 2.83997 seconds, best length won solver Euclidean with 114.13607310468244  path length
 _________________________
 _________________________
 Results for scene: cubic1
@@ -569,9 +535,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 4.492416310310364, 'Euclidean': 4.543903708457947}
-Path Lengths: {'': 320.35215664246044, 'Euclidean': 315.3612243230987}
-For 10 experiments, best time won solver  with 4.49242 seconds, best length won solver Euclidean with 315.3612243230987  path length
+Times:: {'': 4.40639328956604, 'Euclidean': 5.7932878017425535}
+Path Lengths: {'': 323.47423066284375, 'Euclidean': 312.67591672853024}
+For 10 experiments, best time won solver  with 4.40639 seconds, best length won solver Euclidean with 312.67591672853024  path length
 _________________________
 _________________________
 Results for scene: cubic2
@@ -587,9 +553,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 5.282224321365357, 'Euclidean': 5.197589373588562}
-Path Lengths: {'': 450.92631307323273, 'Euclidean': 448.21053800735956}
-For 10 experiments, best time won solver Euclidean with 5.19759 seconds, best length won solver Euclidean with 448.21053800735956  path length
+Times:: {'': 5.021920680999756, 'Euclidean': 6.505179214477539}
+Path Lengths: {'': 431.24055141522274, 'Euclidean': 464.67765640070195}
+For 10 experiments, best time won solver  with 5.02192 seconds, best length won solver  with 431.24055141522274  path length
 _________________________
 _________________________
 Results for scene: cubic3
@@ -605,9 +571,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 4.614654922485352, 'Euclidean': 4.375019359588623}
-Path Lengths: {'': 605.9010114502605, 'Euclidean': 596.9062703220569}
-For 10 experiments, best time won solver Euclidean with 4.37502 seconds, best length won solver Euclidean with 596.9062703220569  path length
+Times:: {'': 4.250298500061035, 'Euclidean': 5.300118947029114}
+Path Lengths: {'': 599.551566329393, 'Euclidean': 572.3196306018164}
+For 10 experiments, best time won solver  with 4.25030 seconds, best length won solver Euclidean with 572.3196306018164  path length
 _________________________
 _________________________
 Results for scene: cubic_2on2
@@ -623,9 +589,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 4.433092212677002, 'Euclidean': 4.441447424888611}
-Path Lengths: {'': 522.071536889751, 'Euclidean': 548.1910630222077}
-For 10 experiments, best time won solver  with 4.43309 seconds, best length won solver  with 522.071536889751  path length
+Times:: {'': 4.225686264038086, 'Euclidean': 5.535683870315552}
+Path Lengths: {'': 515.9294384225088, 'Euclidean': 516.3319668494609}
+For 10 experiments, best time won solver  with 4.22569 seconds, best length won solver  with 515.9294384225088  path length
 _________________________
 _________________________
 Results for scene: cubic_3on3
@@ -641,9 +607,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 4.313067150115967, 'Euclidean': 4.46385440826416}
-Path Lengths: {'': 506.7375597896433, 'Euclidean': 516.3979140014994}
-For 10 experiments, best time won solver  with 4.31307 seconds, best length won solver  with 506.7375597896433  path length
+Times:: {'': 4.224988579750061, 'Euclidean': 5.392343306541443}
+Path Lengths: {'': 538.4043174247599, 'Euclidean': 499.2226103823071}
+For 10 experiments, best time won solver  with 4.22499 seconds, best length won solver Euclidean with 499.2226103823071  path length
 _________________________
 _________________________
 Results for scene: cubic_diff_size
@@ -659,9 +625,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 4.292224097251892, 'Euclidean': 4.362494444847107}
-Path Lengths: {'': 538.0898392164756, 'Euclidean': 523.7678286368304}
-For 10 experiments, best time won solver  with 4.29222 seconds, best length won solver Euclidean with 523.7678286368304  path length
+Times:: {'': 4.478537583351136, 'Euclidean': 5.51330943107605}
+Path Lengths: {'': 489.3521358079549, 'Euclidean': 510.873063394326}
+For 10 experiments, best time won solver  with 4.47854 seconds, best length won solver  with 489.3521358079549  path length
 _________________________
 _________________________
 Results for scene: easy1
@@ -677,9 +643,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.4788283348083495, 'Euclidean': 2.4248314619064333}
-Path Lengths: {'': 520.2391580369905, 'Euclidean': 522.9818436872599}
-For 10 experiments, best time won solver Euclidean with 2.42483 seconds, best length won solver  with 520.2391580369905  path length
+Times:: {'': 2.3439205646514893, 'Euclidean': 3.5616515398025514}
+Path Lengths: {'': 528.7229915229482, 'Euclidean': 508.7579154623901}
+For 10 experiments, best time won solver  with 2.34392 seconds, best length won solver Euclidean with 508.7579154623901  path length
 _________________________
 _________________________
 Results for scene: easy2
@@ -695,9 +661,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.4157150983810425, 'Euclidean': 2.4288722038269044}
-Path Lengths: {'': 500.41631254082466, 'Euclidean': 509.4729162916865}
-For 10 experiments, best time won solver  with 2.41572 seconds, best length won solver  with 500.41631254082466  path length
+Times:: {'': 2.3191521644592283, 'Euclidean': 3.5562878370285036}
+Path Lengths: {'': 519.4512724259323, 'Euclidean': 494.3539345871403}
+For 10 experiments, best time won solver  with 2.31915 seconds, best length won solver Euclidean with 494.3539345871403  path length
 _________________________
 _________________________
 Results for scene: easy3
@@ -713,9 +679,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.3536627769470213, 'Euclidean': 2.3608092069625854}
-Path Lengths: {'': 413.1928435362548, 'Euclidean': 391.4156268000114}
-For 10 experiments, best time won solver  with 2.35366 seconds, best length won solver Euclidean with 391.4156268000114  path length
+Times:: {'': 2.293257641792297, 'Euclidean': 3.6418917894363405}
+Path Lengths: {'': 405.9768927139229, 'Euclidean': 392.19022650042064}
+For 10 experiments, best time won solver  with 2.29326 seconds, best length won solver Euclidean with 392.19022650042064  path length
 _________________________
 _________________________
 Results for scene: easy_2on2
@@ -731,9 +697,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.4380057096481322, 'Euclidean': 2.3724788665771483}
-Path Lengths: {'': 534.62722876375, 'Euclidean': 530.3357179452847}
-For 10 experiments, best time won solver Euclidean with 2.37248 seconds, best length won solver Euclidean with 530.3357179452847  path length
+Times:: {'': 2.4062280654907227, 'Euclidean': 3.5557775497436523}
+Path Lengths: {'': 530.2194397534265, 'Euclidean': 507.9359628085648}
+For 10 experiments, best time won solver  with 2.40623 seconds, best length won solver Euclidean with 507.9359628085648  path length
 _________________________
 _________________________
 Results for scene: easy_3on3
@@ -749,9 +715,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.4533762454986574, 'Euclidean': 2.3835824012756346}
-Path Lengths: {'': 535.824795551413, 'Euclidean': 526.3088922083398}
-For 10 experiments, best time won solver Euclidean with 2.38358 seconds, best length won solver Euclidean with 526.3088922083398  path length
+Times:: {'': 2.3825503826141357, 'Euclidean': 3.6453139543533326}
+Path Lengths: {'': 509.29408570196813, 'Euclidean': 518.9029567821548}
+For 10 experiments, best time won solver  with 2.38255 seconds, best length won solver  with 509.29408570196813  path length
 _________________________
 _________________________
 Results for scene: easy_diff_size
@@ -767,27 +733,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.400479459762573, 'Euclidean': 2.406604504585266}
-Path Lengths: {'': 521.664278801041, 'Euclidean': 554.4594912450507}
-For 10 experiments, best time won solver  with 2.40048 seconds, best length won solver  with 521.664278801041  path length
-_________________________
-_________________________
-Results for scene: long_looby
-For following parameters:
-Solver: DRRT
-Number of experiments: 10
-K: : 15
-Roadmap nearest neighbors: Euclidean
-Number of landmarks: 1000
-Bounding width factor: 0
-Delta: 0.04
-Epsilon: 9999
-PRM Number of landmarks: 2000
-Exact:True
-Time Limit: 100
-Times:: {'': 2.0217700004577637, 'Euclidean': 2.0684882402420044}
-Path Lengths: {'': 85.65528410505632, 'Euclidean': 84.92168810338319}
-For 10 experiments, best time won solver  with 2.02177 seconds, best length won solver Euclidean with 84.92168810338319  path length
+Times:: {'': 2.3168800115585326, 'Euclidean': 3.538654851913452}
+Path Lengths: {'': 523.2908234835982, 'Euclidean': 516.0428650501625}
+For 10 experiments, best time won solver  with 2.31688 seconds, best length won solver Euclidean with 516.0428650501625  path length
 _________________________
 _________________________
 Results for scene: looby
@@ -803,9 +751,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 2.2747480630874635, 'Euclidean': 2.265479302406311}
-Path Lengths: {'': 29.348055985117348, 'Euclidean': 30.921708523076013}
-For 10 experiments, best time won solver Euclidean with 2.26548 seconds, best length won solver  with 29.348055985117348  path length
+Times:: {'': 2.21221981048584, 'Euclidean': 3.540344476699829}
+Path Lengths: {'': 30.669351916686786, 'Euclidean': 28.99739541188398}
+For 10 experiments, best time won solver  with 2.21222 seconds, best length won solver Euclidean with 28.99739541188398  path length
 _________________________
 _________________________
 Results for scene: sphiral
@@ -821,9 +769,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 7.208200407028198, 'Euclidean': 7.212485074996948}
-Path Lengths: {'': 892.9951564495352, 'Euclidean': 893.5443877486371}
-For 10 experiments, best time won solver  with 7.20820 seconds, best length won solver  with 892.9951564495352  path length
+Times:: {'': 6.685468459129334, 'Euclidean': 8.306015396118164}
+Path Lengths: {'': 884.4702513310938, 'Euclidean': 877.858574157538}
+For 10 experiments, best time won solver  with 6.68547 seconds, best length won solver Euclidean with 877.858574157538  path length
 _________________________
 _________________________
 Results for scene: sphiral_2on2
@@ -839,9 +787,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 7.206878709793091, 'Euclidean': 7.350104713439942}
-Path Lengths: {'': 947.8036123128904, 'Euclidean': 938.2525006885492}
-For 10 experiments, best time won solver  with 7.20688 seconds, best length won solver Euclidean with 938.2525006885492  path length
+Times:: {'': 6.717122912406921, 'Euclidean': 8.329513478279114}
+Path Lengths: {'': 937.8823682764844, 'Euclidean': 910.4849953639248}
+For 10 experiments, best time won solver  with 6.71712 seconds, best length won solver Euclidean with 910.4849953639248  path length
 _________________________
 _________________________
 Results for scene: sphiral_3on3
@@ -857,9 +805,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 7.464301729202271, 'Euclidean': 7.524645829200745}
-Path Lengths: {'': 944.711320131302, 'Euclidean': 933.0099946838193}
-For 10 experiments, best time won solver  with 7.46430 seconds, best length won solver Euclidean with 933.0099946838193  path length
+Times:: {'': 7.010967445373535, 'Euclidean': 8.68350305557251}
+Path Lengths: {'': 928.5123773217161, 'Euclidean': 899.0574906988135}
+For 10 experiments, best time won solver  with 7.01097 seconds, best length won solver Euclidean with 899.0574906988135  path length
 _________________________
 _________________________
 Results for scene: sphiral_diff_size
@@ -875,26 +823,9 @@ Epsilon: 9999
 PRM Number of landmarks: 2000
 Exact:True
 Time Limit: 100
-Times:: {'': 7.391979098320007, 'Euclidean': 7.377990937232971}
-Path Lengths: {'': 900.5039051862632, 'Euclidean': 899.1967157642063}
-For 10 experiments, best time won solver Euclidean with 7.37799 seconds, best length won solver Euclidean with 899.1967157642063  path length
-_________________________
-Results for scene: switch
-For following parameters:
-Solver: DRRT
-Number of experiments: 10
-K: : 15
-Roadmap nearest neighbors: Euclidean
-Number of landmarks: 1000
-Bounding width factor: 0
-Delta: 0.04
-Epsilon: 9999
-PRM Number of landmarks: 2000
-Exact:True
-Time Limit: 100
-Times:: {'': 1.3149607181549072, 'Euclidean': 1.3223199367523193}
-Path Lengths: {'': 0.0, 'Euclidean': 0.0}
-For 10 experiments, best time won solver  with 13.45644 seconds, best length won solver  with 999999  path length
+Times:: {'': 6.756470036506653, 'Euclidean': 8.266102242469788}
+Path Lengths: {'': 901.9472022442873, 'Euclidean': 888.3399364815361}
+For 10 experiments, best time won solver  with 6.75647 seconds, best length won solver Euclidean with 888.3399364815361  path length
 _________________________
 _________________________
 Results for scene: bug_trap1
@@ -910,9 +841,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 7.237592077255249, 'Euclidean': 6.96007924079895}
-Path Lengths: {'': 243.74535373954708, 'Euclidean': 232.90473372585387}
-For 10 experiments, best time won solver Euclidean with 6.96008 seconds, best length won solver Euclidean with 232.90473372585387  path length
+Times:: {'': 7.058736038208008, 'Euclidean': 12.586372828483581}
+Path Lengths: {'': 255.09141934709365, 'Euclidean': 254.06450062045536}
+For 10 experiments, best time won solver  with 7.05874 seconds, best length won solver Euclidean with 254.06450062045536  path length
 _________________________
 _________________________
 Results for scene: bug_trap2
@@ -928,9 +859,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 6.864542150497437, 'Euclidean': 6.923819589614868}
-Path Lengths: {'': 165.87858041643813, 'Euclidean': 206.89363333225847}
-For 10 experiments, best time won solver  with 6.86454 seconds, best length won solver  with 165.87858041643813  path length
+Times:: {'': 6.580845594406128, 'Euclidean': 12.413289189338684}
+Path Lengths: {'': 180.55373894939686, 'Euclidean': 180.8098232256483}
+For 10 experiments, best time won solver  with 6.58085 seconds, best length won solver  with 180.55373894939686  path length
 _________________________
 _________________________
 Results for scene: bug_trap3
@@ -946,9 +877,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 7.752183794975281, 'Euclidean': 7.927710628509521}
-Path Lengths: {'': 140.3663026898166, 'Euclidean': 139.18182741151264}
-For 10 experiments, best time won solver  with 7.75218 seconds, best length won solver Euclidean with 139.18182741151264  path length
+Times:: {'': 7.406131339073181, 'Euclidean': 12.175493907928466}
+Path Lengths: {'': 135.86482586573445, 'Euclidean': 136.34010123595039}
+For 10 experiments, best time won solver  with 7.40613 seconds, best length won solver  with 135.86482586573445  path length
 _________________________
 _________________________
 Results for scene: bug_trap_2on2
@@ -964,9 +895,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 7.277882766723633, 'Euclidean': 7.18406720161438}
-Path Lengths: {'': 158.2468396055262, 'Euclidean': 168.98971064016092}
-For 10 experiments, best time won solver Euclidean with 7.18407 seconds, best length won solver  with 158.2468396055262  path length
+Times:: {'': 6.998656940460205, 'Euclidean': 12.618074631690979}
+Path Lengths: {'': 156.42858025982136, 'Euclidean': 122.99088008658502}
+For 10 experiments, best time won solver  with 6.99866 seconds, best length won solver Euclidean with 122.99088008658502  path length
 _________________________
 _________________________
 Results for scene: bug_trap_3on3
@@ -982,9 +913,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 7.25775978565216, 'Euclidean': 7.410577702522278}
-Path Lengths: {'': 160.12496583793933, 'Euclidean': 157.4383705441416}
-For 10 experiments, best time won solver  with 7.25776 seconds, best length won solver Euclidean with 157.4383705441416  path length
+Times:: {'': 7.506136417388916, 'Euclidean': 12.72510392665863}
+Path Lengths: {'': 186.9498831682908, 'Euclidean': 125.30505773202938}
+For 10 experiments, best time won solver  with 7.50614 seconds, best length won solver Euclidean with 125.30505773202938  path length
 _________________________
 _________________________
 Results for scene: bug_trap_diff_size
@@ -1000,9 +931,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 7.755346131324768, 'Euclidean': 8.186736893653869}
-Path Lengths: {'': 162.61800213624272, 'Euclidean': 166.03435628326397}
-For 10 experiments, best time won solver  with 7.75535 seconds, best length won solver  with 162.61800213624272  path length
+Times:: {'': 7.230608320236206, 'Euclidean': 12.743208885192871}
+Path Lengths: {'': 162.9797831368363, 'Euclidean': 120.646244250729}
+For 10 experiments, best time won solver  with 7.23061 seconds, best length won solver Euclidean with 120.646244250729  path length
 _________________________
 _________________________
 Results for scene: cubic1
@@ -1018,9 +949,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 11.964103198051452, 'Euclidean': 11.793264508247375}
-Path Lengths: {'': 317.0134423473069, 'Euclidean': 310.62920959560364}
-For 10 experiments, best time won solver Euclidean with 11.79326 seconds, best length won solver Euclidean with 310.62920959560364  path length
+Times:: {'': 11.084000539779662, 'Euclidean': 16.61995940208435}
+Path Lengths: {'': 316.1592175574038, 'Euclidean': 312.43553161306994}
+For 10 experiments, best time won solver  with 11.08400 seconds, best length won solver Euclidean with 312.43553161306994  path length
 _________________________
 _________________________
 Results for scene: cubic2
@@ -1036,9 +967,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 12.159635019302367, 'Euclidean': 12.214954924583434}
-Path Lengths: {'': 466.158821910744, 'Euclidean': 445.17433431047436}
-For 10 experiments, best time won solver  with 12.15964 seconds, best length won solver Euclidean with 445.17433431047436  path length
+Times:: {'': 12.8163498878479, 'Euclidean': 18.84235825538635}
+Path Lengths: {'': 430.9705386899497, 'Euclidean': 601.2836418162917}
+For 10 experiments, best time won solver  with 12.81635 seconds, best length won solver  with 430.9705386899497  path length
 _________________________
 _________________________
 Results for scene: cubic3
@@ -1054,9 +985,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.350422620773315, 'Euclidean': 10.45287208557129}
-Path Lengths: {'': 655.7266253779674, 'Euclidean': 656.2159755917427}
-For 10 experiments, best time won solver  with 10.35042 seconds, best length won solver  with 655.7266253779674  path length
+Times:: {'': 10.60501163005829, 'Euclidean': 15.326788401603698}
+Path Lengths: {'': 649.5730840771216, 'Euclidean': 608.5194208960388}
+For 10 experiments, best time won solver  with 10.60501 seconds, best length won solver Euclidean with 608.5194208960388  path length
 _________________________
 _________________________
 Results for scene: cubic_2on2
@@ -1072,9 +1003,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.159218668937683, 'Euclidean': 10.41100778579712}
-Path Lengths: {'': 571.6087842799144, 'Euclidean': 568.7883336736461}
-For 10 experiments, best time won solver  with 10.15922 seconds, best length won solver Euclidean with 568.7883336736461  path length
+Times:: {'': 10.274794936180115, 'Euclidean': 15.430266451835632}
+Path Lengths: {'': 556.8707601220149, 'Euclidean': 589.9090181334401}
+For 10 experiments, best time won solver  with 10.27479 seconds, best length won solver  with 556.8707601220149  path length
 _________________________
 _________________________
 Results for scene: cubic_3on3
@@ -1090,9 +1021,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.144496607780457, 'Euclidean': 10.276565289497375}
-Path Lengths: {'': 554.3095786786388, 'Euclidean': 561.522136850693}
-For 10 experiments, best time won solver  with 10.14450 seconds, best length won solver  with 554.3095786786388  path length
+Times:: {'': 10.0259610414505, 'Euclidean': 15.121741390228271}
+Path Lengths: {'': 579.3055192512105, 'Euclidean': 585.7979992781391}
+For 10 experiments, best time won solver  with 10.02596 seconds, best length won solver  with 579.3055192512105  path length
 _________________________
 _________________________
 Results for scene: cubic_diff_size
@@ -1108,9 +1039,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 9.79427080154419, 'Euclidean': 9.888678240776063}
-Path Lengths: {'': 581.370768078267, 'Euclidean': 578.1760120092143}
-For 10 experiments, best time won solver  with 9.79427 seconds, best length won solver Euclidean with 578.1760120092143  path length
+Times:: {'': 10.7704261302948, 'Euclidean': 15.518912529945373}
+Path Lengths: {'': 572.0719823466231, 'Euclidean': 575.9418846953067}
+For 10 experiments, best time won solver  with 10.77043 seconds, best length won solver  with 572.0719823466231  path length
 _________________________
 _________________________
 Results for scene: easy1
@@ -1126,9 +1057,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.828522872924805, 'Euclidean': 5.832050013542175}
-Path Lengths: {'': 518.2763906468693, 'Euclidean': 528.5062610649273}
-For 10 experiments, best time won solver  with 5.82852 seconds, best length won solver  with 518.2763906468693  path length
+Times:: {'': 5.802070093154907, 'Euclidean': 10.85398964881897}
+Path Lengths: {'': 518.3303645248169, 'Euclidean': 493.1903956995044}
+For 10 experiments, best time won solver  with 5.80207 seconds, best length won solver Euclidean with 493.1903956995044  path length
 _________________________
 _________________________
 Results for scene: easy2
@@ -1144,9 +1075,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.816826128959656, 'Euclidean': 5.79025239944458}
-Path Lengths: {'': 505.0178051091716, 'Euclidean': 533.7386775050605}
-For 10 experiments, best time won solver Euclidean with 5.79025 seconds, best length won solver  with 505.0178051091716  path length
+Times:: {'': 5.867485189437867, 'Euclidean': 10.946041870117188}
+Path Lengths: {'': 523.6276956822775, 'Euclidean': 495.75305927347364}
+For 10 experiments, best time won solver  with 5.86749 seconds, best length won solver Euclidean with 495.75305927347364  path length
 _________________________
 _________________________
 Results for scene: easy3
@@ -1162,9 +1093,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.877377915382385, 'Euclidean': 5.900228548049927}
-Path Lengths: {'': 453.63201363230854, 'Euclidean': 421.79800292254083}
-For 10 experiments, best time won solver  with 5.87738 seconds, best length won solver Euclidean with 421.79800292254083  path length
+Times:: {'': 5.917383599281311, 'Euclidean': 11.01949393749237}
+Path Lengths: {'': 430.6838783726349, 'Euclidean': 385.9813198388852}
+For 10 experiments, best time won solver  with 5.91738 seconds, best length won solver Euclidean with 385.9813198388852  path length
 _________________________
 _________________________
 Results for scene: easy_2on2
@@ -1180,9 +1111,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.788322520256043, 'Euclidean': 5.839211869239807}
-Path Lengths: {'': 522.1140803987804, 'Euclidean': 549.6370115193952}
-For 10 experiments, best time won solver  with 5.78832 seconds, best length won solver  with 522.1140803987804  path length
+Times:: {'': 6.062373375892639, 'Euclidean': 10.887177658081054}
+Path Lengths: {'': 522.645295316952, 'Euclidean': 476.69870630854905}
+For 10 experiments, best time won solver  with 6.06237 seconds, best length won solver Euclidean with 476.69870630854905  path length
 _________________________
 _________________________
 Results for scene: easy_3on3
@@ -1198,9 +1129,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.821047353744507, 'Euclidean': 5.795379543304444}
-Path Lengths: {'': 527.2473569829863, 'Euclidean': 534.628097223743}
-For 10 experiments, best time won solver Euclidean with 5.79538 seconds, best length won solver  with 527.2473569829863  path length
+Times:: {'': 5.806923770904541, 'Euclidean': 10.712609910964966}
+Path Lengths: {'': 532.3323989075586, 'Euclidean': 487.680066581965}
+For 10 experiments, best time won solver  with 5.80692 seconds, best length won solver Euclidean with 487.680066581965  path length
 _________________________
 _________________________
 Results for scene: easy_diff_size
@@ -1216,9 +1147,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.93333797454834, 'Euclidean': 5.842912983894348}
-Path Lengths: {'': 526.9172411239608, 'Euclidean': 520.356860852791}
-For 10 experiments, best time won solver Euclidean with 5.84291 seconds, best length won solver Euclidean with 520.356860852791  path length
+Times:: {'': 5.792344927787781, 'Euclidean': 10.967977023124694}
+Path Lengths: {'': 534.0945588698894, 'Euclidean': 532.5255858293627}
+For 10 experiments, best time won solver  with 5.79234 seconds, best length won solver Euclidean with 532.5255858293627  path length
 _________________________
 _________________________
 Results for scene: long_looby
@@ -1234,9 +1165,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.353675723075867, 'Euclidean': 5.092432045936585}
-Path Lengths: {'': 102.19071021077653, 'Euclidean': 96.0492090987654}
-For 10 experiments, best time won solver Euclidean with 5.09243 seconds, best length won solver Euclidean with 96.0492090987654  path length
+Times:: {'': 5.086581468582153, 'Euclidean': 12.101525449752808}
+Path Lengths: {'': 103.46494231300953, 'Euclidean': 97.86366378983455}
+For 10 experiments, best time won solver  with 5.08658 seconds, best length won solver Euclidean with 97.86366378983455  path length
 _________________________
 _________________________
 Results for scene: looby
@@ -1252,9 +1183,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 5.543953800201416, 'Euclidean': 5.690301418304443}
-Path Lengths: {'': 31.75393080229399, 'Euclidean': 31.33853758531375}
-For 10 experiments, best time won solver  with 5.54395 seconds, best length won solver Euclidean with 31.33853758531375  path length
+Times:: {'': 5.575385427474975, 'Euclidean': 11.478907155990601}
+Path Lengths: {'': 34.01169902062158, 'Euclidean': 31.633532470182786}
+For 10 experiments, best time won solver  with 5.57539 seconds, best length won solver Euclidean with 31.633532470182786  path length
 _________________________
 _________________________
 Results for scene: sphiral
@@ -1270,9 +1201,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 17.58000466823578, 'Euclidean': 17.132870149612426}
-Path Lengths: {'': 912.4289915122168, 'Euclidean': 924.155265830881}
-For 10 experiments, best time won solver Euclidean with 17.13287 seconds, best length won solver  with 912.4289915122168  path length
+Times:: {'': 16.974209451675414, 'Euclidean': 22.826269245147706}
+Path Lengths: {'': 901.101739345179, 'Euclidean': 913.4568759123104}
+For 10 experiments, best time won solver  with 16.97421 seconds, best length won solver  with 901.101739345179  path length
 _________________________
 _________________________
 Results for scene: sphiral_2on2
@@ -1288,9 +1219,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 17.128157711029054, 'Euclidean': 16.94204502105713}
-Path Lengths: {'': 958.8404609431989, 'Euclidean': 967.2749547133124}
-For 10 experiments, best time won solver Euclidean with 16.94205 seconds, best length won solver  with 958.8404609431989  path length
+Times:: {'': 17.03621323108673, 'Euclidean': 23.510046935081483}
+Path Lengths: {'': 985.4591435314184, 'Euclidean': 933.5677281148285}
+For 10 experiments, best time won solver  with 17.03621 seconds, best length won solver Euclidean with 933.5677281148285  path length
 _________________________
 _________________________
 Results for scene: sphiral_3on3
@@ -1306,9 +1237,9 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 17.158676385879517, 'Euclidean': 17.334157395362855}
-Path Lengths: {'': 987.3111824080285, 'Euclidean': 984.833374661798}
-For 10 experiments, best time won solver  with 17.15868 seconds, best length won solver Euclidean with 984.833374661798  path length
+Times:: {'': 18.100511217117308, 'Euclidean': 24.83899059295654}
+Path Lengths: {'': 953.7527724075715, 'Euclidean': 917.1038067474832}
+For 10 experiments, best time won solver  with 18.10051 seconds, best length won solver Euclidean with 917.1038067474832  path length
 _________________________
 _________________________
 Results for scene: sphiral_diff_size
@@ -1324,27 +1255,11 @@ Epsilon: 9999
 PRM Number of landmarks: 5000
 Exact:True
 Time Limit: 200
-Times:: {'': 17.16506803035736, 'Euclidean': 17.364278697967528}
-Path Lengths: {'': 948.8102097030398, 'Euclidean': 922.7332338606572}
-For 10 experiments, best time won solver  with 17.16507 seconds, best length won solver Euclidean with 922.7332338606572  path length
+Times:: {'': 17.094230270385744, 'Euclidean': 23.330675077438354}
+Path Lengths: {'': 910.687825885354, 'Euclidean': 881.9255599999963}
+For 10 experiments, best time won solver  with 17.09423 seconds, best length won solver Euclidean with 881.9255599999963  path length
 _________________________
-Results for scene: switch
-For following parameters:
-Solver: DRRT
-Number of experiments: 10
-K: : 15
-Roadmap nearest neighbors: Euclidean
-Number of landmarks: 2500
-Bounding width factor: 0
-Delta: 0.04
-Epsilon: 9999
-PRM Number of landmarks: 5000
-Exact:True
-Time Limit: 200
-Times:: {'': 1.3149607181549072, 'Euclidean': 1.3223199367523193}
-Path Lengths: {'': 0.0, 'Euclidean': 0.0}
-For 10 experiments, best time won solver  with 13.45644 seconds, best length won solver  with 999999  path length
-__________________________________________________
+_________________________
 Results for scene: bug_trap1
 For following parameters:
 Solver: DRRT
@@ -1358,9 +1273,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.612170743942261, 'Euclidean': 10.325748944282532}
-Path Lengths: {'': 243.26298118851122, 'Euclidean': 235.9211528505794}
-For 10 experiments, best time won solver Euclidean with 10.32575 seconds, best length won solver Euclidean with 235.9211528505794  path length
+Times:: {'': 10.765505838394166, 'Euclidean': 20.9052325963974}
+Path Lengths: {'': 255.37927316402366, 'Euclidean': 251.4834075122747}
+For 10 experiments, best time won solver  with 10.76551 seconds, best length won solver Euclidean with 251.4834075122747  path length
 _________________________
 _________________________
 Results for scene: bug_trap2
@@ -1376,9 +1291,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.697338342666626, 'Euclidean': 10.405207395553589}
-Path Lengths: {'': 207.1302478654655, 'Euclidean': 201.8173247225895}
-For 10 experiments, best time won solver Euclidean with 10.40521 seconds, best length won solver Euclidean with 201.8173247225895  path length
+Times:: {'': 10.279165935516357, 'Euclidean': 20.659125423431398}
+Path Lengths: {'': 181.19282085183605, 'Euclidean': 179.38289432584764}
+For 10 experiments, best time won solver  with 10.27917 seconds, best length won solver Euclidean with 179.38289432584764  path length
 _________________________
 _________________________
 Results for scene: bug_trap3
@@ -1394,9 +1309,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 11.759080600738525, 'Euclidean': 10.803128910064697}
-Path Lengths: {'': 140.4538168173181, 'Euclidean': 151.97592426167006}
-For 10 experiments, best time won solver Euclidean with 10.80313 seconds, best length won solver  with 140.4538168173181  path length
+Times:: {'': 10.929485487937928, 'Euclidean': 20.320610523223877}
+Path Lengths: {'': 134.36125108081742, 'Euclidean': 156.43646660591517}
+For 10 experiments, best time won solver  with 10.92949 seconds, best length won solver  with 134.36125108081742  path length
 _________________________
 _________________________
 Results for scene: bug_trap_2on2
@@ -1412,9 +1327,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.453804469108581, 'Euclidean': 10.429886221885681}
-Path Lengths: {'': 156.38289576234573, 'Euclidean': 167.26426888891575}
-For 10 experiments, best time won solver Euclidean with 10.42989 seconds, best length won solver  with 156.38289576234573  path length
+Times:: {'': 10.028974223136903, 'Euclidean': 21.32837564945221}
+Path Lengths: {'': 172.35052318563461, 'Euclidean': 129.33962733176926}
+For 10 experiments, best time won solver  with 10.02897 seconds, best length won solver Euclidean with 129.33962733176926  path length
 _________________________
 _________________________
 Results for scene: bug_trap_3on3
@@ -1430,9 +1345,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.604360508918763, 'Euclidean': 10.303408408164978}
-Path Lengths: {'': 175.04718377197938, 'Euclidean': 169.8762285759547}
-For 10 experiments, best time won solver Euclidean with 10.30341 seconds, best length won solver Euclidean with 169.8762285759547  path length
+Times:: {'': 11.082897067070007, 'Euclidean': 21.583071875572205}
+Path Lengths: {'': 190.97987621397994, 'Euclidean': 127.11270087957612}
+For 10 experiments, best time won solver  with 11.08290 seconds, best length won solver Euclidean with 127.11270087957612  path length
 _________________________
 _________________________
 Results for scene: bug_trap_diff_size
@@ -1448,9 +1363,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 10.271805334091187, 'Euclidean': 10.146138453483582}
-Path Lengths: {'': 172.5843654245714, 'Euclidean': 167.3573748239022}
-For 10 experiments, best time won solver Euclidean with 10.14614 seconds, best length won solver Euclidean with 167.3573748239022  path length
+Times:: {'': 10.761798930168151, 'Euclidean': 20.564386677742004}
+Path Lengths: {'': 177.01942567759144, 'Euclidean': 130.78190155955977}
+For 10 experiments, best time won solver  with 10.76180 seconds, best length won solver Euclidean with 130.78190155955977  path length
 _________________________
 _________________________
 Results for scene: cubic1
@@ -1466,9 +1381,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 16.380477213859557, 'Euclidean': 16.54356982707977}
-Path Lengths: {'': 317.4077787924011, 'Euclidean': 314.60711919260484}
-For 10 experiments, best time won solver  with 16.38048 seconds, best length won solver Euclidean with 314.60711919260484  path length
+Times:: {'': 16.69841718673706, 'Euclidean': 27.584457182884215}
+Path Lengths: {'': 323.8028333259947, 'Euclidean': 306.9753193678693}
+For 10 experiments, best time won solver  with 16.69842 seconds, best length won solver Euclidean with 306.9753193678693  path length
 _________________________
 _________________________
 Results for scene: cubic2
@@ -1484,9 +1399,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 17.415663957595825, 'Euclidean': 17.168616628646852}
-Path Lengths: {'': 545.9258389755092, 'Euclidean': 541.6753543712678}
-For 10 experiments, best time won solver Euclidean with 17.16862 seconds, best length won solver Euclidean with 541.6753543712678  path length
+Times:: {'': 16.844808793067934, 'Euclidean': 28.59838092327118}
+Path Lengths: {'': 540.722163922813, 'Euclidean': 702.8734156983189}
+For 10 experiments, best time won solver  with 16.84481 seconds, best length won solver  with 540.722163922813  path length
 _________________________
 _________________________
 Results for scene: cubic3
@@ -1502,9 +1417,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 15.268690395355225, 'Euclidean': 14.964771628379822}
-Path Lengths: {'': 666.4483768481015, 'Euclidean': 689.9065946021112}
-For 10 experiments, best time won solver Euclidean with 14.96477 seconds, best length won solver  with 666.4483768481015  path length
+Times:: {'': 14.933463454246521, 'Euclidean': 26.286308884620667}
+Path Lengths: {'': 647.1852973217808, 'Euclidean': 611.2277999063765}
+For 10 experiments, best time won solver  with 14.93346 seconds, best length won solver Euclidean with 611.2277999063765  path length
 _________________________
 _________________________
 Results for scene: cubic_2on2
@@ -1520,9 +1435,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 14.340881276130677, 'Euclidean': 15.028491377830505}
-Path Lengths: {'': 597.3969467323928, 'Euclidean': 591.7839318994069}
-For 10 experiments, best time won solver  with 14.34088 seconds, best length won solver Euclidean with 591.7839318994069  path length
+Times:: {'': 14.95044150352478, 'Euclidean': 25.588125252723692}
+Path Lengths: {'': 565.555073739986, 'Euclidean': 601.4330670400037}
+For 10 experiments, best time won solver  with 14.95044 seconds, best length won solver  with 565.555073739986  path length
 _________________________
 _________________________
 Results for scene: cubic_3on3
@@ -1538,9 +1453,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 14.346359014511108, 'Euclidean': 14.743982577323914}
-Path Lengths: {'': 602.0739229293639, 'Euclidean': 658.1945902766561}
-For 10 experiments, best time won solver  with 14.34636 seconds, best length won solver  with 602.0739229293639  path length
+Times:: {'': 14.893156933784486, 'Euclidean': 25.584421348571777}
+Path Lengths: {'': 601.3392714845037, 'Euclidean': 617.5249537617667}
+For 10 experiments, best time won solver  with 14.89316 seconds, best length won solver  with 601.3392714845037  path length
 _________________________
 _________________________
 Results for scene: cubic_diff_size
@@ -1556,9 +1471,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 14.393201112747192, 'Euclidean': 14.694324350357055}
-Path Lengths: {'': 603.7029898265976, 'Euclidean': 604.3755521419728}
-For 10 experiments, best time won solver  with 14.39320 seconds, best length won solver  with 603.7029898265976  path length
+Times:: {'': 14.893093681335449, 'Euclidean': 25.13206374645233}
+Path Lengths: {'': 604.6907389322406, 'Euclidean': 594.5302189186315}
+For 10 experiments, best time won solver  with 14.89309 seconds, best length won solver Euclidean with 594.5302189186315  path length
 _________________________
 _________________________
 Results for scene: easy1
@@ -1574,9 +1489,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 9.04675006866455, 'Euclidean': 9.003908824920654}
-Path Lengths: {'': 502.99872463422236, 'Euclidean': 509.41524333295}
-For 10 experiments, best time won solver Euclidean with 9.00391 seconds, best length won solver  with 502.99872463422236  path length
+Times:: {'': 9.150020217895507, 'Euclidean': 18.92873635292053}
+Path Lengths: {'': 536.2360332047808, 'Euclidean': 487.8544212131595}
+For 10 experiments, best time won solver  with 9.15002 seconds, best length won solver Euclidean with 487.8544212131595  path length
 _________________________
 _________________________
 Results for scene: easy2
@@ -1592,9 +1507,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 9.02369532585144, 'Euclidean': 8.994954586029053}
-Path Lengths: {'': 522.6147329555173, 'Euclidean': 530.5515622014846}
-For 10 experiments, best time won solver Euclidean with 8.99495 seconds, best length won solver  with 522.6147329555173  path length
+Times:: {'': 8.955984044075013, 'Euclidean': 18.868660068511964}
+Path Lengths: {'': 519.4085611040198, 'Euclidean': 495.7282918009291}
+For 10 experiments, best time won solver  with 8.95598 seconds, best length won solver Euclidean with 495.7282918009291  path length
 _________________________
 _________________________
 Results for scene: easy3
@@ -1610,9 +1525,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 9.158916020393372, 'Euclidean': 9.12187442779541}
-Path Lengths: {'': 416.9864349708156, 'Euclidean': 455.5531801039664}
-For 10 experiments, best time won solver Euclidean with 9.12187 seconds, best length won solver  with 416.9864349708156  path length
+Times:: {'': 9.299637031555175, 'Euclidean': 19.177300143241883}
+Path Lengths: {'': 442.5363662691934, 'Euclidean': 412.1242562985426}
+For 10 experiments, best time won solver  with 9.29964 seconds, best length won solver Euclidean with 412.1242562985426  path length
 _________________________
 _________________________
 Results for scene: easy_2on2
@@ -1628,9 +1543,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 9.073760724067688, 'Euclidean': 9.079276823997498}
-Path Lengths: {'': 519.6561435272167, 'Euclidean': 522.9601760109343}
-For 10 experiments, best time won solver  with 9.07376 seconds, best length won solver  with 519.6561435272167  path length
+Times:: {'': 9.082184767723083, 'Euclidean': 18.953326106071472}
+Path Lengths: {'': 511.8588678431139, 'Euclidean': 493.3309256224463}
+For 10 experiments, best time won solver  with 9.08218 seconds, best length won solver Euclidean with 493.3309256224463  path length
 _________________________
 _________________________
 Results for scene: easy_3on3
@@ -1646,9 +1561,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 9.07443335056305, 'Euclidean': 9.093650531768798}
-Path Lengths: {'': 538.276706539795, 'Euclidean': 521.3498512444443}
-For 10 experiments, best time won solver  with 9.07443 seconds, best length won solver Euclidean with 521.3498512444443  path length
+Times:: {'': 9.247027778625489, 'Euclidean': 19.087857174873353}
+Path Lengths: {'': 531.7205034627473, 'Euclidean': 515.5041252226875}
+For 10 experiments, best time won solver  with 9.24703 seconds, best length won solver Euclidean with 515.5041252226875  path length
 _________________________
 _________________________
 Results for scene: easy_diff_size
@@ -1664,9 +1579,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 9.016380119323731, 'Euclidean': 9.082537150382995}
-Path Lengths: {'': 517.6094763867043, 'Euclidean': 541.7511519467827}
-For 10 experiments, best time won solver  with 9.01638 seconds, best length won solver  with 517.6094763867043  path length
+Times:: {'': 9.262036538124084, 'Euclidean': 18.2842666387558}
+Path Lengths: {'': 518.0949895860647, 'Euclidean': 497.15557900482827}
+For 10 experiments, best time won solver  with 9.26204 seconds, best length won solver Euclidean with 497.15557900482827  path length
 _________________________
 _________________________
 Results for scene: long_looby
@@ -1682,9 +1597,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 8.240080070495605, 'Euclidean': 8.26355164051056}
-Path Lengths: {'': 107.63976459703285, 'Euclidean': 105.77989864798876}
-For 10 experiments, best time won solver  with 8.24008 seconds, best length won solver Euclidean with 105.77989864798876  path length
+Times:: {'': 8.231450653076172, 'Euclidean': 20.796841621398926}
+Path Lengths: {'': 100.6963505079473, 'Euclidean': 93.9332729323584}
+For 10 experiments, best time won solver  with 8.23145 seconds, best length won solver Euclidean with 93.9332729323584  path length
 _________________________
 _________________________
 Results for scene: looby
@@ -1700,9 +1615,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 8.62441508769989, 'Euclidean': 8.652662920951844}
-Path Lengths: {'': 33.20613384786606, 'Euclidean': 32.86453375876747}
-For 10 experiments, best time won solver  with 8.62442 seconds, best length won solver Euclidean with 32.86453375876747  path length
+Times:: {'': 8.799921870231628, 'Euclidean': 21.049902153015136}
+Path Lengths: {'': 32.41251158069946, 'Euclidean': 31.329931140936118}
+For 10 experiments, best time won solver  with 8.79992 seconds, best length won solver Euclidean with 31.329931140936118  path length
 _________________________
 _________________________
 Results for scene: sphiral
@@ -1718,9 +1633,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 23.910954761505128, 'Euclidean': 24.005137348175047}
-Path Lengths: {'': 934.752783603223, 'Euclidean': 965.1775294162138}
-For 10 experiments, best time won solver  with 23.91095 seconds, best length won solver  with 934.752783603223  path length
+Times:: {'': 24.147609138488768, 'Euclidean': 36.022027134895325}
+Path Lengths: {'': 946.4784095873198, 'Euclidean': 934.1509350758706}
+For 10 experiments, best time won solver  with 24.14761 seconds, best length won solver Euclidean with 934.1509350758706  path length
 _________________________
 _________________________
 Results for scene: sphiral_2on2
@@ -1736,9 +1651,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 24.66020288467407, 'Euclidean': 24.24926550388336}
-Path Lengths: {'': 1014.8888205085335, 'Euclidean': 997.5280629501021}
-For 10 experiments, best time won solver Euclidean with 24.24927 seconds, best length won solver Euclidean with 997.5280629501021  path length
+Times:: {'': 23.899475479125975, 'Euclidean': 37.58222150802612}
+Path Lengths: {'': 1005.0025958614615, 'Euclidean': 952.965275673799}
+For 10 experiments, best time won solver  with 23.89948 seconds, best length won solver Euclidean with 952.965275673799  path length
 _________________________
 _________________________
 Results for scene: sphiral_3on3
@@ -1754,9 +1669,9 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 24.710519218444823, 'Euclidean': 25.364984917640687}
-Path Lengths: {'': 1031.5251265394854, 'Euclidean': 1004.9433223600424}
-For 10 experiments, best time won solver  with 24.71052 seconds, best length won solver Euclidean with 1004.9433223600424  path length
+Times:: {'': 25.11877248287201, 'Euclidean': 39.41841220855713}
+Path Lengths: {'': 1021.1395746118327, 'Euclidean': 912.7089611369162}
+For 10 experiments, best time won solver  with 25.11877 seconds, best length won solver Euclidean with 912.7089611369162  path length
 _________________________
 _________________________
 Results for scene: sphiral_diff_size
@@ -1772,7 +1687,25 @@ Epsilon: 9999
 PRM Number of landmarks: 7000
 Exact:True
 Time Limit: 200
-Times:: {'': 24.0717413187027, 'Euclidean': 24.22467875480652}
-Path Lengths: {'': 964.5557563084467, 'Euclidean': 985.0078333547611}
-For 10 experiments, best time won solver  with 24.07174 seconds, best length won solver  with 964.5557563084467  path length
+Times:: {'': 23.064823937416076, 'Euclidean': 33.93289897441864}
+Path Lengths: {'': 955.8480024910277, 'Euclidean': 935.3652138333231}
+For 10 experiments, best time won solver  with 23.06482 seconds, best length won solver Euclidean with 935.3652138333231  path length
+_________________________
+_________________________
+Results for scene: switch
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 5000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 7000
+Exact:True
+Time Limit: 200
+Times:: {'': 16.174202179908754, 'Euclidean': 41.3175653219223}
+Path Lengths: {'': 0.0, 'Euclidean': 0.0}
+For 10 experiments, best time won solver  with 16.17420 seconds, best length won solver  with 999999  path length
 _________________________

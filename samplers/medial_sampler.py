@@ -10,7 +10,7 @@ from utils.utils import out_of_bounds, line_inside_polygon, find_x_coordinate_mi
     point_inside_obstacle
 
 
-class MiddleSampler(BasicSquaresSampler):
+class MedialSampler(BasicSquaresSampler):
     """
     Middle sampler for sampling points in a scene.
     """

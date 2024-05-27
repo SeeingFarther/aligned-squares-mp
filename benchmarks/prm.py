@@ -165,29 +165,47 @@ class PRM(Solver):
             if i % 100 == 0 and self.verbose:
                 print('added', i, 'landmarks in PRM', file=self.writer)
 
-        self.nearest_neighbors.fit(list(self.roadmap.nodes))
+        # Calculate the number of nearest neighbors for each nearest neighbor algo
+        k_list = [int(self.k / len(self.nearest_neighbors))] * len(self.nearest_neighbors)
+        count = int(self.k % len(self.nearest_neighbors))
+        index = 0
+        while count > 0:
+            k_list[index] += 1
+            count -= 1
+            index += 1
 
-        # Connect all points to their k nearest neighbors
-        for cnt, point in enumerate(self.roadmap.nodes):
-            neighbors = self.nearest_neighbors.k_nearest(point, self.k + 1)
-            for neighbor in neighbors:
-                if self.collision_free(neighbor, point):
-                    # Compute distance of the edge
-                    # Coordinates
-                    point_1_coords = Point_2(point[0], point[1])
-                    point_2_coords = Point_2(point[2], point[3])
-                    neighbor_1_coords = Point_2(neighbor[0], neighbor[1])
-                    neighbor_2_coords = Point_2(neighbor[2], neighbor[3])
+        for index, nearest_neighbors in enumerate(self.nearest_neighbors):
+            nearest_neighbors.fit(list(self.roadmap.nodes))
+            k = k_list[index]
+            for cnt, point in enumerate(self.roadmap.nodes):
+                neighbors = nearest_neighbors.k_nearest(point, k + 1)
+                for neighbor in neighbors:
+                    if neighbor == point:
+                        continue
 
-                    # Compute distance
-                    dist_1 = self.metric.dist(point_1_coords, neighbor_1_coords).to_double()
-                    dist_2 = self.metric.dist(point_2_coords, neighbor_2_coords).to_double()
+            nearest_neighbors.fit(list(self.roadmap.nodes))
 
-                    # Add edge to graph
-                    self.roadmap.add_edge(point, neighbor, weight=dist_1 + dist_2)
+            # Connect all points to their k nearest neighbors
+            for cnt, point in enumerate(self.roadmap.nodes):
+                neighbors = self.nearest_neighbors.k_nearest(point, k + 1)
+                for neighbor in neighbors:
+                    if self.collision_free(neighbor, point):
+                        # Compute distance of the edge
+                        # Coordinates
+                        point_1_coords = Point_2(point[0], point[1])
+                        point_2_coords = Point_2(point[2], point[3])
+                        neighbor_1_coords = Point_2(neighbor[0], neighbor[1])
+                        neighbor_2_coords = Point_2(neighbor[2], neighbor[3])
 
-            if cnt % 100 == 0 and self.verbose:
-                print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
+                        # Compute distance
+                        dist_1 = self.metric.dist(point_1_coords, neighbor_1_coords).to_double()
+                        dist_2 = self.metric.dist(point_2_coords, neighbor_2_coords).to_double()
+
+                        # Add edge to graph
+                        self.roadmap.add_edge(point, neighbor, weight=dist_1 + dist_2)
+
+                if cnt % 100 == 0 and self.verbose:
+                    print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
 
     def solve(self):
         """

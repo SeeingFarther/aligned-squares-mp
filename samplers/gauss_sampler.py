@@ -10,7 +10,7 @@ from samplers.basic_sampler import BasicSquaresSampler
 from utils.utils import out_of_bounds
 
 
-class RandomizedBridgeSampler(BasicSquaresSampler):
+class GaussSampler(BasicSquaresSampler):
     """
     Bridge Sampler for sampling points in a scene.
     """

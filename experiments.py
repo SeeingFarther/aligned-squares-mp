@@ -7,10 +7,10 @@ from discopygal.solvers import Scene
 from discopygal.bindings import *
 from discopygal.solvers.samplers import Sampler_Uniform, Sampler
 
-from samplers.randomized_bridge_sampler import RandomizedBridgeSampler
-from samplers.combined_sampler import CombinedSampler
-from samplers.middle_sampler import MiddleSampler
-from samplers.space_sampler import SpaceSampler
+from samplers.gauss_sampler import GaussSampler
+from samplers.medial_sampler import MedialSampler
+from samplers.sada_sampler import SadaSampler
+from samplers.grid_sampler import GridSampler
 from utils.experiment_wrapper import ExperimentsWrapper
 
 
@@ -183,8 +183,8 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
 
 def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
                    k: int = 15,
-                   nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
-                   roadmap_nearest_neighbors_metric: str = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
+                   nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon2'],
+                   roadmap_nearest_neighbors_metric: str = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon2'],
                    num_landmark: int = 1000, bound: FT = 0,
                    delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                    time_limit=100000):
@@ -365,7 +365,7 @@ def parse_arguments():
                         choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
                         help='Type of solver')
     parser.add_argument('--roadmap_nearest_neighbors', type=str, default=None,
-                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2','Mix_CTD','Mix_Epsilon2'],
                         help='Type of solver')
     parser.add_argument('--exact', type=bool, default=False, help='Run exact number of successful experiments')
     parser.add_argument('--path', type=str, default='./scenes/easy2.json', help='Path to scene file')
@@ -387,10 +387,95 @@ def start_running(args):
         scene = Scene.from_dict(json.load(fp))
 
     # TODO: DELETE AFTER TESTS
-    # scenes = get_scene_paths(args.scene_dir)
-    # length_metrics(scenes, 'Squares', None, num_landmark=1500, exact=False,num_experiments=20,
-    #               time_limit=100)
-    # exit()
+    scenes = get_scene_paths(args.scene_dir)
+    for scene in scenes:
+        # if 'cubic' not in scene or 'sphiral'  not in scene or 'lobby' not in scene:
+        #     continue
+
+        if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
+            landmarks = 1000
+            k=15
+        elif 'sphiral2on2' in scene:
+            landmarks = 3000
+            k= 20
+        elif 'sphiral3_on3' in scene:
+            landmarks = 4500
+            k = 40
+        elif  'bug_trap' in scene:
+            landmarks = 1500
+            k=15
+        elif 'cubic'  in scene :
+            landmarks = 2500
+            k=15
+        elif 'sphiral' in scenes:
+            landmarks = 2000
+            k=15
+        elif 'switch' in scene:
+            landmarks = 25000
+            k=50
+
+
+        # if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
+        #     landmarks = 1000
+        #     k=15
+        # elif 'cubic' in scene or 'bug_trap' in scene:
+        #     landmarks = 1500
+        #     k=15
+        # elif 'sphiral' in scenes:
+        #     landmarks = 2000
+        #     k=15
+        # elif 'switch' in scene:
+        #     landmarks = 25000
+        #     k=50
+
+        length_metrics([scene], 'Squares', None, k=k,num_landmark=landmarks, exact=True,num_experiments=10,
+                      time_limit=100)
+    exit()
+
+
+    # TODO: DELETE AFTER TESTS
+    scenes = get_scene_paths(args.scene_dir)
+    for scene in scenes:
+        # if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
+        #     landmarks = 1000
+        #     k=15
+        # elif 'cubic' in scene or 'bug_trap' in scene:
+        #     landmarks = 1500
+        #     k=15
+        # elif 'sphiral' in scenes:
+        #     landmarks = 2000
+        #     k=15
+        # elif 'switch' in scene:
+        #     landmarks = 25000
+        #     k=50
+
+        if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
+            landmarks = 1000
+            k = 15
+        elif 'sphiral2on2' in scene:
+            landmarks = 3000
+            k = 20
+        elif 'sphiral3_on3' in scene:
+            landmarks = 4500
+            k = 40
+        elif 'bug_trap' in scene:
+            landmarks = 1500
+            k = 15
+        elif 'cubic' in scene:
+            landmarks = 2500
+            k = 15
+        elif 'sphiral' in scenes:
+            landmarks = 2000
+            k = 15
+        elif 'switch' in scene:
+            landmarks = 25000
+            k = 50
+
+        length_metrics([scene], 'PRM', None, k=k,num_landmark=landmarks, exact=True,num_experiments=10,
+                      time_limit=100)
+    exit()
+
+
     # compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
     #              nearest_neighbors_metric='Epsilon_Inf', time_limit=100)
     # exit()
@@ -398,21 +483,23 @@ def start_running(args):
     if args.compare_algo:
         # TODO: DELETE AFTER TESTS
         scenes = get_scene_paths(args.scene_dir)
-
+        # scenes = scenes[19:]
         # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
         #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=500, prm_num_landmarks=1000,
         #                exact=True, time_limit=100, num_experiments=10)
         scenes = get_scene_paths(args.scene_dir)
-
+        # scenes = scenes[19:]
         # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
         #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=1000, prm_num_landmarks=2000,
         #                exact=True, time_limit=100, num_experiments=10)
+        scenes = get_scene_paths(args.scene_dir)
         # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
         #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=2500, prm_num_landmarks=5000,
         #                exact=True, time_limit=200, num_experiments=10)
-        length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
-                       roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=5000, prm_num_landmarks=7000,
-                       exact=True, time_limit=200, num_experiments=10)
+        # scenes = scenes[-1:]
+        # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
+        #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=5000, prm_num_landmarks=7000,
+        #                exact=True, time_limit=200, num_experiments=10)
 
         # compare_algo(scenes, ['StaggeredGrid'], None)
 
@@ -454,8 +541,8 @@ def start_running(args):
     if args.sampler == 'uniform':
         sampler = Sampler_Uniform()
     elif args.sampler == 'combined':
-        samplers = [SpaceSampler(), RandomizedBridgeSampler(), MiddleSampler(y_axis=True), MiddleSampler(y_axis=False)]
-        sampler = CombinedSampler(samplers)
+        samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False), Sampler_Uniform()]
+        sampler = SadaSampler(samplers, gamma=0.2)
 
     experiment_wrapper = None
     if args.solver == 'prm':
@@ -494,7 +581,7 @@ if __name__ == '__main__':
     args = parse_arguments()
     args.compare_algo = True
     args.to_file = True
-    args.append_to_file = True
-    args.file = 'results/ddrt_10_exp.txt'
+    args.append_to_file = False
+    args.file = 'results/with_pair_20_precent.txt'
     string_printer.ready_printer(args)
     start_running(args)

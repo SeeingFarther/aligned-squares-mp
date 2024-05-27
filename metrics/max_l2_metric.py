@@ -34,9 +34,9 @@ class Metric_Max_L2(Metric):
             return FT(d)
         elif type(p) is Point_d and type(q) is Point_d and p.dimension() == q.dimension():
             d = FT(0)
-            for i in range(p.dimension() / 2):
+            for i in range(int(p.dimension() / 2)):
                 d += ((p[i] - q[i]) * (p[i] - q[i])) + ((p[i+1] - q[i+1]) * (p[i+1] - q[i+1]))
-                d = max(d, math.sqrt(d.to_double()))
+                d = max(d, math.sqrt(d))
             return FT(d)
         else:
             raise MetricNotImplemented('p,q should be Point_2 or Point_d')

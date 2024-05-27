@@ -68,8 +68,10 @@ class SquaresPrm(Solver):
 
         # Choose metric for nearest neighbors
         self.nearest_neighbors = nearest_neighbors
+        self.nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_CTD)]
+
         if self.nearest_neighbors is None:
-            self.nearest_neighbors = NearestNeighbors_sklearn()
+            self.nearest_neighbors = [NearestNeighbors_sklearn()]
 
         # Metric for distance computation
         if metric is None:
@@ -237,7 +239,7 @@ class SquaresPrm(Solver):
 
         # Add valid points
         nearest_neighbors = NearestNeighbors_sklearn()
-        landmarks = int(0.2 * self.num_landmarks)
+        landmarks = int(0.1 * self.num_landmarks)
         for j in range(self.num_landmarks - landmarks):
             p_rand = []
             for i, robot in enumerate(scene.robots):
@@ -272,41 +274,85 @@ class SquaresPrm(Solver):
             p_rand = (pair_sampler.sample_free())
             self.roadmap.add_node(p_rand)
 
-        self.nearest_neighbors.fit(list(self.roadmap.nodes))
-
         # Connect all points to their k nearest neighbors
         G = nx.Graph()
         G.add_nodes_from(self.roadmap.nodes(data=True))
-        for cnt, point in enumerate(self.roadmap.nodes):
-            neighbors = self.nearest_neighbors.k_nearest(point, self.k + 1)
-            for neighbor in neighbors:
-                if neighbor == point:
-                    continue
 
-                middle_point_coords = conversions.Point_2_list_to_Point_d(
-                    [Point_2(point[0], point[1]), Point_2(neighbor[2], neighbor[3])])
-                second_middle_point_coords = conversions.Point_2_list_to_Point_d(
-                    [Point_2(neighbor[0], neighbor[1]), Point_2(point[2], point[3])])
-                if self.collision_free(neighbor, point):
-                    # Add edge to graph
-                    self.add_edge_func(point, neighbor, G)
+        # Calculate the number of nearest neighbors for each nearest neighbor algo
+        k_list = [int(self.k / len(self.nearest_neighbors))] * len(self.nearest_neighbors)
+        count = int(self.k % len(self.nearest_neighbors))
+        index = 0
+        while count > 0:
+            k_list[index] += 1
+            count -= 1
+            index += 1
 
-                # # Try 3 Phase movement instead
-                elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
-                                                                                                point):
-                    G.add_node(middle_point_coords)
-                    self.add_edge_func(middle_point_coords, neighbor, G)
-                    self.add_edge_func(point, middle_point_coords, G)
+        for index, nearest_neighbors in enumerate(self.nearest_neighbors):
+            nearest_neighbors.fit(list(self.roadmap.nodes))
+            k = k_list[index]
+            for cnt, point in enumerate(self.roadmap.nodes):
+                neighbors = nearest_neighbors.k_nearest(point, k + 1)
+                for neighbor in neighbors:
+                    if neighbor == point:
+                        continue
 
-                elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
-                        second_middle_point_coords,
-                        point):
-                    G.add_node(second_middle_point_coords)
-                    self.add_edge_func(second_middle_point_coords, neighbor, G)
-                    self.add_edge_func(point, second_middle_point_coords, G)
+                    middle_point_coords = conversions.Point_2_list_to_Point_d(
+                        [Point_2(point[0], point[1]), Point_2(neighbor[2], neighbor[3])])
+                    second_middle_point_coords = conversions.Point_2_list_to_Point_d(
+                        [Point_2(neighbor[0], neighbor[1]), Point_2(point[2], point[3])])
+                    if self.collision_free(neighbor, point):
+                        # Add edge to graph
+                        self.add_edge_func(point, neighbor, G)
 
-            if cnt % 100 == 0 and self.verbose:
-                print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
+                    # # Try 3 Phase movement instead
+                    elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
+                                                                                                    point):
+                        G.add_node(middle_point_coords)
+                        self.add_edge_func(middle_point_coords, neighbor, G)
+                        self.add_edge_func(point, middle_point_coords, G)
+
+                    elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
+                            second_middle_point_coords,
+                            point):
+                        G.add_node(second_middle_point_coords)
+                        self.add_edge_func(second_middle_point_coords, neighbor, G)
+                        self.add_edge_func(point, second_middle_point_coords, G)
+
+        # self.nearest_neighbors.fit(list(self.roadmap.nodes))
+        #
+        # # Connect all points to their k nearest neighbors
+        # G = nx.Graph()
+        # G.add_nodes_from(self.roadmap.nodes(data=True))
+        # for cnt, point in enumerate(self.roadmap.nodes):
+        #     neighbors = self.nearest_neighbors.k_nearest(point, self.k + 1)
+        #     for neighbor in neighbors:
+        #         if neighbor == point:
+        #             continue
+        #
+        #         middle_point_coords = conversions.Point_2_list_to_Point_d(
+        #             [Point_2(point[0], point[1]), Point_2(neighbor[2], neighbor[3])])
+        #         second_middle_point_coords = conversions.Point_2_list_to_Point_d(
+        #             [Point_2(neighbor[0], neighbor[1]), Point_2(point[2], point[3])])
+        #         if self.collision_free(neighbor, point):
+        #             # Add edge to graph
+        #             self.add_edge_func(point, neighbor, G)
+        #
+        #         # # Try 3 Phase movement instead
+        #         elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
+        #                                                                                         point):
+        #             G.add_node(middle_point_coords)
+        #             self.add_edge_func(middle_point_coords, neighbor, G)
+        #             self.add_edge_func(point, middle_point_coords, G)
+        #
+        #         elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
+        #                 second_middle_point_coords,
+        #                 point):
+        #             G.add_node(second_middle_point_coords)
+        #             self.add_edge_func(second_middle_point_coords, neighbor, G)
+        #             self.add_edge_func(point, second_middle_point_coords, G)
+
+            # if cnt % 100 == 0 and self.verbose:
+            #     print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
 
         self.roadmap = nx.Graph(G)
 
