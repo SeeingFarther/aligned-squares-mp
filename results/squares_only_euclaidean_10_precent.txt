@@ -1,0 +1,381 @@
+Start of the file
+_________________________
+Results for scene: bug_trap1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 12.735399532318116, 'Euclidean': 14.587025237083434, 'Mix_CTD': 18.242721152305602, 'Mix_Epsilon_2': 35.483107113838194}
+Path Lengths: {'': 132.58922269659897, 'Euclidean': 144.3466936308402, 'Mix_CTD': 148.34100751568073, 'Mix_Epsilon_2': 146.34815564380688}
+Amount of runs: {'': 14, 'Euclidean': 11, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver  with 12.73540 seconds, best length won solver  with 132.58922269659897  path length and best amount of runs won solver Mix_CTD with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap2
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 11.18420605659485, 'Euclidean': 13.4656240940094, 'Mix_CTD': 17.4493337392807, 'Mix_Epsilon_2': 34.68412013053894}
+Path Lengths: {'': 91.2714045701688, 'Euclidean': 101.40283410789834, 'Mix_CTD': 104.46608610632275, 'Mix_Epsilon_2': 94.48271598137565}
+Amount of runs: {'': 11, 'Euclidean': 10, 'Mix_CTD': 11, 'Mix_Epsilon_2': 11}
+For 10 experiments, best time won solver  with 11.18421 seconds, best length won solver  with 91.2714045701688  path length and best amount of runs won solver Euclidean with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap3
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 11.005762648582458, 'Euclidean': 12.76063675880432, 'Mix_CTD': 17.918046855926512, 'Mix_Epsilon_2': 31.94651870727539}
+Path Lengths: {'': 104.91340317117195, 'Euclidean': 117.28462381542428, 'Mix_CTD': 124.04763109501512, 'Mix_Epsilon_2': 123.60513648885369}
+Amount of runs: {'': 11, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 11}
+For 10 experiments, best time won solver  with 11.00576 seconds, best length won solver  with 104.91340317117195  path length and best amount of runs won solver Euclidean with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap_2on2
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 11.11936330795288, 'Euclidean': 13.257052206993103, 'Mix_CTD': 17.478182482719422, 'Mix_Epsilon_2': 34.67312040328979}
+Path Lengths: {'': 105.57428270778851, 'Euclidean': 108.13853315586694, 'Mix_CTD': 103.3306242059084, 'Mix_Epsilon_2': 113.56433218403876}
+Amount of runs: {'': 18, 'Euclidean': 13, 'Mix_CTD': 14, 'Mix_Epsilon_2': 20}
+For 10 experiments, best time won solver  with 11.11936 seconds, best length won solver Mix_CTD with 103.3306242059084  path length and best amount of runs won solver Euclidean with 13 runs
+_________________________
+_________________________
+Results for scene: bug_trap_3on3
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 11.964257955551147, 'Euclidean': 14.425278115272523, 'Mix_CTD': 18.376820302009584, 'Mix_Epsilon_2': 35.1693051815033}
+Path Lengths: {'': 105.17467215726856, 'Euclidean': 112.79731969925646, 'Mix_CTD': 115.87958802075313, 'Mix_Epsilon_2': 104.51914716498656}
+Amount of runs: {'': 25, 'Euclidean': 13, 'Mix_CTD': 26, 'Mix_Epsilon_2': 22}
+For 10 experiments, best time won solver  with 11.96426 seconds, best length won solver Mix_Epsilon_2 with 104.51914716498656  path length and best amount of runs won solver Euclidean with 13 runs
+_________________________
+_________________________
+Results for scene: bug_trap_diff_size
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 12.25126383304596, 'Euclidean': 14.430769753456115, 'Mix_CTD': 18.622653770446778, 'Mix_Epsilon_2': 34.842847561836244}
+Path Lengths: {'': 96.312602979364, 'Euclidean': 113.31138922324335, 'Mix_CTD': 103.79945697271958, 'Mix_Epsilon_2': 102.49166488797341}
+Amount of runs: {'': 11, 'Euclidean': 10, 'Mix_CTD': 11, 'Mix_Epsilon_2': 19}
+For 10 experiments, best time won solver  with 12.25126 seconds, best length won solver  with 96.312602979364  path length and best amount of runs won solver Euclidean with 10 runs
+_________________________
+_________________________
+Results for scene: cubic1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 26.72225968837738, 'Euclidean': 34.10833330154419, 'Mix_CTD': 44.88580329418183, 'Mix_Epsilon_2': 88.25829281806946}
+Path Lengths: {'': 330.8722119076607, 'Euclidean': 418.2298822457269, 'Mix_CTD': 339.7923556705411, 'Mix_Epsilon_2': 353.57317429182365}
+Amount of runs: {'': 10, 'Euclidean': 27, 'Mix_CTD': 12, 'Mix_Epsilon_2': 13}
+For 10 experiments, best time won solver  with 26.72226 seconds, best length won solver  with 330.8722119076607  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic2
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 27.74134769439697, 'Euclidean': 33.01115870475769, 'Mix_CTD': 47.24249033927917, 'Mix_Epsilon_2': 88.872514462471}
+Path Lengths: {'': 434.7655703137464, 'Euclidean': 518.7366817512645, 'Mix_CTD': 438.23629818158827, 'Mix_Epsilon_2': 434.5039870171034}
+Amount of runs: {'': 11, 'Euclidean': 69, 'Mix_CTD': 13, 'Mix_Epsilon_2': 15}
+For 10 experiments, best time won solver  with 27.74135 seconds, best length won solver Mix_Epsilon_2 with 434.5039870171034  path length and best amount of runs won solver  with 11 runs
+_________________________
+_________________________
+Results for scene: cubic3
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 27.32790274620056, 'Euclidean': 31.88821985721588, 'Mix_CTD': 43.7720192193985, 'Mix_Epsilon_2': 81.8236337184906}
+Path Lengths: {'': 366.4348057850975, 'Euclidean': 406.8605256178155, 'Mix_CTD': 367.31568348752575, 'Mix_Epsilon_2': 381.40774889038124}
+Amount of runs: {'': 10, 'Euclidean': 92, 'Mix_CTD': 13, 'Mix_Epsilon_2': 12}
+For 10 experiments, best time won solver  with 27.32790 seconds, best length won solver  with 366.4348057850975  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic_2on2
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 26.54395525455475, 'Euclidean': 31.37326557636261, 'Mix_CTD': 42.57632961273193, 'Mix_Epsilon_2': 82.42893276214599}
+Path Lengths: {'': 305.3914023971155, 'Euclidean': 327.35004656298014, 'Mix_CTD': 302.584324074098, 'Mix_Epsilon_2': 301.3381997176697}
+Amount of runs: {'': 10, 'Euclidean': 31, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver  with 26.54396 seconds, best length won solver Mix_Epsilon_2 with 301.3381997176697  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic_3on3
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 27.717129278182984, 'Euclidean': 31.226033282279968, 'Mix_CTD': 45.66039171218872, 'Mix_Epsilon_2': 82.69680867195129}
+Path Lengths: {'': 311.4677210722138, 'Euclidean': 341.1039726018769, 'Mix_CTD': 311.09019939314754, 'Mix_Epsilon_2': 318.22904895738765}
+Amount of runs: {'': 10, 'Euclidean': 44, 'Mix_CTD': 12, 'Mix_Epsilon_2': 14}
+For 10 experiments, best time won solver  with 27.71713 seconds, best length won solver Mix_CTD with 311.09019939314754  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic_diff_size
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 25.637369441986085, 'Euclidean': 32.24251792430878, 'Mix_CTD': 46.38265986442566, 'Mix_Epsilon_2': 83.99175004959106}
+Path Lengths: {'': 296.92253633273845, 'Euclidean': 347.8134489901783, 'Mix_CTD': 304.91868168856473, 'Mix_Epsilon_2': 308.46091736480275}
+Amount of runs: {'': 10, 'Euclidean': 25, 'Mix_CTD': 11, 'Mix_Epsilon_2': 11}
+For 10 experiments, best time won solver  with 25.63737 seconds, best length won solver  with 296.92253633273845  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 7.1902148723602295, 'Euclidean': 7.725476145744324, 'Mix_CTD': 9.30729513168335, 'Mix_Epsilon_2': 16.281653189659117}
+Path Lengths: {'': 366.02899482676565, 'Euclidean': 364.25877403771597, 'Mix_CTD': 380.09155726730324, 'Mix_Epsilon_2': 366.48325072787645}
+Amount of runs: {'': 10, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver  with 7.19021 seconds, best length won solver Euclidean with 364.25877403771597  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy2
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 6.964789938926697, 'Euclidean': 8.715778136253357, 'Mix_CTD': 10.901383137702942, 'Mix_Epsilon_2': 15.66395890712738}
+Path Lengths: {'': 363.3491846417005, 'Euclidean': 360.8322271674715, 'Mix_CTD': 342.0, 'Mix_Epsilon_2': 342.0}
+Amount of runs: {'': 10, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver  with 6.96479 seconds, best length won solver Mix_CTD with 342.0  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy3
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 6.992646193504333, 'Euclidean': 7.464858222007751, 'Mix_CTD': 10.130479121208191, 'Mix_Epsilon_2': 15.5541583776474}
+Path Lengths: {'': 281.04481776356073, 'Euclidean': 280.5425423215828, 'Mix_CTD': 290.0021778596109, 'Mix_Epsilon_2': 273.6575778687586}
+Amount of runs: {'': 10, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver  with 6.99265 seconds, best length won solver Mix_Epsilon_2 with 273.6575778687586  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy_2on2
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 7.337779378890991, 'Euclidean': 7.307616114616394, 'Mix_CTD': 9.328176474571228, 'Mix_Epsilon_2': 16.210497069358826}
+Path Lengths: {'': 386.0861214085274, 'Euclidean': 371.3949347993144, 'Mix_CTD': 372.0198863837236, 'Mix_Epsilon_2': 355.0492159428328}
+Amount of runs: {'': 10, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver Euclidean with 7.30762 seconds, best length won solver Mix_Epsilon_2 with 355.0492159428328  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy_3on3
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 6.935291004180908, 'Euclidean': 7.910590362548828, 'Mix_CTD': 9.452934336662292, 'Mix_Epsilon_2': 15.133332085609435}
+Path Lengths: {'': 393.30313705904166, 'Euclidean': 399.00367232852943, 'Mix_CTD': 387.36595109923746, 'Mix_Epsilon_2': 398.2624102590552}
+Amount of runs: {'': 10, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver  with 6.93529 seconds, best length won solver Mix_CTD with 387.36595109923746  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy_diff_size
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 7.210944724082947, 'Euclidean': 9.562435984611511, 'Mix_CTD': 10.942377877235412, 'Mix_Epsilon_2': 15.218908739089965}
+Path Lengths: {'': 371.25651668716137, 'Euclidean': 371.4210554159771, 'Mix_CTD': 361.3162613789201, 'Mix_Epsilon_2': 369.6847708839656}
+Amount of runs: {'': 10, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver  with 7.21094 seconds, best length won solver Mix_CTD with 361.3162613789201  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: long_looby
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 600.6774579524994, 'Euclidean': 489.539861536026, 'Mix_CTD': 553.1692196369171, 'Mix_Epsilon_2': 608.6662217378616}
+Path Lengths: {'': 59.50361794927526, 'Euclidean': 60.45230225338069, 'Mix_CTD': 60.44440074061747, 'Mix_Epsilon_2': 59.86334314518952}
+Amount of runs: {'': 10, 'Euclidean': 10, 'Mix_CTD': 10, 'Mix_Epsilon_2': 10}
+For 10 experiments, best time won solver Euclidean with 489.53986 seconds, best length won solver  with 59.50361794927526  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: looby
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 22.38440661430359, 'Euclidean': 21.94530282020569, 'Mix_CTD': 25.45553586483002, 'Mix_Epsilon_2': 39.390808296203616}
+Path Lengths: {'': 18.884296716487707, 'Euclidean': 18.977080900128215, 'Mix_CTD': 18.76321658709663, 'Mix_Epsilon_2': 18.91054453294941}
+Amount of runs: {'': 10, 'Euclidean': 16, 'Mix_CTD': 10, 'Mix_Epsilon_2': 14}
+For 10 experiments, best time won solver Euclidean with 21.94530 seconds, best length won solver Mix_CTD with 18.76321658709663  path length and best amount of runs won solver  with 10 runs
+_________________________

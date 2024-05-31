@@ -70,8 +70,8 @@ class GridSampler(BasicSquaresSampler):
         """
         Compute the resolution of the space sampler for axis x and y
         """
-        self.resolution_x = int(np.ceil(self.gap_x / self.num_of_landmarks_x))
-        self.resolution_y = int(np.ceil(self.gap_y / self.num_of_landmarks_y))
+        self.resolution_x = int(np.ceil(self.gap_x / (self.num_of_landmarks_x+ 0.000001)))
+        self.resolution_y = int(np.ceil(self.gap_y / (self.num_of_landmarks_y+ 0.000001)))
 
     def ready_sampler(self):
         """

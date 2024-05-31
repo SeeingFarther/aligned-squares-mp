@@ -30,7 +30,7 @@ class ExperimentsWrapper:
                  bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR,
                  nearest_neighbors_metric: str = '', roadmap_nearest_neighbors_metric: str = '',
                  metric: Metric = None, sampler: Sampler = None, prm_num_landmarks=None,
-                 exact: bool = False, wrapper_metric: Metric = None, time_limit: float = 100000):
+                 exact: bool = False, wrapper_metric: Metric = None, time_limit: float = 10000000):
         """
         Constructor for the ExperimentsWrapper.
 
@@ -151,9 +151,9 @@ class ExperimentsWrapper:
         elif self.nearest_neighbors_metric == 'Max_L2':
             nearest_neighbors = NearestNeighbors_sklearn_ball(Metric_Max_L2)
         elif self.nearest_neighbors_metric == 'Mix_CTD':
-            nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_CTD)]
+            nearest_neighbors = [NearestNeighbors_sklearn(), NearestNeighbors_sklearn_ball(Metric_CTD)]
         elif self.nearest_neighbors_metric == 'Mix_Epsilon_2':
-            nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_Epsilon_2)]
+            nearest_neighbors = [NearestNeighbors_sklearn(), NearestNeighbors_sklearn_ball(Metric_Epsilon_2)]
         else:
             print('Unknown metric')
             exit(-1)
@@ -196,6 +196,7 @@ class ExperimentsWrapper:
         paths_len = []
 
         # Run the experiments
+        amount_of_runs = 0
         for experiment in range(self.num_experiments):
             stopper = time.time()
             first_time = True
@@ -203,6 +204,7 @@ class ExperimentsWrapper:
             total_time = np.inf
             length = np.inf
             while continue_running or first_time:
+                amount_of_runs +=1
                 first_time = False
                 self.restart()
                 # Compute time of execution
@@ -221,7 +223,7 @@ class ExperimentsWrapper:
         # Compute average time and path length
         avg_time = avg(time_results)
         avg_path = avg(paths_len)
-        return avg_time, avg_path
+        return avg_time, avg_path, amount_of_runs
 
 
 def avg(lst: list) -> float:

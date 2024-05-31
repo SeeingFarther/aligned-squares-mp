@@ -1,0 +1,58 @@
+Start of the file
+_________________________
+Results for scene: bug_trap1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 11.884357666969299, 'Euclidean': 13.58201448917389, 'CTD': 18.875291419029235, 'Epsilon_2': 34.26041650772095, 'Epsilon_Inf': 74.82679336071014, 'Max_L2': 12.949671316146851, 'Mix_CTD': 17.940280961990357, 'Mix_Epsilon_2': 29.51996386051178}
+Path Lengths: {'': 131.75068963467712, 'Euclidean': 156.3530877665041, 'CTD': 149.39350457175468, 'Epsilon_2': 167.55340169081177, 'Epsilon_Inf': 145.73475486950116, 'Max_L2': 142.86386988970565, 'Mix_CTD': 149.37915145618123, 'Mix_Epsilon_2': 137.9018335577983}
+Amount of runs: {'': 12, 'Euclidean': 10, 'CTD': 237, 'Epsilon_2': 276, 'Epsilon_Inf': 13, 'Max_L2': 12, 'Mix_CTD': 11, 'Mix_Epsilon_2': 14}
+For 10 experiments, best time won solver  with 11.88436 seconds, best length won solver  with 131.75068963467712  path length and best amount of runs won solver Euclidean with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap2
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 11.85414698123932, 'Euclidean': 12.915060472488403, 'CTD': 17.05680568218231, 'Epsilon_2': 37.01535391807556, 'Epsilon_Inf': 82.93370077610015, 'Max_L2': 15.225452375411987, 'Mix_CTD': 19.18360905647278, 'Mix_Epsilon_2': 35.15214238166809}
+Path Lengths: {'': 91.25593118375181, 'Euclidean': 92.8727618482507, 'CTD': 125.13994275328616, 'Epsilon_2': 112.06493552773911, 'Epsilon_Inf': 107.91879007678509, 'Max_L2': 110.19195628549998, 'Mix_CTD': 96.25395481138284, 'Mix_Epsilon_2': 97.83280461841399}
+Amount of runs: {'': 12, 'Euclidean': 10, 'CTD': 72, 'Epsilon_2': 178, 'Epsilon_Inf': 10, 'Max_L2': 10, 'Mix_CTD': 11, 'Mix_Epsilon_2': 13}
+For 10 experiments, best time won solver  with 11.85415 seconds, best length won solver  with 91.25593118375181  path length and best amount of runs won solver Euclidean with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap3
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 13.331780648231506, 'Euclidean': 16.16160717010498, 'CTD': 20.000840497016906, 'Epsilon_2': 40.73233156204223, 'Max_L2': 17.294148564338684, 'Mix_CTD': 20.997849225997925, 'Mix_Epsilon_2': 34.906204271316525}
+Path Lengths: {'': 104.40188333826222, 'Euclidean': 115.01926112374096, 'CTD': 154.72814007331573, 'Epsilon_2': 151.22945012150802, 'Max_L2': 127.38728535673359, 'Mix_CTD': 116.73012995028054, 'Mix_Epsilon_2': 115.3404005265697}
+Amount of runs: {'': 11, 'Euclidean': 10, 'CTD': 218, 'Epsilon_2': 189, 'Max_L2': 11, 'Mix_CTD': 12, 'Mix_Epsilon_2': 15}
+For 10 experiments, best time won solver  with 13.33178 seconds, best length won solver  with 104.40188333826222  path length and best amount of runs won solver Euclidean with 10 runs
+_________________________

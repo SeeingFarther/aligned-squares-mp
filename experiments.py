@@ -73,9 +73,9 @@ def run_length_exp_algos(solver: str, sampler: Sampler = None, exact: bool = Fal
         experiment_wrapper = ExperimentsWrapper(curr_scene, solver, num_experiments=num_experiments,
                                                 num_landmarks=num_landmarks, k=k,
                                                 bounding_margin_width_factor=bound, sampler=sampler, exact=exact)
-        time, path_len = experiment_wrapper.run()
+        time, path_len, amount_of_runs = experiment_wrapper.run()
         string_printer.print(
-            f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} with {num_landmarks} samples, we have got {time:.5f} seconds and {path_len} path length')
+            f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} with {num_landmarks} samples, we have got {time:.5f} seconds, {path_len} path length and {amount_of_runs} runs')
     return
 
 
@@ -122,9 +122,9 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
-            time, path_len = experiment_wrapper.run()
+            time, path_len, amount_of_runs = experiment_wrapper.run()
             string_printer.print(
-                f'Results for k: {k}  we have got {time:.5f} seconds and {path_len} path length')
+                f'Results for k: {k}  we have got {time:.5f} seconds, {path_len} path and {amount_of_runs} runs')
     return
 
 
@@ -175,22 +175,25 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
-            time, path_len = experiment_wrapper.run()
+            time, path_len, amount_of_runs = experiment_wrapper.run()
             string_printer.print(
-                f'Results for num_landmark: {num_landmarks}  we have got {time:.5f} seconds and {path_len} path length')
+                f'Results for num_landmark: {num_landmarks}  we have got {time:.5f} seconds, {path_len} path length and {amount_of_runs} runs')
     return
 
 
 def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
                    k: int = 15,
-                   nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon2'],
-                   roadmap_nearest_neighbors_metric: str = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon2'],
+                   nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2',
+                                                           'Mix_CTD', 'Mix_Epsilon_2'],
+                   roadmap_nearest_neighbors_metric: str = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf',
+                                                            'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                    num_landmark: int = 1000, bound: FT = 0,
                    delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
-                   time_limit=100000):
+                   time_limit=10000000):
     for scene_path in scenes_path:
         metrics_time_results = {}
         metrics_length_results = {}
+        metrics_amount_of_runs_results = {}
 
         scene_name = scene_path.split('/')[-1].split('.')[0]
         with open(scene_path, 'r') as fp:
@@ -219,9 +222,10 @@ def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None,
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
-            time, path_len = experiment_wrapper.run()
+            time, path_len, amount_of_runs = experiment_wrapper.run()
             metrics_length_results[nearest_neighbors_metric] = path_len
             metrics_time_results[nearest_neighbors_metric] = time
+            metrics_amount_of_runs_results[nearest_neighbors_metric] = amount_of_runs
 
         min_time = 999999
         min_time_metric = ''
@@ -236,6 +240,14 @@ def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None,
             if path_len != 0 and path_len < min_path_len:
                 min_path_len = path_len
                 min_len_metric = metric
+
+        min_amount_of_runs = 999999
+        min_amount_of_runs_metric = ''
+        for metric, amount_of_runs in metrics_amount_of_runs_results.items():
+            if amount_of_runs != 0 and amount_of_runs < min_amount_of_runs:
+                min_amount_of_runs = amount_of_runs
+                min_amount_of_runs_metric = metric
+
 
         string_printer.print('_________________________')
         string_printer.print(f'Results for scene: {scene_name}')
@@ -253,8 +265,9 @@ def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None,
         string_printer.print(f'Time Limit: {time_limit}')
         string_printer.print(f'Times:: {metrics_time_results}')
         string_printer.print(f'Path Lengths: {metrics_length_results}')
+        string_printer.print(f'Amount of runs: {metrics_amount_of_runs_results}')
         string_printer.print(
-            f'For {num_experiments} experiments, best time won solver {min_time_metric} with {min_time:.5f} seconds, best length won solver {min_len_metric} with {min_path_len}  path length')
+            f'For {num_experiments} experiments, best time won solver {min_time_metric} with {min_time:.5f} seconds, best length won solver {min_len_metric} with {min_path_len}  path length and best amount of runs won solver {min_amount_of_runs_metric} with {min_amount_of_runs} runs')
         string_printer.print('_________________________')
     return
 
@@ -264,11 +277,11 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
                  num_landmark: int = 5000, bound: FT = 0,
                  delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                  time_limit=100000):
-
     # Run experiments for each scene
     for scene_path in scenes_path:
         solvers_time_results = {}
         solvers_length_results = {}
+        metrics_amount_of_runs_results = {}
 
         scene_name = scene_path.split('/')[-1].split('.')[0]
         with open(scene_path, 'r') as fp:
@@ -314,6 +327,13 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
                 min_path_len = path_len
                 min_len_solver = solver
 
+        min_amount_of_runs = 999999
+        min_amount_of_runs_metric = ''
+        for metric, amount_of_runs in metrics_amount_of_runs_results.items():
+            if amount_of_runs != 0 and amount_of_runs < min_amount_of_runs:
+                min_amount_of_runs = amount_of_runs
+                min_amount_of_runs_metric = metric
+
         string_printer.print('_________________________')
         string_printer.print(f'Results for scene: {scene_name}')
         string_printer.print('For following parameters:')
@@ -331,8 +351,9 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
         string_printer.print(f'Times:: {solvers_time_results}')
         string_printer.print(f'Path Lengths: {solvers_length_results}')
         string_printer.print(f'Nearest Neighbors Metric: {nearest_neighbors_metric}')
+        string_printer.print(f'Roadmap Nearest Neighbors Metric: {roadmap_nearest_neighbors_metric}')
         string_printer.print(
-            f'For {num_experiments} experiments, best time won solver {min_time_solver} with {min_time:.5f} seconds, best length won solver {min_len_solver} with {min_path_len}  path length')
+            f'For {num_experiments} experiments, best time won solver {min_time_solver} with {min_time:.5f} seconds, best length won solver {min_len_solver} with {min_path_len}  path length and best amount of runs won solver {min_amount_of_runs_metric} with {min_amount_of_runs} runs')
         string_printer.print('_________________________')
     return
 
@@ -362,10 +383,10 @@ def parse_arguments():
     parser.add_argument('--solver', type=str, default="squares", choices=['prm', 'drrt', 'staggered', 'squares'],
                         help='Type of solver')
     parser.add_argument('--nearest_neighbors', type=str, default=None,
-                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                         help='Type of solver')
     parser.add_argument('--roadmap_nearest_neighbors', type=str, default=None,
-                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2','Mix_CTD','Mix_Epsilon2'],
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                         help='Type of solver')
     parser.add_argument('--exact', type=bool, default=False, help='Run exact number of successful experiments')
     parser.add_argument('--path', type=str, default='./scenes/easy2.json', help='Path to scene file')
@@ -388,32 +409,56 @@ def start_running(args):
 
     # TODO: DELETE AFTER TESTS
     scenes = get_scene_paths(args.scene_dir)
+    scenes = scenes[20:]
     for scene in scenes:
-        # if 'cubic' not in scene or 'sphiral'  not in scene or 'lobby' not in scene:
+        # if ('cubic' not in scene) and ('sphiral' not in scene) and ('lobby' not in scene):
         #     continue
-
-        if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
+        landmarks = 'das'
+        k = 'dasd'
+        if 'easy3' in scene:
             landmarks = 1000
-            k=15
-        elif 'sphiral2on2' in scene:
+            k = 15
+
+        elif 'easy' in scene:
+            landmarks = 1000
+            k = 15
+        elif 'bug_trap_3on3' in scene or 'bug_trap3' in scene:
+            landmarks = 1500
+            k = 15
+
+        elif 'long_looby' in scene:
+
+            landmarks = 1500
+
+            k = 15
+
+        elif 'looby' in scene:
+
+            landmarks = 1500
+
+            k = 15
+
+        elif 'sphiral_2on2' in scene:
+
             landmarks = 3000
-            k= 20
-        elif 'sphiral3_on3' in scene:
+            k = 20
+        elif 'sphiral_3on3' in scene:
+
             landmarks = 4500
             k = 40
-        elif  'bug_trap' in scene:
+        elif 'bug_trap' in scene:
             landmarks = 1500
-            k=15
-        elif 'cubic'  in scene :
+            k = 15
+        elif 'cubic' in scene:
+
             landmarks = 2500
-            k=15
-        elif 'sphiral' in scenes:
-            landmarks = 2000
-            k=15
+            k = 15
+        elif 'sphiral' in scene:
+            landmarks = 3000
+            k = 15
         elif 'switch' in scene:
             landmarks = 25000
-            k=50
-
+            k = 50
 
         # if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
         #     landmarks = 1000
@@ -428,10 +473,11 @@ def start_running(args):
         #     landmarks = 25000
         #     k=50
 
-        length_metrics([scene], 'Squares', None, k=k,num_landmark=landmarks, exact=True,num_experiments=10,
-                      time_limit=100)
+        length_metrics([scene], 'Squares', None, k=k, num_landmark=landmarks, exact=True, num_experiments=10,
+                       time_limit=200)
+        # length_metrics([scene], 'Squares', None,nearest_neighbors_metrics=['Euclidean'], k=k, num_landmark=landmarks, exact=True, num_experiments=10,
+        #                time_limit=200)
     exit()
-
 
     # TODO: DELETE AFTER TESTS
     scenes = get_scene_paths(args.scene_dir)
@@ -449,13 +495,13 @@ def start_running(args):
         #     landmarks = 25000
         #     k=50
 
-        if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
+        if 'easy' in scene or 'looby' in scene or 'long_looby' in scene:
             landmarks = 1000
             k = 15
-        elif 'sphiral2on2' in scene:
+        elif 'sphiral_2on2' in scene:
             landmarks = 3000
             k = 20
-        elif 'sphiral3_on3' in scene:
+        elif 'sphiral_3on3' in scene:
             landmarks = 4500
             k = 40
         elif 'bug_trap' in scene:
@@ -471,10 +517,9 @@ def start_running(args):
             landmarks = 25000
             k = 50
 
-        length_metrics([scene], 'PRM', None, k=k,num_landmark=landmarks, exact=True,num_experiments=10,
-                      time_limit=100)
+        length_metrics([scene], 'PRM', None, k=k, num_landmark=landmarks, exact=True, num_experiments=10,
+                       time_limit=100)
     exit()
-
 
     # compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
     #              nearest_neighbors_metric='Epsilon_Inf', time_limit=100)
@@ -541,7 +586,8 @@ def start_running(args):
     if args.sampler == 'uniform':
         sampler = Sampler_Uniform()
     elif args.sampler == 'combined':
-        samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False), Sampler_Uniform()]
+        samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False),
+                    Sampler_Uniform()]
         sampler = SadaSampler(samplers, gamma=0.2)
 
     experiment_wrapper = None
@@ -581,7 +627,7 @@ if __name__ == '__main__':
     args = parse_arguments()
     args.compare_algo = True
     args.to_file = True
-    args.append_to_file = False
-    args.file = 'results/with_pair_20_precent.txt'
+    args.append_to_file = True
+    args.file = 'results/all_metrics_pair_20_precent.txt'
     string_printer.ready_printer(args)
     start_running(args)

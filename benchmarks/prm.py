@@ -1,6 +1,7 @@
 import os
 import sys
 import networkx as nx
+from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 
 dir = os.path.abspath(__file__)
 dir = dir.split('/')[0:-2]
@@ -42,6 +43,8 @@ class PRM(Solver):
         self.num_landmarks = num_landmarks
         self.k = k
         self.nearest_neighbors = nearest_neighbors
+        if nearest_neighbors is None:
+            self.nearest_neighbors = [NearestNeighbors_sklearn()]
 
         self.metric = metric
         if metric is None:
@@ -177,17 +180,10 @@ class PRM(Solver):
         for index, nearest_neighbors in enumerate(self.nearest_neighbors):
             nearest_neighbors.fit(list(self.roadmap.nodes))
             k = k_list[index]
-            for cnt, point in enumerate(self.roadmap.nodes):
-                neighbors = nearest_neighbors.k_nearest(point, k + 1)
-                for neighbor in neighbors:
-                    if neighbor == point:
-                        continue
-
-            nearest_neighbors.fit(list(self.roadmap.nodes))
 
             # Connect all points to their k nearest neighbors
             for cnt, point in enumerate(self.roadmap.nodes):
-                neighbors = self.nearest_neighbors.k_nearest(point, k + 1)
+                neighbors = nearest_neighbors.k_nearest(point, k + 1)
                 for neighbor in neighbors:
                     if self.collision_free(neighbor, point):
                         # Compute distance of the edge

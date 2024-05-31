@@ -1,4 +1,6 @@
 import json
+from math import ceil
+
 import networkx as nx
 import numpy as np
 from discopygal.geometry_utils.bounding_boxes import calc_scene_bounding_box
@@ -30,7 +32,40 @@ from utils.utils import point2_to_point_d
 from utils.gui import start_gui
 
 
+def path_length(robot_paths: PathCollection, metric: Metric.dist) -> float:
+    """
+    Compute the length of a path
+    :param robot_paths:
+    :type robot_paths: PathCollection
+    :param metric:
+    :type metric: Metric.dist
 
+    :return: length of the path
+    :rtype float
+    """
+    w = 0
+
+    # Iterate over the paths nodes and add them as part of the path
+    paths = robot_paths.paths
+    for key, path in paths.items():
+        nodes = path.points
+
+        # Compute length of the path
+        for ind, nd in enumerate(nodes[1:]):
+            prev = nodes[ind].location
+            current = nd.location
+
+            point = Point_2(FT(current[0]), FT(current[1]))
+            neighbor = Point_2(FT(prev[0]), FT(prev[1]))
+
+            # Compute distance
+            dist = metric(point, neighbor)
+
+            if isinstance(dist, FT):
+                w += dist.to_double()
+            else:
+                w += dist
+    return w
 
 class SquaresPrm(Solver):
     """
@@ -67,9 +102,12 @@ class SquaresPrm(Solver):
         self.combined_sampler = SadaSampler(samplers, gamma=0.2)
 
         # Choose metric for nearest neighbors
+        #nearest_neighbors = [NearestNeighbors_sklearn(), NearestNeighbors_sklearn_ball(Metric_CTD), NearestNeighbors_sklearn_ball(Metric_Epsilon_2) ]
+        #nearest_neighbors = [NearestNeighbors_sklearn_ball(Metric_CTD)]
+        #nearest_neighbors = [NearestNeighbors_sklearn_ball(Metric_CTD)]
+        #nearest_neighbors =[ NearestNeighbors_sklearn_ball(Metric_Epsilon_2)]
+        #nearest_neighbors = [NearestNeighbors_sklearn_ball(Metric_Euclidean)]
         self.nearest_neighbors = nearest_neighbors
-        self.nearest_neighbors = [NearestNeighbors_sklearn(),NearestNeighbors_sklearn_ball(Metric_CTD)]
-
         if self.nearest_neighbors is None:
             self.nearest_neighbors = [NearestNeighbors_sklearn()]
 
@@ -239,7 +277,7 @@ class SquaresPrm(Solver):
 
         # Add valid points
         nearest_neighbors = NearestNeighbors_sklearn()
-        landmarks = int(0.1 * self.num_landmarks)
+        landmarks = int(0.2 * self.num_landmarks)
         for j in range(self.num_landmarks - landmarks):
             p_rand = []
             for i, robot in enumerate(scene.robots):
@@ -278,8 +316,9 @@ class SquaresPrm(Solver):
         G = nx.Graph()
         G.add_nodes_from(self.roadmap.nodes(data=True))
 
-        # Calculate the number of nearest neighbors for each nearest neighbor algo
+        #Calculate the number of nearest neighbors for each nearest neighbor algo
         k_list = [int(self.k / len(self.nearest_neighbors))] * len(self.nearest_neighbors)
+
         count = int(self.k % len(self.nearest_neighbors))
         index = 0
         while count > 0:
@@ -318,41 +357,8 @@ class SquaresPrm(Solver):
                         self.add_edge_func(second_middle_point_coords, neighbor, G)
                         self.add_edge_func(point, second_middle_point_coords, G)
 
-        # self.nearest_neighbors.fit(list(self.roadmap.nodes))
-        #
-        # # Connect all points to their k nearest neighbors
-        # G = nx.Graph()
-        # G.add_nodes_from(self.roadmap.nodes(data=True))
-        # for cnt, point in enumerate(self.roadmap.nodes):
-        #     neighbors = self.nearest_neighbors.k_nearest(point, self.k + 1)
-        #     for neighbor in neighbors:
-        #         if neighbor == point:
-        #             continue
-        #
-        #         middle_point_coords = conversions.Point_2_list_to_Point_d(
-        #             [Point_2(point[0], point[1]), Point_2(neighbor[2], neighbor[3])])
-        #         second_middle_point_coords = conversions.Point_2_list_to_Point_d(
-        #             [Point_2(neighbor[0], neighbor[1]), Point_2(point[2], point[3])])
-        #         if self.collision_free(neighbor, point):
-        #             # Add edge to graph
-        #             self.add_edge_func(point, neighbor, G)
-        #
-        #         # # Try 3 Phase movement instead
-        #         elif self.collision_free(neighbor, middle_point_coords) and self.collision_free(middle_point_coords,
-        #                                                                                         point):
-        #             G.add_node(middle_point_coords)
-        #             self.add_edge_func(middle_point_coords, neighbor, G)
-        #             self.add_edge_func(point, middle_point_coords, G)
-        #
-        #         elif self.collision_free(neighbor, second_middle_point_coords) and self.collision_free(
-        #                 second_middle_point_coords,
-        #                 point):
-        #             G.add_node(second_middle_point_coords)
-        #             self.add_edge_func(second_middle_point_coords, neighbor, G)
-        #             self.add_edge_func(point, second_middle_point_coords, G)
-
-            # if cnt % 100 == 0 and self.verbose:
-            #     print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
+        # if cnt % 100 == 0 and self.verbose:
+        #     print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
 
         self.roadmap = nx.Graph(G)
 
@@ -384,15 +390,18 @@ class SquaresPrm(Solver):
             path_collection.add_robot_path(robot, path)
 
         if self.verbose:
+            print('path length:', path_length(path_collection, self.metric.dist), file=self.writer)
             print('successfully found a path...', file=self.writer)
 
         return path_collection
 
 
 if __name__ == '__main__':
-    with open('./scenes/cubic3.json', 'r') as fp:
-        scene = Scene.from_dict(json.load(fp))
-    solver = SquaresPrm(num_landmarks=1000, k=15, sampler=None)
-    solver.load_scene(scene)
-    solver.solve()
-    #solver.draw_nodes()
+    for i in range(100):
+        print(i)
+        with open('./scenes/sphiral.json', 'r') as fp:
+            scene = Scene.from_dict(json.load(fp))
+        solver = SquaresPrm(num_landmarks=3000, k=15, sampler=None)
+        solver.load_scene(scene)
+        solver.solve()
+        #solver.draw_nodes()
