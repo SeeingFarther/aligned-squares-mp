@@ -56,3 +56,22 @@ Path Lengths: {'': 153.10964269510296, 'Euclidean': 208.23875896752565, 'CTD': 2
 Amount of runs: {'': 13, 'Euclidean': 14, 'CTD': 623, 'Epsilon_2': 357, 'Max_L2': 11, 'Mix_CTD': 15, 'Mix_Epsilon_2': 15}
 For 10 experiments, best time won solver  with 3.38871 seconds, best length won solver Mix_CTD with 148.61532914430438  path length and best amount of runs won solver Max_L2 with 11 runs
 _________________________
+_________________________
+Results for scene: bug_trap_2on2
+For following parameters:
+Solver: PRM
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 100000
+Times:: {'': 3.5095505475997926, 'Euclidean': 5.654513859748841, 'CTD': 8.669453597068786, 'Epsilon_2': 24.01355197429657, 'Epsilon_Inf': 65.97144293785095, 'Max_L2': 5.1084688901901245, 'Mix_CTD': 8.812919020652771, 'Mix_Epsilon_2': 22.73990967273712}
+Path Lengths: {'': 154.9781729774605, 'Euclidean': 249.6126922043095, 'CTD': 402.71109056073794, 'Epsilon_2': 378.0431122503748, 'Epsilon_Inf': 237.05999599340467, 'Max_L2': 212.95145071517177, 'Mix_CTD': 201.32022093856034, 'Mix_Epsilon_2': 188.5947365702062}
+Amount of runs: {'': 23, 'Euclidean': 17, 'CTD': 2426, 'Epsilon_2': 2260, 'Epsilon_Inf': 157, 'Max_L2': 14, 'Mix_CTD': 59, 'Mix_Epsilon_2': 34}
+For 10 experiments, best time won solver  with 3.50955 seconds, best length won solver  with 154.9781729774605  path length and best amount of runs won solver Max_L2 with 14 runs
+_________________________

@@ -389,7 +389,7 @@ def parse_arguments():
                         choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                         help='Type of solver')
     parser.add_argument('--exact', type=bool, default=False, help='Run exact number of successful experiments')
-    parser.add_argument('--path', type=str, default='./scenes/easy2.json', help='Path to scene file')
+    parser.add_argument('--path', type=str, default='./scenes/Easy2.json', help='Path to scene file')
     parser.add_argument('--sampler', type=str, default='none', choices=['none', 'uniform', 'combined'],
                         help='Type of sampler')
     parser.add_argument('--to-file', type=bool, default=False, help='Write output to file')
@@ -483,7 +483,7 @@ def start_running(args):
     exit()
 
 
-    # compare_algo(['./scenes/easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
+    # compare_algo(['./scenes/Easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
     #              nearest_neighbors_metric='Epsilon_Inf', time_limit=100)
     # exit()
 

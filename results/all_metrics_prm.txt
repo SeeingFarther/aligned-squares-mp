@@ -341,3 +341,79 @@ Times:: {'': 0.482320761680603, 'Euclidean': 0.0039912939071655275, 'CTD': 0.005
 Path Lengths: {'': 0.0, 'Euclidean': 0.0, 'CTD': 0.0, 'Epsilon_2': 0.0, 'Epsilon_Inf': 0.0, 'Max_L2': 0.0, 'Mix_CTD': 0.0, 'Mix_Epsilon_2': 0.0}
 For 10 experiments, best time won solver Euclidean with 0.00399 seconds, best length won solver  with 999999  path length
 _________________________
+_________________________
+Results for scene: sphiral
+For following parameters:
+Solver: PRM
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 200
+Times:: {'': 6.091984701156616, 'Euclidean': 11.931873035430907, 'CTD': 21.213999390602112, 'Epsilon_2': 68.99976389408111, 'Epsilon_Inf': 256.1835308074951, 'Max_L2': 12.085281991958619, 'Mix_CTD': 23.020274782180785, 'Mix_Epsilon_2': 65.25072929859161}
+Path Lengths: {'': 979.0215047891897, 'Euclidean': 0.0, 'CTD': 0.0, 'Epsilon_2': 0.0, 'Epsilon_Inf': 0.0, 'Max_L2': 0.0, 'Mix_CTD': 887.755865400088, 'Mix_Epsilon_2': 777.5724886517851}
+Amount of runs: {}
+For 10 experiments, best time won solver  with 6.09198 seconds, best length won solver Mix_Epsilon_2 with 777.5724886517851  path length and best amount of runs won solver  with 999999 runs
+_________________________
+_________________________
+Results for scene: sphiral_2on2
+For following parameters:
+Solver: PRM
+Number of experiments: 10
+K: : 20
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 200
+Times:: {'': 7.33528699874878, 'Euclidean': 13.670112681388854, 'CTD': 23.092565512657167, 'Epsilon_2': 75.20789504051208, 'Epsilon_Inf': 260.2816518545151, 'Max_L2': 13.90333595275879, 'Mix_CTD': 24.345052647590638, 'Mix_Epsilon_2': 70.10924558639526}
+Path Lengths: {'': 937.1365676284871, 'Euclidean': 0.0, 'CTD': 0.0, 'Epsilon_2': 0.0, 'Epsilon_Inf': 0.0, 'Max_L2': 0.0, 'Mix_CTD': 1009.0213249307959, 'Mix_Epsilon_2': 545.155245296387}
+Amount of runs: {}
+For 10 experiments, best time won solver  with 7.33529 seconds, best length won solver Mix_Epsilon_2 with 545.155245296387  path length and best amount of runs won solver  with 999999 runs
+_________________________
+_________________________
+Results for scene: sphiral_3on3
+For following parameters:
+Solver: PRM
+Number of experiments: 10
+K: : 40
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 4500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 200
+Times:: {'': 19.965119862556456, 'Euclidean': 35.83837456703186, 'CTD': 57.09042589664459, 'Epsilon_2': 179.63749907016754, 'Epsilon_Inf': 580.1375942468643, 'Max_L2': 35.11013514995575, 'Mix_CTD': 59.900996398925784, 'Mix_Epsilon_2': 165.48786363601684}
+Path Lengths: {'': 878.9240925323096, 'Euclidean': 0.0, 'CTD': 0.0, 'Epsilon_2': 0.0, 'Epsilon_Inf': 0.0, 'Max_L2': 0.0, 'Mix_CTD': 954.2852906638418, 'Mix_Epsilon_2': 776.6643129891743}
+Amount of runs: {}
+For 10 experiments, best time won solver  with 19.96512 seconds, best length won solver Mix_Epsilon_2 with 776.6643129891743  path length and best amount of runs won solver  with 999999 runs
+_________________________
+_________________________
+Results for scene: sphiral_diff_size
+For following parameters:
+Solver: PRM
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 200
+Times:: {'': 5.908396673202515, 'Euclidean': 11.241062831878661, 'CTD': 21.761719346046448, 'Epsilon_2': 69.17252399921418, 'Epsilon_Inf': 255.99173574447633, 'Max_L2': 11.583312177658081, 'Mix_CTD': 23.046455478668214, 'Mix_Epsilon_2': 66.43172585964203}
+Path Lengths: {'': 1001.0801116135153, 'Euclidean': 0.0, 'CTD': 0.0, 'Epsilon_2': 0.0, 'Epsilon_Inf': 0.0, 'Max_L2': 0.0, 'Mix_CTD': 670.0667383775171, 'Mix_Epsilon_2': 448.5724706903708}
+Amount of runs: {}
+For 10 experiments, best time won solver  with 5.90840 seconds, best length won solver Mix_Epsilon_2 with 448.5724706903708  path length and best amount of runs won solver  with 999999 runs
+_________________________

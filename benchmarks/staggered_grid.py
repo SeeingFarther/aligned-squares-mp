@@ -331,7 +331,6 @@ class StaggeredGrid(Solver):
         for robot in scene.robots:
             for e in robot.poly.edges():
                 radii.add(Metric_Euclidean.dist(e.source(), e.target()).to_double())
-                break
 
         if len(radii) == 0:
             self.log("Error: must have at least one robot")

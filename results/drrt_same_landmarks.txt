@@ -1,0 +1,457 @@
+Start of the file
+_________________________
+Results for scene: bug_trap1
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 9.234153938293456, 'Euclidean': 18.940741968154907}
+Path Lengths: {'': 227.9919499972497, 'Euclidean': 231.36355984155435}
+Amount of runs: {'': 13, 'Euclidean': 13}
+For 10 experiments, best time won solver  with 9.23415 seconds, best length won solver  with 227.9919499972497  path length and best amount of runs won solver  with 13 runs
+_________________________
+_________________________
+Results for scene: bug_trap2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 9.378510880470277, 'Euclidean': 18.15326061248779}
+Path Lengths: {'': 168.89758121400263, 'Euclidean': 184.23101145689049}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 9.37851 seconds, best length won solver  with 168.89758121400263  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 10.526663208007813, 'Euclidean': 18.030740213394164}
+Path Lengths: {'': 123.38487324371332, 'Euclidean': 117.34441302269022}
+Amount of runs: {'': 10, 'Euclidean': 12}
+For 10 experiments, best time won solver  with 10.52666 seconds, best length won solver Euclidean with 117.34441302269022  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap_2on2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 9.537053537368774, 'Euclidean': 17.86825535297394}
+Path Lengths: {'': 158.6721672341161, 'Euclidean': 124.47721692201824}
+Amount of runs: {'': 18, 'Euclidean': 12}
+For 10 experiments, best time won solver  with 9.53705 seconds, best length won solver Euclidean with 124.47721692201824  path length and best amount of runs won solver Euclidean with 12 runs
+_________________________
+_________________________
+Results for scene: bug_trap_3on3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 9.782095098495484, 'Euclidean': 17.526943373680115}
+Path Lengths: {'': 175.2362493681864, 'Euclidean': 116.11902286037768}
+Amount of runs: {'': 14, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 9.78210 seconds, best length won solver Euclidean with 116.11902286037768  path length and best amount of runs won solver Euclidean with 10 runs
+_________________________
+_________________________
+Results for scene: bug_trap_diff_size
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 9.358143544197082, 'Euclidean': 17.636322808265685}
+Path Lengths: {'': 156.9210070623167, 'Euclidean': 119.46297403836779}
+Amount of runs: {'': 10, 'Euclidean': 13}
+For 10 experiments, best time won solver  with 9.35814 seconds, best length won solver Euclidean with 119.46297403836779  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic1
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 5000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 23.193293571472168, 'Euclidean': 42.959365487098694}
+Path Lengths: {'': 318.6279444059955, 'Euclidean': 315.80373470307256}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 23.19329 seconds, best length won solver Euclidean with 315.80373470307256  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 5000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 27.54499695301056, 'Euclidean': 48.628241300582886}
+Path Lengths: {'': 449.05718063250777, 'Euclidean': 557.6759001274793}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 27.54500 seconds, best length won solver  with 449.05718063250777  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 5000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 21.26678683757782, 'Euclidean': 39.71077101230621}
+Path Lengths: {'': 642.6987302593673, 'Euclidean': 587.8041998279799}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 21.26679 seconds, best length won solver Euclidean with 587.8041998279799  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic_2on2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 5000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 22.140150165557863, 'Euclidean': 41.5723798751831}
+Path Lengths: {'': 547.3193823243836, 'Euclidean': 561.8621619310854}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 22.14015 seconds, best length won solver  with 547.3193823243836  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic_3on3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 5000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 22.0421049118042, 'Euclidean': 40.071965885162356}
+Path Lengths: {'': 562.5598121804383, 'Euclidean': 573.0751849015928}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 22.04210 seconds, best length won solver  with 562.5598121804383  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: cubic_diff_size
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 5000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 21.32410819530487, 'Euclidean': 40.53501012325287}
+Path Lengths: {'': 528.5901613874593, 'Euclidean': 576.5903643961253}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 21.32411 seconds, best length won solver  with 528.5901613874593  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy1
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 5.4965630054473875, 'Euclidean': 10.646963286399842}
+Path Lengths: {'': 513.3405335945316, 'Euclidean': 485.3863719820944}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 5.49656 seconds, best length won solver Euclidean with 485.3863719820944  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 5.780082941055298, 'Euclidean': 9.814244532585144}
+Path Lengths: {'': 513.2321889998939, 'Euclidean': 477.02165130896844}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 5.78008 seconds, best length won solver Euclidean with 477.02165130896844  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 5.960740160942078, 'Euclidean': 10.528665995597839}
+Path Lengths: {'': 458.356202181542, 'Euclidean': 402.12638572014885}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 5.96074 seconds, best length won solver Euclidean with 402.12638572014885  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy_2on2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 5.35660834312439, 'Euclidean': 10.252053594589233}
+Path Lengths: {'': 526.9644086095581, 'Euclidean': 496.2617520577496}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 5.35661 seconds, best length won solver Euclidean with 496.2617520577496  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy_3on3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 5.99904625415802, 'Euclidean': 10.862107133865356}
+Path Lengths: {'': 522.0537225687276, 'Euclidean': 513.0821514286824}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 5.99905 seconds, best length won solver Euclidean with 513.0821514286824  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: easy_diff_size
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 5.397090315818787, 'Euclidean': 10.757162928581238}
+Path Lengths: {'': 544.1315834244979, 'Euclidean': 500.30629065224184}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 5.39709 seconds, best length won solver Euclidean with 500.30629065224184  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: long_looby
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 16.059374737739564, 'Euclidean': 23.44658181667328}
+Path Lengths: {'': 86.68311622671011, 'Euclidean': 81.89860784499517}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 16.05937 seconds, best length won solver Euclidean with 81.89860784499517  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: looby
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 8.691466450691223, 'Euclidean': 18.422513699531557}
+Path Lengths: {'': 30.528290751710745, 'Euclidean': 30.030986368226706}
+Amount of runs: {'': 10, 'Euclidean': 10}
+For 10 experiments, best time won solver  with 8.69147 seconds, best length won solver Euclidean with 30.030986368226706  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: sphiral
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 6000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 39.06831350326538, 'Euclidean': 64.87412011623383}
+Path Lengths: {'': 942.2778357096564, 'Euclidean': 889.7972573744153}
+Amount of runs: {'': 11, 'Euclidean': 11}
+For 10 experiments, best time won solver  with 39.06831 seconds, best length won solver Euclidean with 889.7972573744153  path length and best amount of runs won solver  with 11 runs
+_________________________
+_________________________
+Results for scene: sphiral_2on2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 20
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 6000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 55.674647974967954, 'Euclidean': 94.19256446361541}
+Path Lengths: {'': 947.9837948211498, 'Euclidean': 897.1349138319462}
+Amount of runs: {'': 13, 'Euclidean': 23}
+For 10 experiments, best time won solver  with 55.67465 seconds, best length won solver Euclidean with 897.1349138319462  path length and best amount of runs won solver  with 13 runs
+_________________________
+_________________________
+Results for scene: sphiral_3on3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 40
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 4500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 9000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 304.99384329319, 'Euclidean': 383.97081966400145}
+Path Lengths: {'': 962.169691667644, 'Euclidean': 883.4370261405109}
+Amount of runs: {'': 10, 'Euclidean': 13}
+For 10 experiments, best time won solver  with 304.99384 seconds, best length won solver Euclidean with 883.4370261405109  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: sphiral_diff_size
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: Euclidean
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 6000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 40.569907426834106, 'Euclidean': 67.54591879844665}
+Path Lengths: {'': 931.0900568560248, 'Euclidean': 926.6680713763432}
+Amount of runs: {'': 10, 'Euclidean': 16}
+For 10 experiments, best time won solver  with 40.56991 seconds, best length won solver Euclidean with 926.6680713763432  path length and best amount of runs won solver  with 10 runs
+_________________________

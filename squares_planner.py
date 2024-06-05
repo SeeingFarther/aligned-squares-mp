@@ -38,7 +38,7 @@ class SquaresPrm(Solver):
     """
 
     def __init__(self, num_landmarks: int, k: int,
-                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors = None, sampler: Sampler = None, metric: Metric = None):
+                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors = None, sampler: list[Sampler] = None, metric: Metric = None):
         """
         Constructor for the SquaresPrm solver.
         :param num_landmarks:
@@ -62,8 +62,9 @@ class SquaresPrm(Solver):
             exit(-1)
 
         # Set samplers
-        samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False), UniformSampler()]
-        self.combined_sampler = SadaSampler(samplers, gamma=0.2)
+        if sampler is None:
+            sampler = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False), UniformSampler()]
+            self.combined_sampler = SadaSampler(sampler, gamma=0.2)
 
         # Choose metric for nearest neighbors
         self.nearest_neighbors = nearest_neighbors
@@ -234,9 +235,9 @@ class SquaresPrm(Solver):
             self.roadmaps[i].add_node(robot.start)
             self.roadmaps[i].add_node(robot.end)
 
-        # Add valid points
+        # Sample with the Hybrid adaptive sampler
         nearest_neighbors = NearestNeighbors_sklearn()
-        landmarks = int(0.0 * self.num_landmarks)
+        landmarks = int(0.2 * self.num_landmarks)
         for j in range(self.num_landmarks - landmarks):
             p_rand = []
             for i, robot in enumerate(scene.robots):
@@ -248,13 +249,7 @@ class SquaresPrm(Solver):
                 p_x, p_y = Point_2_to_xy(point)
                 reward = (np.sqrt(((p_x - n_x) ** 2)))
                 reward += (np.sqrt(((p_y - n_y) ** 2)))
-
-                #adjusted_reward = reward * ((j + 1) / (self.num_landmarks - landmarks))
-                #self.combined_sampler.update_weights(i, reward + adjusted_reward)
-                #self.combined_sampler.update_weights(i, adjusted_reward)
                 self.combined_sampler.update_weights(i, reward)
-                #self.combined_sampler.update_weights(i, 0)
-
                 self.roadmaps[i].add_node(point)
 
             p_rand = conversions.Point_2_list_to_Point_d(p_rand)
@@ -263,6 +258,7 @@ class SquaresPrm(Solver):
             if j % 100 == 0 and self.verbose:
                 print('added', j, 'landmarks in PRM', file=self.writer)
 
+        # Sample the rest of the landmarks with pair sampler
         pair_sampler = PairSampler()
         pair_sampler.set_scene(scene, self._bounding_box)
         pair_sampler.set_num_samples(landmarks)
@@ -270,6 +266,8 @@ class SquaresPrm(Solver):
         for j in range(landmarks):
             p_rand = (pair_sampler.sample_free())
             self.roadmap.add_node(p_rand)
+            if j % 100 == 0 and self.verbose:
+                print('added', ((self.num_landmarks - landmarks) + j), 'landmarks in PRM', file=self.writer)
 
         # Connect all points to their k nearest neighbors
         G = nx.Graph()
@@ -315,8 +313,8 @@ class SquaresPrm(Solver):
                         self.add_edge_func(second_middle_point_coords, neighbor, G)
                         self.add_edge_func(point, second_middle_point_coords, G)
 
-        # if cnt % 100 == 0 and self.verbose:
-        #     print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
+        if cnt % 100 == 0 and self.verbose:
+            print('connected', cnt, 'landmarks to their nearest neighbors', file=self.writer)
 
         self.roadmap = nx.Graph(G)
 
@@ -351,12 +349,12 @@ class SquaresPrm(Solver):
             print('successfully found a path...', file=self.writer)
 
         return path_collection
-
-
-if __name__ == '__main__':
-    with open('./scenes/cubic3.json', 'r') as fp:
-        scene = Scene.from_dict(json.load(fp))
-    solver = SquaresPrm(num_landmarks=1000, k=15, sampler=None)
-    solver.load_scene(scene)
-    solver.solve()
-    #solver.draw_nodes()
+#
+#
+# if __name__ == '__main__':
+#     with open('./scenes/cubic3.json', 'r') as fp:
+#         scene = Scene.from_dict(json.load(fp))
+#     solver = SquaresPrm(num_landmarks=1000, k=15, sampler=None)
+#     solver.load_scene(scene)
+#     solver.solve()
+#     #solver.draw_nodes()

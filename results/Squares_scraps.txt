@@ -1,0 +1,96 @@
+Start of the file
+_________________________
+Results for scene: Bug_Trap_1on1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['']
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 15.651081562042236}
+Path Lengths: {'': 91.64948684503075}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 15.65108 seconds, best length won solver  with 91.64948684503075  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: Cubic_1on1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['']
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 34.101187109947205}
+Path Lengths: {'': 302.2271930125713}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 34.10119 seconds, best length won solver  with 302.2271930125713  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: Easy_1on1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['']
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 10.802573585510254}
+Path Lengths: {'': 350.4492758210658}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 10.80257 seconds, best length won solver  with 350.4492758210658  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: Spiral_1on1
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['']
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 38.1250137090683}
+Path Lengths: {'': 791.2929279339244}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 38.12501 seconds, best length won solver  with 791.2929279339244  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: sphiral_diff_size
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['']
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 42.01085202693939}
+Path Lengths: {'': 826.459706698994}
+Amount of runs: {'': 18}
+For 10 experiments, best time won solver  with 42.01085 seconds, best length won solver  with 826.459706698994  path length and best amount of runs won solver  with 18 runs
+_________________________

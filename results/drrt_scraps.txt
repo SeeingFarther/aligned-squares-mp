@@ -1,0 +1,133 @@
+Start of the file
+_________________________
+Results for scene: Bug_Trap_1on1
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: 
+Number of landmarks: 1500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 3000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 7.98351218700409}
+Path Lengths: {'': 165.27996538156913}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 7.98351 seconds, best length won solver  with 165.27996538156913  path length and best amount of runs won solver  with 10 runs
+_________________________
+Results for scene: Cubic_1on1
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: 
+Number of landmarks: 2500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 5000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 21.317249131202697}
+Path Lengths: {'': 529.4750301552106}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 21.31725 seconds, best length won solver  with 529.4750301552106  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: Easy_1on1
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: 
+Number of landmarks: 1000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 4.604055595397949}
+Path Lengths: {'': 519.4576687451497}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 4.60406 seconds, best length won solver  with 519.4576687451497  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: Spiral_1on1
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: 
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 6000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 39.59567859172821}
+Path Lengths: {'': 927.0138435209786}
+Amount of runs: {'': 12}
+For 10 experiments, best time won solver  with 39.59568 seconds, best length won solver  with 927.0138435209786  path length and best amount of runs won solver  with 12 runs
+_________________________
+_________________________
+Results for scene: Spiral_2on2
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 20
+Roadmap nearest neighbors: 
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 6000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 58.228462076187135}
+Path Lengths: {'': 955.9126632257464}
+Amount of runs: {'': 11}
+For 10 experiments, best time won solver  with 58.22846 seconds, best length won solver  with 955.9126632257464  path length and best amount of runs won solver  with 11 runs
+_________________________
+_________________________
+Results for scene: Spiral_3on3
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 40
+Roadmap nearest neighbors: 
+Number of landmarks: 4500
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 9000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 267.6137722492218}
+Path Lengths: {'': 976.1195864406218}
+Amount of runs: {'': 10}
+For 10 experiments, best time won solver  with 267.61377 seconds, best length won solver  with 976.1195864406218  path length and best amount of runs won solver  with 10 runs
+_________________________
+_________________________
+Results for scene: sphiral_diff_size
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: 
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 6000
+Exact:True
+Time Limit: 10000000
+Times:: {'': 41.42265071868896}
+Path Lengths: {'': 938.7332418298671}
+Amount of runs: {'': 16}
+For 10 experiments, best time won solver  with 41.42265 seconds, best length won solver  with 938.7332418298671  path length and best amount of runs won solver  with 16 runs
+_________________________
