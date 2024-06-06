@@ -334,7 +334,7 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
 
 def get_scene_paths(scene_dir: str):
     scenes = []
-    for root, dirs, files in os.walk("./scenes", topdown=False):
+    for root, dirs, files in os.walk(scene_dir, topdown=False):
         for file in files:
             if file.endswith('.json'):
                 scenes.append(os.path.join(root, file))
