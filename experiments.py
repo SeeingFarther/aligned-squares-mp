@@ -52,33 +52,6 @@ class StringPrinter:
                 print(input_string)
 
 
-def run_length_exp_algos(solver: str, sampler: Sampler = None, exact: bool = False):
-    scenes = {
-        'scene_length_1.json': (5, 1000, 0),
-        'scene_length_2.json': (5, 1000, 0),
-        'scene_length_3.json': (10, 3000, 0),
-        'scene_length_4.json': (10, 1000, 0),
-        'scene_length_5.json': (5, 1000, 2),
-    }
-    result = []  # list of lists: scene name, method name, avg time, avg path length
-    num_experiments = 5
-
-    for scene_name in scenes:
-        # Get the parameters for the scene
-        k, num_landmarks, bound = scenes[scene_name]
-        string_printer.print(f'--------- Start Scene {scene_name}--------')
-        with open(scene_name, 'r') as fp:
-            curr_scene = Scene.from_dict(json.load(fp))
-
-        experiment_wrapper = ExperimentsWrapper(curr_scene, solver, num_experiments=num_experiments,
-                                                num_landmarks=num_landmarks, k=k,
-                                                bounding_margin_width_factor=bound, sampler=sampler, exact=exact)
-        time, path_len, amount_of_runs = experiment_wrapper.run()
-        string_printer.print(
-            f'Results for scene: {scene_name} for {num_experiments} experiments, for solver {solver} with {num_landmarks} samples, we have got {time:.5f} seconds, {path_len} path length and {amount_of_runs} runs')
-    return
-
-
 def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
              k_values: list[int] = [5, 15, 50], nearest_neighbors_metric: str = 'CTD', roadmap_nearest_neighbors_metric: str = 'CTD',
              num_landmark: int = 1000, bound: FT = 0, delta: int = 0.1, eps: int = 9999,
@@ -372,8 +345,9 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Argument Parser")
 
     # Add arguments
-    parser.add_argument('--compare-landmarks', type=bool, default=False, help='Do landmarks experiments')
-    parser.add_argument('--compare-algo', type=bool, default=False, help='Do algorithms experiments')
+    parser.add_argument('--compare-landmarks', action='store_true', default=False, help='Do landmarks experiments')
+    parser.add_argument('--compare-algo', action='store_true', default=False, help='Do algorithms experiments')
+    parser.add_argument('--compare-length', action='store_true', default=False, help='Do length experiments')
     parser.add_argument('--k', type=int, default=15, help='Value of k')
     parser.add_argument('--num-landmarks', type=int, default=1000, help='Number of landmarks')
     parser.add_argument('-prm-num-landmarks', type=int, default=2000, help='Number of landmarks for PRM for DRRT')
@@ -389,13 +363,13 @@ def parse_arguments():
     parser.add_argument('--roadmap_nearest_neighbors', type=str, default=None,
                         choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                         help='Type of solver')
-    parser.add_argument('--exact', type=bool, default=False, help='Run exact number of successful experiments')
+    parser.add_argument('--exact',  action='store_true', help='Run exact number of successful experiments')
     parser.add_argument('--path', type=str, default='./scenes/Easy2.json', help='Path to scene file')
     parser.add_argument('--sampler', type=str, default='none', choices=['none', 'uniform', 'combined'],
                         help='Type of sampler')
-    parser.add_argument('--to-file', type=bool, default=False, help='Write output to file')
+    parser.add_argument('--to-file', action='store_true', help='Write output to file')
     parser.add_argument('--file', type=str, default='./results/other_benchmarks_tests.txt', help='Path to scene file')
-    parser.add_argument('--append-to-file', type=bool, default=False, help='If file exist to append the output to him')
+    parser.add_argument('--append-to-file', action='store_true', help='If file exist to append the output to him')
     parser.add_argument('--scene-dir', type=str, default='./scenes/', help='Path to scene directory')
     parser.add_argument('--time_limit', type=int, default=200, help='Second time limit')
 
@@ -411,6 +385,16 @@ def start_running(args):
     if args.compare_algo:
         scenes = get_scene_paths(args.scene_dir)
         compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
+        exit(0)
+
+    if args.compare_landmarks:
+        scenes = get_scene_paths(args.scene_dir)
+        length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
+                             k=args.k, nearest_neighbors_metric=args.nearest_neighbors,
+                             roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta,
+                             eps=args.eps,
+                             prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
+                             time_limit=args.time_limit)
         exit(0)
 
     if args.compare_landmarks:

@@ -379,3 +379,22 @@ Path Lengths: {'': 18.884296716487707, 'Euclidean': 18.977080900128215, 'Mix_CTD
 Amount of runs: {'': 10, 'Euclidean': 16, 'Mix_CTD': 10, 'Mix_Epsilon_2': 14}
 For 10 experiments, best time won solver Euclidean with 21.94530 seconds, best length won solver Mix_CTD with 18.76321658709663  path length and best amount of runs won solver  with 10 runs
 _________________________
+_________________________
+Results for scene: maze
+For following parameters:
+Solver: Squares
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2']
+Number of landmarks: 3000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 2000
+Exact:True
+Time Limit: 20000
+Times:: {'': 19.88543403148651}
+Path Lengths: {'': 111.02863311046542}
+Amount of runs: {}
+For 10 experiments, best time won solver  with 19.88543 seconds, best length won solver  with 111.02863311046542  path length and best amount of runs won solver  with 999999 runs
+_________________________

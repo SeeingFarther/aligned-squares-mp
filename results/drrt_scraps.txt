@@ -131,3 +131,22 @@ Path Lengths: {'': 938.7332418298671}
 Amount of runs: {'': 16}
 For 10 experiments, best time won solver  with 41.42265 seconds, best length won solver  with 938.7332418298671  path length and best amount of runs won solver  with 16 runs
 _________________________
+_________________________
+Results for scene: maze
+For following parameters:
+Solver: DRRT
+Number of experiments: 10
+K: : 15
+Roadmap nearest neighbors: 
+Number of landmarks: 20000
+Bounding width factor: 0
+Delta: 0.04
+Epsilon: 9999
+PRM Number of landmarks: 40000
+Exact:True
+Time Limit: 20000
+Times:: {'': 152.1697217464447}
+Path Lengths: {'': 161.8331896885401}
+Amount of runs: {}
+For 10 experiments, best time won solver  with 152.16972 seconds, best length won solver  with 161.8331896885401  path length and best amount of runs won solver  with 999999 runs
+_________________________

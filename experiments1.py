@@ -399,218 +399,18 @@ def start_running(args):
 
     # TODO: DELETE AFTER TESTS
     scenes = get_scene_paths(args.scene_dir)
-    scenes = scenes[20:]
     for scene in scenes:
-        # if ('cubic' not in scene) and ('sphiral' not in scene) and ('lobby' not in scene):
-        #     continue
-        landmarks ='das'
-        k = 'dasd'
-        if 'easy3' in scene:
-            landmarks = 1000
-            k = 15
-
-        elif 'easy' in scene:
-            landmarks = 1000
-            k = 15
-        elif 'bug_trap_3on3' in scene or 'bug_trap3' in scene:
-            landmarks = 1500
-            k = 15
-
-        elif 'long_looby' in scene:
-
-            landmarks = 1500
-
-            k = 15
-
-        elif 'looby' in scene:
-
-            landmarks = 1500
-
-            k = 15
-
-        elif 'sphiral_2on2' in scene:
-
-            landmarks = 3000
-            k = 20
-        elif 'sphiral_3on3' in scene:
-
-            landmarks = 4500
-            k = 40
-        elif 'bug_trap' in scene:
-            landmarks = 1500
-            k = 15
-        elif 'cubic' in scene:
-
-            landmarks = 2500
-            k = 15
-        elif 'sphiral' in scene:
+        landmarks='dsaddasd'
+        k ='dasdasdasd'
+        if 'maze' in scene:
             landmarks = 3000
             k = 15
-        elif 'switch' in scene:
-            landmarks = 25000
-            k = 50
+        else:
+            continue
 
-        # if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
-        #     landmarks = 1000
-        #     k=15
-        # elif 'cubic' in scene or 'bug_trap' in scene:
-        #     landmarks = 1500
-        #     k=15
-        # elif 'sphiral' in scenes:
-        #     landmarks = 2000
-        #     k=15
-        # elif 'switch' in scene:
-        #     landmarks = 25000
-        #     k=50
-
-        length_metrics([scene], 'PRM', None, k=k, num_landmark=landmarks, exact=True, num_experiments=10,
-                       time_limit=200)
-        # length_metrics([scene], 'Squares', None,nearest_neighbors_metrics=['Euclidean'], k=k, num_landmark=landmarks, exact=True, num_experiments=10,
-        #                time_limit=200)
+        length_metrics([scene], 'PRM', None, nearest_neighbors_metrics=[''], k=k, num_landmark=landmarks, exact=True, num_experiments=10,
+                       time_limit=20000)
     exit()
-
-    # TODO: DELETE AFTER TESTS
-    scenes = get_scene_paths(args.scene_dir)
-    scenes = scenes[18:]
-    for scene in scenes:
-        # if 'easy' in scene or 'lobby' in scene or 'long_lobby' in scene:
-        #     landmarks = 1000
-        #     k=15
-        # elif 'cubic' in scene or 'bug_trap' in scene:
-        #     landmarks = 1500
-        #     k=15
-        # elif 'sphiral' in scenes:
-        #     landmarks = 2000
-        #     k=15
-        # elif 'switch' in scene:
-        #     landmarks = 25000
-        #     k=50
-
-        if 'easy' in scene or 'looby' in scene or 'long_looby' in scene:
-            landmarks = 1000
-            k = 15
-        elif 'sphiral_2on2' in scene:
-            landmarks = 3000
-            k = 20
-        elif 'sphiral_3on3' in scene:
-            landmarks = 4500
-            k = 40
-        elif 'bug_trap' in scene:
-            landmarks = 1500
-            k = 15
-        elif 'cubic' in scene:
-            landmarks = 2500
-            k = 15
-        elif 'sphiral' in scene:
-            landmarks = 2000
-            k = 15
-        elif 'switch' in scene:
-            landmarks = 25000
-            k = 50
-
-        length_metrics([scene], 'PRM', None, k=k, num_landmark=landmarks, exact=True, num_experiments=10,
-                       time_limit=100)
-    exit()
-
-    # compare_algo(['./scenes/Easy1.json'], ['PRM'], None, num_landmark=500, exact=False,
-    #              nearest_neighbors_metric='Epsilon_Inf', time_limit=100)
-    # exit()
-
-    if args.compare_algo:
-        # TODO: DELETE AFTER TESTS
-        scenes = get_scene_paths(args.scene_dir)
-        # scenes = scenes[19:]
-        # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
-        #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=500, prm_num_landmarks=1000,
-        #                exact=True, time_limit=100, num_experiments=10)
-        scenes = get_scene_paths(args.scene_dir)
-        # scenes = scenes[19:]
-        # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
-        #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=1000, prm_num_landmarks=2000,
-        #                exact=True, time_limit=100, num_experiments=10)
-        scenes = get_scene_paths(args.scene_dir)
-        # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
-        #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=2500, prm_num_landmarks=5000,
-        #                exact=True, time_limit=200, num_experiments=10)
-        # scenes = scenes[-1:]
-        # length_metrics(scenes, 'DRRT', None, nearest_neighbors_metrics=['', 'Euclidean'],
-        #                roadmap_nearest_neighbors_metric=['', 'Euclidean'], num_landmark=5000, prm_num_landmarks=7000,
-        #                exact=True, time_limit=200, num_experiments=10)
-
-        # compare_algo(scenes, ['StaggeredGrid'], None)
-
-        # scenes = scenes[4:]
-        # length_metrics(scenes, 'PRM', None, nearest_neighbors_metrics= ['', 'Euclidean'],  num_landmark=500, exact=True, time_limit=100, num_experiments=10)
-        # length_metrics(scenes, 'PRM', None, nearest_neighbors_metrics= ['', 'Euclidean'], num_landmark=1500, exact=True,
-        #              time_limit=100, num_experiments=10)
-        # length_metrics(scenes, 'PRM', nearest_neighbors_metrics= ['', 'Euclidean'], None, num_landmark=5000, exact=True,
-        #              time_limit=200, num_experiments=10)
-
-        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None)
-        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
-        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=1500, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=100)
-        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid'], None, num_landmark=5000, exact=True, nearest_neighbors_metric=args.nearest_neighbors, time_limit=200)
-        # compare_algo(scenes, ['Squares'], num_landmark=1500, sampler=None, exact=True, time_limit=600)
-        # compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
-        exit(0)
-
-    if args.compare_landmarks:
-        scenes = get_scene_paths(args.scene_dir)
-        length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
-                             k=args.k, nearest_neighbors_metric=args.nearest_neighbors,
-                             roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta,
-                             eps=args.eps,
-                             prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
-                             time_limit=args.time_limit)
-        exit(0)
-
-    if args.compare_k:
-        scenes = get_scene_paths(args.scene_dir)
-        length_k(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
-                 num_landmark=args.num_landmarks, nearest_neighbors_metric=args.nearest_neighbors,
-                 roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta,
-                 eps=args.eps,
-                 prm_num_landmarks=args.prm_num_landmarks, exact=args.exact, time_limit=args.time_limit)
-        exit(0)
-
-    sampler = None
-    if args.sampler == 'uniform':
-        sampler = Sampler_Uniform()
-    elif args.sampler == 'combined':
-        samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False),
-                    Sampler_Uniform()]
-        sampler = SadaSampler(samplers, gamma=0.2)
-
-    experiment_wrapper = None
-    if args.solver == 'prm':
-        experiment_wrapper = ExperimentsWrapper(scene, 'PRM', num_experiments=args.num_experiments,
-                                                num_landmarks=args.num_landmarks, k=args.k,
-                                                nearest_neighbors_metric=args.nearest_neighbors,
-                                                bounding_margin_width_factor=args.bound, sampler=sampler,
-                                                metric=args.metric)
-    elif args.solver == 'drrt':
-        experiment_wrapper = ExperimentsWrapper(scene, 'DRRT', num_experiments=args.num_experiments,
-                                                prm_num_landmarks=args.prm_num_landmarks,
-                                                num_landmarks=args.num_landmarks, k=args.k,
-                                                roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors,
-                                                nearest_neighbors_metric=args.nearest_neighbors,
-                                                bounding_margin_width_factor=args.bound, sampler=sampler,
-                                                metric=args.metric)
-    elif args.solver == 'staggered':
-        experiment_wrapper = ExperimentsWrapper(scene, 'StaggeredGrid', num_experiments=args.num_experiments,
-                                                eps=args.eps, delta=args.delta, bounding_margin_width_factor=args.bound,
-                                                sampler=sampler, metric=args.metric)
-    elif args.solver == 'squares':
-        experiment_wrapper = ExperimentsWrapper(scene, 'Squares', num_experiments=args.num_experiments,
-                                                num_landmarks=args.num_landmarks, k=args.k,
-                                                nearest_neighbors_metric=args.nearest_neighbors,
-                                                bounding_margin_width_factor=args.bound, sampler=sampler,
-                                                metric=args.metric)
-
-    time_result, path_len_result = experiment_wrapper.run()
-    string_printer.print(
-        f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time_result:.3f} seconds and {path_len_result} path length')
-
 
 string_printer = StringPrinter()
 
@@ -619,6 +419,6 @@ if __name__ == '__main__':
     args.compare_algo = True
     args.to_file = True
     args.append_to_file = True
-    args.file = 'results/all_metrics_prm.txt'
+    args.file = 'results/prm_only_euclaidean.txt'
     string_printer.ready_printer(args)
     start_running(args)
