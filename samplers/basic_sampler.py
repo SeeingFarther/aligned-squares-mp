@@ -103,3 +103,16 @@ class BasicSquaresSampler(Sampler):
         x = random.uniform(self.min_x.to_double(), self.max_x.to_double())
         y = random.uniform(self.min_y.to_double(), self.max_y.to_double())
         return Point_2(FT(x), FT(y))
+
+    def update_weights(self,  robot_index: int, reward: float):
+        """
+        Update the weights of the sampler based on the reward.
+        :param robot_index:
+        :type robot_index: int
+        :param reward:
+        :type reward: float
+
+        :return: None
+        :rtype: None
+        """
+        pass

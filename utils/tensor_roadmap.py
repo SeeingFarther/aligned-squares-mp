@@ -1,7 +1,6 @@
 import networkx as nx
-from sklearn import neighbors
 
-from discopygal.geometry_utils import collision_detection, conversions
+from discopygal.geometry_utils import collision_detection
 from discopygal.solvers.samplers import Sampler_Uniform
 from discopygal.solvers import *
 

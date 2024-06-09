@@ -7,11 +7,14 @@ from discopygal.solvers import Scene
 from discopygal.bindings import *
 from discopygal.solvers.samplers import Sampler_Uniform, Sampler
 
-from samplers.gauss_sampler import GaussSampler
-from samplers.medial_sampler import MedialSampler
-from samplers.sada_sampler import SadaSampler
-from samplers.grid_sampler import GridSampler
+from metrics.max_l2_metric import Metric_Max_L2
 from utils.experiment_wrapper import ExperimentsWrapper
+
+from discopygal.solvers.metrics import Metric_Euclidean as disco_metric
+from metrics.euclidean_metric import Metric_Euclidean
+from metrics.ctd_metric import Metric_CTD
+from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
+
 
 
 class StringPrinter:
@@ -52,7 +55,7 @@ class StringPrinter:
                 print(input_string)
 
 
-def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
+def length_k(scenes_path: list[str], solver: str, sampler: str = None, num_experiments: int = 5,
              k_values: list[int] = [5, 15, 50], nearest_neighbors_metric: str = 'CTD', roadmap_nearest_neighbors_metric: str = 'CTD',
              num_landmark: int = 1000, bound: FT = 0, delta: int = 0.1, eps: int = 9999,
              prm_num_landmarks: int = 2000, exact: bool = False, time_limit=100000):
@@ -102,7 +105,7 @@ def length_k(scenes_path: list[str], solver: str, sampler: Sampler = None, num_e
     return
 
 
-def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
+def length_num_landmarks(scenes_path: list[str], solver: str, sampler: str = None, num_experiments: int = 5,
                          k: int = 15, nearest_neighbors_metric: str = None,
                          roadmap_nearest_neighbors_metric: str = None,
                          num_landmarks_values: list[int] = [500, 1000, 5000], bound: FT = 0,
@@ -155,12 +158,10 @@ def length_num_landmarks(scenes_path: list[str], solver: str, sampler: Sampler =
     return
 
 
-def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None, num_experiments: int = 5,
+def length_metrics(scenes_path: list[str], solver: str, sampler: str = None, num_experiments: int = 5,
                    k: int = 15,
                    nearest_neighbors_metrics: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2',
                                                            'Mix_CTD', 'Mix_Epsilon_2'],
-                   roadmap_nearest_neighbors_metric: list[str] = ['', 'Euclidean', 'CTD', 'Epsilon_2', 'Epsilon_Inf',
-                                                            'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                    num_landmark: int = 1000, bound: FT = 0,
                    delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
                    time_limit=10000000):
@@ -246,7 +247,7 @@ def length_metrics(scenes_path: list[str], solver: str, sampler: Sampler = None,
     return
 
 
-def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = None, num_experiments: int = 5,
+def compare_algo(scenes_path: list[str], solvers: list[str], sampler: str = None, num_experiments: int = 5,
                  k: int = 15, nearest_neighbors_metric: str = None, roadmap_nearest_neighbors_metric: str = None,
                  num_landmark: int = 5000, bound: FT = 0,
                  delta: int = 0.04, eps: int = 9999, prm_num_landmarks: int = 2000, exact: bool = False,
@@ -283,9 +284,10 @@ def compare_algo(scenes_path: list[str], solvers: list[str], sampler: Sampler = 
                                                         bounding_margin_width_factor=bound, sampler=sampler,
                                                         exact=exact, time_limit=time_limit)
 
-            time, path_len = experiment_wrapper.run()
+            time, path_len, runs = experiment_wrapper.run()
             solvers_length_results[solver] = path_len
             solvers_time_results[solver] = time
+            metrics_amount_of_runs_results[solver] = runs
 
         min_time = 999999
         min_time_solver = ''
@@ -345,9 +347,10 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Argument Parser")
 
     # Add arguments
-    parser.add_argument('--compare-landmarks', action='store_true', default=False, help='Do landmarks experiments')
+    parser.add_argument('--compare-landmarks', action='store_true', default=False, help='Do landmarks hyperparameter experiments')
     parser.add_argument('--compare-algo', action='store_true', default=False, help='Do algorithms experiments')
-    parser.add_argument('--compare-length', action='store_true', default=False, help='Do length experiments')
+    parser.add_argument('--compare-length', action='store_true', default=False, help='Do metric length experiments')
+    parser.add_argument('--compare-k', action='store_true', default=False, help='Do k hyperparameter experiments')
     parser.add_argument('--k', type=int, default=15, help='Value of k')
     parser.add_argument('--num-landmarks', type=int, default=1000, help='Number of landmarks')
     parser.add_argument('-prm-num-landmarks', type=int, default=2000, help='Number of landmarks for PRM for DRRT')
@@ -360,18 +363,21 @@ def parse_arguments():
     parser.add_argument('--nearest_neighbors', type=str, default=None,
                         choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                         help='Type of solver')
+    parser.add_argument('--metric', type=str, default=None,
+                        choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2'],
+                        help='Type of metric for edge length')
     parser.add_argument('--roadmap_nearest_neighbors', type=str, default=None,
                         choices=['CTD', 'Euclidean', 'Epsilon_2', 'Epsilon_Inf', 'Max_L2', 'Mix_CTD', 'Mix_Epsilon_2'],
                         help='Type of solver')
     parser.add_argument('--exact',  action='store_true', help='Run exact number of successful experiments')
     parser.add_argument('--path', type=str, default='./scenes/Easy2.json', help='Path to scene file')
-    parser.add_argument('--sampler', type=str, default='none', choices=['none', 'uniform', 'combined'],
+    parser.add_argument('--sampler', type=str, default=None, choices=['uniform', 'combined'],
                         help='Type of sampler')
     parser.add_argument('--to-file', action='store_true', help='Write output to file')
-    parser.add_argument('--file', type=str, default='./results/other_benchmarks_tests.txt', help='Path to scene file')
+    parser.add_argument('--file', type=str, default='./results/other_benchmarks_tests.txt', help='Path to scene file, not valid if with compare flags')
     parser.add_argument('--append-to-file', action='store_true', help='If file exist to append the output to him')
-    parser.add_argument('--scene-dir', type=str, default='./scenes/', help='Path to scene directory')
-    parser.add_argument('--time_limit', type=int, default=200, help='Second time limit')
+    parser.add_argument('--scene-dir', type=str, default='./scenes/', help='Path to scene directory for experiments sections used with compare flags')
+    parser.add_argument('--time_limit', type=int, default=200, help='Time limit(seconnds) for each experiment')
 
     # Parse arguments
     args = parser.parse_args()
@@ -379,27 +385,58 @@ def parse_arguments():
 
 
 def start_running(args):
-    with open(args.path, 'r') as fp:
-        scene = Scene.from_dict(json.load(fp))
+
+    if args.metric is None or args.metric == '':
+        args.metric = disco_metric()
+    elif args.metric == 'Euclidean':
+        args.metric = Metric_Euclidean()
+    elif args.metricc == 'CTD':
+        args.metric = Metric_CTD()
+    elif args.metric == 'Epsilon_2':
+        args.metric = Metric_Epsilon_2()
+    elif args.metric == 'Epsilon_Inf':
+        args.metric = Metric_Epsilon_Inf()
+    elif args.metric== 'Max_L2':
+        args.metric = Metric_Max_L2()
+
+    if args.solver == 'drrt':
+        solver = 'DRRT'
+    elif args.solver == 'staggered':
+        solver = 'StaggeredGrid'
+    elif args.solver == 'squares':
+        solver = 'Squares'
+    elif args.solver == 'prm':
+        solver = 'PRM'
+    else:
+        print('No such solver')
+        exit(-1)
 
     if args.compare_algo:
         scenes = get_scene_paths(args.scene_dir)
         compare_algo(scenes, ['PRM', 'DRRT', 'StaggeredGrid', 'Squares'], None, num_experiments=args.num_experiments, k=args.k, num_landmark=args.num_landmarks, bound=args.bound, delta=args.delta, eps=args.eps, prm_num_landmarks=args.prm_num_landmarks)
         exit(0)
 
-    if args.compare_landmarks:
+    if args.compare_length:
         scenes = get_scene_paths(args.scene_dir)
-        length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
-                             k=args.k, nearest_neighbors_metric=args.nearest_neighbors,
-                             roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta,
-                             eps=args.eps,
-                             prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
-                             time_limit=args.time_limit)
+        if args.solver == "drrt":
+            length_metrics(scenes, solver=solver, num_experiments=args.num_experiments, bound=args.bound,
+                                 k=args.k, nearest_neighbors_metrics=['', 'Euclidean'], delta=args.delta,
+                                 eps=args.eps,
+                                 prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
+                                 time_limit=args.time_limit)
+        elif args.solver == "staggered":
+            print('No nearest neighbors metric for Staggered Grid')
+        else:
+            length_metrics(scenes, solver=solver, num_experiments=args.num_experiments, bound=args.bound,
+                                 k=args.k, delta=args.delta,
+                                 eps=args.eps,
+                                 prm_num_landmarks=args.prm_num_landmarks, exact=args.exact,
+                                 time_limit=args.time_limit)
         exit(0)
 
     if args.compare_landmarks:
         scenes = get_scene_paths(args.scene_dir)
-        length_num_landmarks(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
+        length_num_landmarks(scenes, solver=solver, num_experiments=args.num_experiments, bound=args.bound,
                              k=args.k, nearest_neighbors_metric=args.nearest_neighbors,
                              roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta,
                              eps=args.eps,
@@ -409,27 +446,21 @@ def start_running(args):
 
     if args.compare_k:
         scenes = get_scene_paths(args.scene_dir)
-        length_k(scenes, solver=args.solver, num_experiments=args.num_experiments, bound=args.bound,
+        length_k(scenes, solver=solver, num_experiments=args.num_experiments, bound=args.bound,
                  num_landmark=args.num_landmarks, nearest_neighbors_metric=args.nearest_neighbors,
                  roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors, delta=args.delta,
                  eps=args.eps,
                  prm_num_landmarks=args.prm_num_landmarks, exact=args.exact, time_limit=args.time_limit)
         exit(0)
 
-    sampler = None
-    if args.sampler == 'uniform':
-        sampler = Sampler_Uniform()
-    elif args.sampler == 'combined':
-        samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False),
-                    Sampler_Uniform()]
-        sampler = SadaSampler(samplers, gamma=0.2)
-
     experiment_wrapper = None
+    with open(args.path, 'r') as fp:
+        scene = Scene.from_dict(json.load(fp))
     if args.solver == 'prm':
         experiment_wrapper = ExperimentsWrapper(scene, 'PRM', num_experiments=args.num_experiments,
                                                 num_landmarks=args.num_landmarks, k=args.k,
                                                 nearest_neighbors_metric=args.nearest_neighbors,
-                                                bounding_margin_width_factor=args.bound, sampler=sampler,
+                                                bounding_margin_width_factor=args.bound, sampler=args.sampler,
                                                 metric=args.metric)
     elif args.solver == 'drrt':
         experiment_wrapper = ExperimentsWrapper(scene, 'DRRT', num_experiments=args.num_experiments,
@@ -437,31 +468,27 @@ def start_running(args):
                                                 num_landmarks=args.num_landmarks, k=args.k,
                                                 roadmap_nearest_neighbors_metric=args.roadmap_nearest_neighbors,
                                                 nearest_neighbors_metric=args.nearest_neighbors,
-                                                bounding_margin_width_factor=args.bound, sampler=sampler,
+                                                bounding_margin_width_factor=args.bound, sampler=args.sampler,
                                                 metric=args.metric)
     elif args.solver == 'staggered':
         experiment_wrapper = ExperimentsWrapper(scene, 'StaggeredGrid', num_experiments=args.num_experiments,
                                                 eps=args.eps, delta=args.delta, bounding_margin_width_factor=args.bound,
-                                                sampler=sampler, metric=args.metric)
+                                                sampler=args.sampler, metric=args.metric)
     elif args.solver == 'squares':
         experiment_wrapper = ExperimentsWrapper(scene, 'Squares', num_experiments=args.num_experiments,
                                                 num_landmarks=args.num_landmarks, k=args.k,
                                                 nearest_neighbors_metric=args.nearest_neighbors,
-                                                bounding_margin_width_factor=args.bound, sampler=sampler,
+                                                bounding_margin_width_factor=args.bound, sampler=args.sampler,
                                                 metric=args.metric)
 
-    time_result, path_len_result = experiment_wrapper.run()
+    time_result, path_len_result, total_runs = experiment_wrapper.run()
     string_printer.print(
-        f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time_result:.3f} seconds and {path_len_result} path length')
+        f'Results for {args.num_experiments} experiments, for solver {args.solver} we have got {time_result:.3f} seconds and {path_len_result} path length, we run {total_runs} times')
 
 
 string_printer = StringPrinter()
 
 if __name__ == '__main__':
     args = parse_arguments()
-    args.compare_algo = True
-    args.to_file = True
-    args.append_to_file = True
-    args.file = 'results/all_metrics_pair_20_precent.txt'
     string_printer.ready_printer(args)
     start_running(args)

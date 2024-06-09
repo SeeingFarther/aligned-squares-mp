@@ -5,7 +5,6 @@ from discopygal.solvers import Scene, PathCollection
 from discopygal.solvers.metrics import Metric
 from discopygal.solvers.Solver import Solver
 from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
-from discopygal.solvers.samplers import Sampler
 from discopygal.bindings import FT, Point_2
 
 from benchmarks.drrt import BasicDRRTForExperiments
@@ -17,6 +16,11 @@ from metrics.max_l2_metric import Metric_Max_L2
 from metrics.epsilon_metric import Metric_Epsilon_Inf, Metric_Epsilon_2
 from squares_planner import SquaresPrm as SquareMotionPlanner
 from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
+from samplers.gauss_sampler import GaussSampler
+from samplers.medial_sampler import MedialSampler
+from samplers.sada_sampler import SadaSampler
+from samplers.grid_sampler import GridSampler
+from samplers.uniform_sampler import UniformSampler
 
 
 class ExperimentsWrapper:
@@ -29,7 +33,7 @@ class ExperimentsWrapper:
                  eps: float = -1, delta: float = -1,
                  bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR,
                  nearest_neighbors_metric: str = '', roadmap_nearest_neighbors_metric: str = '',
-                 metric: Metric = None, sampler: Sampler = None, prm_num_landmarks=None,
+                 metric: Metric = None, sampler: str = None, prm_num_landmarks=None,
                  exact: bool = False, wrapper_metric: Metric = None, time_limit: float = 10000000):
         """
         Constructor for the ExperimentsWrapper.
@@ -95,8 +99,15 @@ class ExperimentsWrapper:
             print('Unknown metric')
             exit(-1)
 
+        if self.sampler is None or self.sampler == 'uniform':
+            sampler = UniformSampler()
+        elif self.sampler == 'combined':
+            samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False),
+                        UniformSampler()]
+            sampler = SadaSampler(samplers, gamma=0.2)
+
         if solver_name == 'PRM':
-            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+            if self.nearest_neighbors_metric is None or (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
                 nearest_neighbors = [nearest_neighbors]
             self.solver = BasicPrmForExperiments(num_landmarks, k,
                                                  bounding_margin_width_factor=bounding_margin_width_factor,
@@ -114,7 +125,7 @@ class ExperimentsWrapper:
                                                             bounding_margin_width_factor=bounding_margin_width_factor,
                                                             sampler=sampler)
         elif solver_name == 'Squares':
-            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+            if self.nearest_neighbors_metric is None or (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
                 nearest_neighbors = [nearest_neighbors]
             self.solver = SquareMotionPlanner(num_landmarks=num_landmarks, k=k, nearest_neighbors=nearest_neighbors,
                                               bounding_margin_width_factor=bounding_margin_width_factor,
@@ -158,14 +169,21 @@ class ExperimentsWrapper:
             print('Unknown metric')
             exit(-1)
 
+        if self.sampler is None or self.sampler == 'uniform':
+            sampler = UniformSampler()
+        elif self.sampler == 'combined':
+            samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False),
+                        UniformSampler()]
+            sampler = SadaSampler(samplers, gamma=0.2)
+
         # Build the proper solver
         if self.solver_name == 'PRM':
-            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+            if self.nearest_neighbors_metric is None or (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
                 nearest_neighbors = [nearest_neighbors]
             self.solver = BasicPrmForExperiments(self.num_landmarks, self.k,
                                                  bounding_margin_width_factor=self.bounding_margin_width_factor,
                                                  nearest_neighbors=nearest_neighbors, metric=self.metric,
-                                                 sampler=self.sampler)
+                                                 sampler=sampler)
         elif self.solver_name == 'DRRT':
             self.solver = BasicDRRTForExperiments(num_landmarks=self.num_landmarks,
                                                   prm_num_landmarks=self.prm_num_landmarks,
@@ -173,17 +191,17 @@ class ExperimentsWrapper:
                                                   bounding_margin_width_factor=self.bounding_margin_width_factor,
                                                   metric=self.metric, prm_nearest_neighbors=self.nearest_neighbors_metric,
                                                   roadmap_nearest_neighbors=self.roadmap_nearest_neighbors_metric,
-                                                  sampler=self.sampler)
+                                                  sampler=sampler)
         elif self.solver_name == 'StaggeredGrid':
             self.solver = BasicsStaggeredGridForExperiments(self.eps, self.delta,
                                                             bounding_margin_width_factor=self.bounding_margin_width_factor,
                                                             sampler=self.sampler)
         elif self.solver_name == 'Squares':
-            if self.nearest_neighbors_metric is not None and (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
+            if self.nearest_neighbors_metric is None or (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
                 nearest_neighbors = [nearest_neighbors]
             self.solver = SquareMotionPlanner(num_landmarks=self.num_landmarks, k=self.k, nearest_neighbors=nearest_neighbors,
                                               bounding_margin_width_factor=self.bounding_margin_width_factor,
-                                              sampler=self.sampler)
+                                              sampler=sampler)
 
     def run(self) -> (float, float):
         """

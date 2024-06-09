@@ -1,8 +1,6 @@
-import json
 import networkx as nx
 import numpy as np
-from discopygal.geometry_utils.bounding_boxes import calc_scene_bounding_box
-from discopygal.geometry_utils.conversions import Point_2_list_to_Point_d, Point_2_to_xy, FT_to_float
+from discopygal.geometry_utils.conversions import  Point_2_to_xy
 
 from discopygal.solvers.samplers import Sampler
 from discopygal.solvers import Scene, Robot
@@ -11,10 +9,7 @@ from discopygal.solvers.nearest_neighbors import NearestNeighbors_sklearn
 from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection, conversions
 from discopygal.solvers.Solver import Solver
-from matplotlib import pyplot as plt
 
-from metrics.max_l2_metric import Metric_Max_L2
-from samplers.basic_sampler import BasicSquaresSampler
 from samplers.gauss_sampler import GaussSampler
 from samplers.medial_sampler import MedialSampler
 from samplers.pair_sampler import PairSampler
@@ -22,11 +17,7 @@ from samplers.sada_sampler import SadaSampler
 from samplers.grid_sampler import GridSampler
 from samplers.uniform_sampler import UniformSampler
 from utils.path_shortener import PathShortener
-from metrics.ctd_metric import Metric_CTD
-from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf
 from metrics.euclidean_metric import Metric_Euclidean, Metric
-from utils.nearest_neighbors import NearestNeighbors_sklearn_ball
-from utils.utils import point2_to_point_d
 from utils.gui import start_gui
 
 
@@ -38,7 +29,7 @@ class SquaresPrm(Solver):
     """
 
     def __init__(self, num_landmarks: int, k: int,
-                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors = None, sampler: list[Sampler] = None, metric: Metric = None):
+                 bounding_margin_width_factor: FT = Solver.DEFAULT_BOUNDS_MARGIN_FACTOR, nearest_neighbors = None, sampler: Sampler = None, metric: Metric = None):
         """
         Constructor for the SquaresPrm solver.
         :param num_landmarks:
@@ -62,7 +53,8 @@ class SquaresPrm(Solver):
             exit(-1)
 
         # Set samplers
-        if sampler is None:
+        self.combined_sampler = sampler
+        if self.combined_sampler is None:
             sampler = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False), UniformSampler()]
             self.combined_sampler = SadaSampler(sampler, gamma=0.2)
 
@@ -349,12 +341,3 @@ class SquaresPrm(Solver):
             print('successfully found a path...', file=self.writer)
 
         return path_collection
-#
-#
-# if __name__ == '__main__':
-#     with open('./scenes/cubic3.json', 'r') as fp:
-#         scene = Scene.from_dict(json.load(fp))
-#     solver = SquaresPrm(num_landmarks=1000, k=15, sampler=None)
-#     solver.load_scene(scene)
-#     solver.solve()
-#     #solver.draw_nodes()
