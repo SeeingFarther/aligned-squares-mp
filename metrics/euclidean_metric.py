@@ -62,7 +62,7 @@ class Metric_Euclidean(Metric):
     @staticmethod
     def dist(p, q):
         """
-        Return the distance between two points
+        Return the Fixed Euclidean distance between two points
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
@@ -90,7 +90,7 @@ class Metric_Euclidean(Metric):
     def float_dist(p, q):
         """
         Return the distance between two points consider each 2 coordinates as a point_2 and those
-         Euclidean distance for each of these points separately and sum them up
+         Euclidean distance for each of these points separately and sum them up for skewlearn implementation
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`

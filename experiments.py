@@ -5,12 +5,10 @@ from contextlib import redirect_stdout
 
 from discopygal.solvers import Scene
 from discopygal.bindings import *
-from discopygal.solvers.samplers import Sampler_Uniform, Sampler
-
-from metrics.max_l2_metric import Metric_Max_L2
-from utils.experiment_wrapper import ExperimentsWrapper
-
 from discopygal.solvers.metrics import Metric_Euclidean as disco_metric
+
+from utils.experiment_wrapper import ExperimentsWrapper
+from metrics.max_l2_metric import Metric_Max_L2
 from metrics.euclidean_metric import Metric_Euclidean
 from metrics.ctd_metric import Metric_CTD
 from metrics.epsilon_metric import Metric_Epsilon_2, Metric_Epsilon_Inf

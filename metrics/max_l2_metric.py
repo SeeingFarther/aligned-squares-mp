@@ -18,7 +18,7 @@ class Metric_Max_L2(Metric):
     @staticmethod
     def dist(p, q):
         """
-        Return the distance between two points
+        Return the Max L2 distance between two points for metric
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
@@ -46,7 +46,7 @@ class Metric_Max_L2(Metric):
     def float_dist(p, q):
         """
         Return the distance between two points consider each 2 coordinates as a point_2 and those
-         Euclidean distance for each of these points separately and sum them up
+         Max L2 distance for each of these points separately and sum them up Sklearn implementation
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`

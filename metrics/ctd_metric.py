@@ -17,7 +17,7 @@ class Metric_CTD(Metric):
     @staticmethod
     def dist(p, q):
         """
-        Return the distance between two points
+        Return the CTD distance between two points for metric.
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
@@ -60,7 +60,7 @@ class Metric_CTD(Metric):
     @staticmethod
     def float_dist(p, q):
         """
-        Return the distance between two points
+        Return the CTD distance between two points used for sklearn implementation
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`

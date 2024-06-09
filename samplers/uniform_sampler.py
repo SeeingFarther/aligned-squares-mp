@@ -1,5 +1,3 @@
-import random
-
 from discopygal.bindings import *
 from discopygal.geometry_utils import collision_detection
 from discopygal.geometry_utils.bounding_boxes import calc_scene_bounding_box

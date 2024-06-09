@@ -79,6 +79,7 @@ class ExperimentsWrapper:
         self.nearest_neighbors_metric = nearest_neighbors_metric
         self.roadmap_nearest_neighbors_metric = roadmap_nearest_neighbors_metric
 
+        # Select the proper nearest neighbors metric
         if self.nearest_neighbors_metric is None or self.nearest_neighbors_metric == '':
             nearest_neighbors = NearestNeighbors_sklearn()
         elif self.nearest_neighbors_metric == 'Euclidean':
@@ -99,6 +100,7 @@ class ExperimentsWrapper:
             print('Unknown metric')
             exit(-1)
 
+        # Select the proper sampler
         if self.sampler is None or self.sampler == 'uniform':
             sampler = UniformSampler()
         elif self.sampler == 'combined':
@@ -106,6 +108,7 @@ class ExperimentsWrapper:
                         UniformSampler()]
             sampler = SadaSampler(samplers, gamma=0.2)
 
+        # Build the proper solver
         if solver_name == 'PRM':
             if self.nearest_neighbors_metric is None or (self.nearest_neighbors_metric !='Mix_CTD' and self.nearest_neighbors_metric !='Mix_Epsilon_2'):
                 nearest_neighbors = [nearest_neighbors]
@@ -149,6 +152,7 @@ class ExperimentsWrapper:
         """
         Restart the solver
         """
+        # Select the proper nearest neighbors metric
         if self.nearest_neighbors_metric is None or self.nearest_neighbors_metric == '':
             nearest_neighbors = NearestNeighbors_sklearn()
         elif self.nearest_neighbors_metric == 'Euclidean':
@@ -169,12 +173,16 @@ class ExperimentsWrapper:
             print('Unknown metric')
             exit(-1)
 
+        # Select the proper sampler
         if self.sampler is None or self.sampler == 'uniform':
             sampler = UniformSampler()
         elif self.sampler == 'combined':
             samplers = [GridSampler(), GaussSampler(), MedialSampler(y_axis=True), MedialSampler(y_axis=False),
                         UniformSampler()]
             sampler = SadaSampler(samplers, gamma=0.2)
+        else:
+            print('Unknown sampler')
+            exit(-1)
 
         # Build the proper solver
         if self.solver_name == 'PRM':

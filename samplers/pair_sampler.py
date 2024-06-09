@@ -147,6 +147,10 @@ class PairSampler(BasicSquaresSampler):
     def find_trivial_positions(self, square_center: Point_2, robot_index: int = 0) -> list:
         """
         Find the free positions the robot can be placed inside the square
+        :param square_center: center of the square
+        :type square_center: :class:`~discopygal.bindings.Point_2`
+        :param robot_index: index of the robot
+        :type robot_index: int
 
         :return list of free trivial positions for robot inside the square:
         :rtype list:
@@ -174,6 +178,10 @@ class PairSampler(BasicSquaresSampler):
     def find_non_trivial_y_positions(self, square_center: Point_2, robot_index: int = 0) -> list:
         """
         Find the free positions the robot can be placed inside the square
+        :param square_center: center of the square
+        :type square_center: :class:`~discopygal.bindings.Point_2`
+        :param robot_index: index of the robot
+        :type robot_index: int
 
         :return list of free trivial positions for robot inside the square:
         :rtype list:
@@ -208,6 +216,17 @@ class PairSampler(BasicSquaresSampler):
         return free_positions
 
     def find_non_trivial_x_positions(self, square_center: Point_2, robot_index: int = 0):
+        """
+        Find the free positions the robot can be placed inside the square
+        :param square_center: center of the square
+        :type square_center: :class:`~discopygal.bindings.Point_2`
+        :param robot_index: index of the robot
+        :type robot_index: int
+
+        :return list of free trivial positions for robot inside the square:
+        :rtype list:
+        """
+
         # Find corners
         center_x = square_center.x().to_double()
         center_y = square_center.y().to_double()

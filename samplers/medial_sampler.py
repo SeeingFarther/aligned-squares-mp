@@ -162,8 +162,6 @@ class MedialSampler(BasicSquaresSampler):
             x, y = Point_2_to_xy(sample)
             if not point_inside_obstacle(x, y, self.obstacles):
                 continue
-            #sample = find_point_inside_obstacle(sample, robot_length , self.obstacles)
-
 
             # Get middle point
             middle_point = self.find_middle(sample)

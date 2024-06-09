@@ -146,7 +146,7 @@ class Metric_Epsilon_2(Metric_Epsilon):
     @staticmethod
     def dist(p, q) -> FT:
         """
-        Return the distance between two points
+        Return the Epsilon 2 distance between two points for metric.
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
@@ -173,7 +173,7 @@ class Metric_Epsilon_2(Metric_Epsilon):
     @staticmethod
     def float_dist(p, q) -> float:
         """
-        Return the distance between two points
+        Return the Epsilon 2 distance between two points for sklearn implementation
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
@@ -208,7 +208,7 @@ class Metric_Epsilon_Inf(Metric_Epsilon):
     @staticmethod
     def dist(p, q) -> FT:
         """
-        Return the distance between two points
+        Return the Epsilon Inf distance between two points for metric.
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
@@ -234,7 +234,7 @@ class Metric_Epsilon_Inf(Metric_Epsilon):
     @staticmethod
     def float_dist(p, q) -> float:
         """
-        Return the distance between two points
+        Return the Epsilon Inf distance between two points specified for sklearn implementation
 
         :param p: first point
         :type p: :class:`~discopygal.bindings.Point_2` or :class:`~discopygal.bindings.Point_d`
